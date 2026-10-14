@@ -1,0 +1,55 @@
+{
+  "descripcion": "Guiones pedagógicos de diagnóstico, heurísticas de feedback y configuración de prompts para LLM",
+  "reglasHeuristicas": {
+    "desenfoque": {
+      "condicion": "focus < 30",
+      "mensaje": "No puedo ver bien el protoboard, ¿puedes enfocar mejor?"
+    },
+    "polaridadInvertidaLED": {
+      "condicion": "err == true",
+      "explicacionBasica": "El LED está al revés.",
+      "explicacionDetallada": "El LED está al revés: su pata larga (ánodo, +) debe ir hacia el lado del cable rojo y la corta (cátodo, −) hacia tierra. Con polaridad invertida no pasa corriente."
+    },
+    "componentesIncompletos": {
+      "condicion": "placed < totalPasos",
+      "plantilla": "Aún falta: {siguientePaso.etiqueta}."
+    },
+    "circuitoCompletado": {
+      "condicion": "placed == totalPasos && !err",
+      "mensaje": "¡Excelente trabajo! Has dominado este circuito."
+    }
+  },
+  "comandosVoz": [
+    {
+      "patron": "revis|no enciende|por qué|diagn",
+      "accion": "diagnose()"
+    },
+    {
+      "patron": "sigui|coloc|listo",
+      "accion": "next()"
+    },
+    {
+      "patron": "repit|lee|resist|valor",
+      "accion": "repitePasoActual()"
+    },
+    {
+      "patron": "daltoni",
+      "accion": "alternarModoDaltonismo()"
+    }
+  ],
+  "llmPrompts": {
+    "claude": {
+      "modelo": "claude-sonnet-4-6",
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "systemPrompt": "Eres CircuitLens, un tutor experto y paciente en electrónica básica para laboratorios prácticos. Diagnostica en español conciso el estado del protoboard que te envía el estudiante.",
+      "temperature": 0.2,
+      "maxTokens": 200
+    },
+    "ollama": {
+      "modelo": "llama3.2-vision",
+      "endpoint": "http://localhost:11434/api/generate",
+      "promptTemplate": "Diagnostica en español: {estadoJSON}",
+      "stream": false
+    }
+  }
+}

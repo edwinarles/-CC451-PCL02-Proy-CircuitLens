@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b6e4f">
+  <meta name="description"
+    content="CircuitLens - Prototipo PWA de Laboratorio de Electrónica Móvil con AR, voz y diagnóstico agnóstico con LLM">
+  <title>CircuitLens · Laboratorio de Electrónica Móvil (PWA)</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <h1>🔬 CircuitLens <small style="font-weight:400">Laboratorio de Electrónica Móvil</small></h1>
+    <button id="demo">▶ Simulación guiada</button>
+  </header>
+
+  <nav role="tablist" aria-label="Vistas">
+    <button role="tab" data-t="est" aria-selected="true">Estudiante</button>
+    <button role="tab" data-t="ins" aria-selected="false">Instructor</button>
+    <button role="tab" data-t="org" aria-selected="false">Institución</button>
+    <button role="tab" data-t="aju" aria-selected="false">Ajustes</button>
+  </nav>
+
+  <main>
+    <!-- Vista 1: Estudiante con AR y Asistente interactivo -->
+    <section id="est" class="tab on">
+      <div class="card">
+        <div class="row">
+          <label for="cs" class="grow">
+            <b>Circuito&nbsp;</b>
+            <select id="cs" class="grow"></select>
+          </label>
+          <span class="badge" id="lvl"></span>
+          <span class="badge" id="prog"></span>
+        </div>
+      </div>
+
+      <div class="boardw" id="bw">
+        <video id="vid" playsinline muted hidden></video>
+        <svg id="bd" class="board" viewBox="0 0 600 280" role="img"
+          aria-label="Protoboard con guías de realidad aumentada"></svg>
+      </div>
+
+      <div class="card row">
+        <button class="p" id="nx">➕ Colocar paso</button>
+        <button id="rv" class="p">🔍 Revisar circuito</button>
+        <button id="mic" class="mic" aria-pressed="false">🎙 Hablar</button>
+        <button id="cam">📷 Cámara</button>
+        <button id="er" aria-pressed="false">⚠ Simular LED al revés</button>
+        <label>Enfoque <input type="range" id="fo" min="0" max="100" value="80"></label>
+      </div>
+
+      <div class="card">
+        <h2>Guía AR paso a paso</h2>
+        <ol id="st"></ol>
+        <div class="row">
+          <input type="text" id="tx" class="grow" placeholder="Escribe o di: «CircuitLens, revisa mi circuito»"
+            aria-label="Consulta">
+          <button id="sd">Enviar</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Conversación (subtitulada)</h2>
+        <div id="log" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- Vista 2: Panel del Instructor con dibujo en tiempo real -->
+    <section id="ins" class="tab">
+      <div class="card">
+        <h2>Panel del instructor · Sala <span id="room" class="badge"></span></h2>
+        <p>Dibuja sobre la vista del estudiante (clic/toque). Los trazos viajan por canal en tiempo real
+          (BroadcastChannel simula WebSockets); abre otra pestaña con la vista Estudiante para verlos.</p>
+        <div class="row">
+          <span class="badge">Salas activas: 3</span>
+          <button id="clr">Borrar trazos</button>
+        </div>
+      </div>
+      <div class="boardw">
+        <svg id="ib" class="board" viewBox="0 0 600 280" style="cursor:crosshair"
+          aria-label="Vista del estudiante para anotar"></svg>
+      </div>
+    </section>
+
+    <!-- Vista 3: Panel Institucional anonimizado -->
+    <section id="org" class="tab">
+      <div class="card">
+        <h2>Panel institucional (datos anonimizados)</h2>
+        <div id="mt"></div>
+        <p style="font-size:13px">Cohorte simulada de 24 alumnos + tu sesión local. No se muestran nombres.</p>
+      </div>
+    </section>
+
+    <!-- Vista 4: Ajustes, Proveedor LLM y Accesibilidad Universal -->
+    <section id="aju" class="tab">
+      <div class="card">
+        <h2>Ajustes y accesibilidad</h2>
+        <label><input type="checkbox" id="o-d"> Modo daltonismo (etiquetas con valor y colores)</label>
+        <label><input type="checkbox" id="o-h"> Alto contraste</label>
+        <label><input type="checkbox" id="o-c"> Baja estimulación (sin animaciones)</label>
+        <label><input type="checkbox" id="o-t" checked> Voz del asistente (TTS)</label>
+        <label><input type="checkbox" id="o-m" checked> Vibración en alertas</label>
+        <label><input type="checkbox" id="o-f"> Modo manos libres (palabra clave «CircuitLens»)</label>
+        <label>
+          Proveedor LLM
+          <select id="pv">
+            <option value="sim">Simulado (local)</option>
+            <option value="claude">Claude (remoto)</option>
+            <option value="ollama">Ollama / Llama (local)</option>
+          </select>
+        </label>
+        <label>API key <input type="password" id="ky" placeholder="solo en este navegador"></label>
+        <button id="rs">🗑 Borrar mis datos</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="cap" role="status" aria-live="polite">Subtítulos: el asistente aparecerá aquí.</div>
+  <canvas id="conf"></canvas>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
