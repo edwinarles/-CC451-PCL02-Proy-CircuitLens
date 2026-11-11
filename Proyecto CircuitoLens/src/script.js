@@ -169,6 +169,155 @@ const SoundEngine = {
 };
 
 /* ========================================================
+   2.5. Sistema de Autenticación RBAC y Conmutación de Cuentas
+   Separa la experiencia entre Estudiante y Docente/Instructor
+   ======================================================== */
+const Auth = {
+  user: {
+    id: 'ALU-101',
+    name: 'Piero Castillo',
+    email: 'estudiante@uni.edu.pe',
+    role: 'estudiante', // 'estudiante' | 'profesor'
+    avatar: '🎓'
+  },
+  token: null,
+
+  init() {
+    try {
+      const saved = localStorage.getItem('cl.auth_user');
+      if (saved) {
+        this.user = JSON.parse(saved);
+      }
+      this.token = localStorage.getItem('cl.auth_token') || null;
+    } catch(e) {}
+    this.applyRolePermissions();
+    this.setupUI();
+  },
+
+  async login(email, role, name) {
+    // Intentar login contra el backend si está activo
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, role, name, room: S.roomId })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.ok && data.user) {
+          this.user = data.user;
+          this.token = data.token;
+          localStorage.setItem('cl.auth_token', this.token);
+        }
+      }
+    } catch(e) {
+      // Fallback local en frontend si no corre el backend Python
+      this.user = {
+        id: (role === 'profesor' ? 'DOC-' : 'ALU-') + Math.floor(100 + Math.random() * 900),
+        name: name || (role === 'profesor' ? 'Prof. ' + email.split('@')[0] : email.split('@')[0]),
+        email: email || 'usuario@uni.edu.pe',
+        role: role || 'estudiante',
+        avatar: role === 'profesor' ? '👨‍🏫' : '🎓'
+      };
+    }
+
+    localStorage.setItem('cl.auth_user', JSON.stringify(this.user));
+    UserProfile.data.id = this.user.id;
+    UserProfile.data.alias = this.user.name;
+    UserProfile.save();
+
+    this.applyRolePermissions();
+    if (this.user.role === 'profesor') {
+      say('Bienvenido ' + this.user.name + '. Has ingresado al Panel Docente de Salas y Cohorte.');
+      const insBtn = document.querySelector('nav button[data-t="ins"]');
+      if (insBtn) insBtn.click();
+    } else {
+      say('Bienvenido ' + this.user.name + '. Has ingresado al Laboratorio AR de Estudiante.');
+      const estBtn = document.querySelector('nav button[data-t="est"]');
+      if (estBtn) estBtn.click();
+    }
+    MultiUser.broadcastStudentStatus();
+  },
+
+  applyRolePermissions() {
+    const isDoc = this.user.role === 'profesor';
+    
+    // Actualizar badge de usuario en la cabecera
+    const badge = $('#user-badge');
+    if (badge) {
+      badge.innerHTML = `${this.user.avatar} ${this.user.name} <small style="opacity:0.75; font-size:11px;">(${isDoc ? 'Docente' : 'Estudiante'})</small>`;
+      badge.style.borderColor = isDoc ? 'var(--ac2)' : 'var(--ac)';
+    }
+
+    // Filtrar visibilidad de pestañas según rol (Diferenciación de apartados)
+    $$('nav button').forEach(btn => {
+      const tabId = btn.dataset.t;
+      if (isDoc) {
+        // El docente ve: Panel Docente (ins), Institución (org) y Ajustes (aju)
+        if (tabId === 'est' || tabId === 'prf') {
+          btn.style.display = 'none';
+        } else {
+          btn.style.display = 'inline-block';
+        }
+      } else {
+        // El estudiante ve: Laboratorio AR (est), Mi Perfil (prf) y Ajustes (aju)
+        if (tabId === 'ins' || tabId === 'org') {
+          btn.style.display = 'none';
+        } else {
+          btn.style.display = 'inline-block';
+        }
+      }
+    });
+
+    // Asegurar que la vista activa corresponda al rol
+    const activeTab = document.querySelector('.tab.on');
+    if (isDoc && (activeTab && (activeTab.id === 'est' || activeTab.id === 'prf'))) {
+      const insBtn = document.querySelector('nav button[data-t="ins"]');
+      if (insBtn) insBtn.click();
+    } else if (!isDoc && (activeTab && (activeTab.id === 'ins' || activeTab.id === 'org'))) {
+      const estBtn = document.querySelector('nav button[data-t="est"]');
+      if (estBtn) estBtn.click();
+    }
+  },
+
+  setupUI() {
+    const btnSwitch = $('#btn-switch-account');
+    const modal = $('#modal-auth');
+    const btnClose = $('#btn-close-auth-modal');
+
+    if (btnSwitch && modal) {
+      btnSwitch.onclick = () => { modal.style.display = 'flex'; };
+    }
+    if (btnClose && modal) {
+      btnClose.onclick = () => { modal.style.display = 'none'; };
+    }
+
+    // Clic en tarjetas de cuentas rápidas
+    $$('.account-card').forEach(card => {
+      card.onclick = async () => {
+        const role = card.dataset.role;
+        const email = card.dataset.email;
+        const name = card.dataset.name;
+        await this.login(email, role, name);
+        if (modal) modal.style.display = 'none';
+      };
+    });
+
+    // Login personalizado
+    const btnCustom = $('#btn-custom-login');
+    if (btnCustom) {
+      btnCustom.onclick = async () => {
+        const name = $('#custom-name').value.trim() || 'Usuario';
+        const role = $('#custom-role').value;
+        const email = name.toLowerCase().replace(/\s+/g, '.') + '@uni.edu.pe';
+        await this.login(email, role, name);
+        if (modal) modal.style.display = 'none';
+      };
+    }
+  }
+};
+
+/* ========================================================
    3. Perfil de Usuario Persistente y Personalización Continua
    Requisito PC3: Preferencias, Ritmo, Errores y Emociones
    ======================================================== */
@@ -1092,6 +1241,7 @@ function metrics() {
    12. Inicialización de Eventos y Manejadores del DOM
    ======================================================== */
 window.addEventListener('DOMContentLoaded', async () => {
+  Auth.init();
   UserProfile.load();
   await loadEnvConfig();
   MultiUser.init();
