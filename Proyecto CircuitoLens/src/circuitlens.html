@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b6e4f">
+  <meta name="description"
+    content="CircuitLens - Laboratorio de Electrónica Móvil PWA con Realidad Aumentada, interfaz de voz, LLM agnóstico, personalización continua y multiusuario">
+  <title>CircuitLens · Laboratorio de Electrónica Móvil (PWA)</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <h1>🔬 CircuitLens <small style="font-weight:400; font-size:14px; opacity:0.85">Laboratorio de Electrónica Móvil</small></h1>
+    <span id="net-badge" class="badge success">📡 En línea</span>
+    <span id="room-pill" class="badge">Sala: SALA-ELECTRO-1</span>
+    <button id="pwa-install" class="badge p" style="display:none">📲 Instalar App</button>
+    <button id="demo">▶ Simulación guiada</button>
+  </header>
+
+  <nav role="tablist" aria-label="Vistas principales">
+    <button role="tab" data-t="est" aria-selected="true">Estudiante</button>
+    <button role="tab" data-t="ins" aria-selected="false">Instructor / Salas</button>
+    <button role="tab" data-t="prf" aria-selected="false">Mi Perfil</button>
+    <button role="tab" data-t="org" aria-selected="false">Institución</button>
+    <button role="tab" data-t="aju" aria-selected="false">Ajustes & LLM</button>
+  </nav>
+
+  <main>
+    <!-- ========================================================
+         Vista 1: Estudiante con AR, Voz, Emociones y Diagnóstico
+         ======================================================== -->
+    <section id="est" class="tab on">
+      <!-- Selector de circuito y progreso -->
+      <div class="card">
+        <div class="row">
+          <label for="cs" class="grow">
+            <b>Circuito:&nbsp;</b>
+            <select id="cs" class="grow" aria-label="Seleccionar circuito"></select>
+          </label>
+          <span class="badge" id="lvl">Explicación: básica</span>
+          <span class="badge" id="prog">Paso 1/4 · 0/5 completados</span>
+          <span class="badge" id="pace-badge">Ritmo: calculando...</span>
+        </div>
+
+        <!-- Selector de Emoción declarada (Diseño Emocional de Norman - Nivel Reflexivo y Afectivo) -->
+        <div class="row" style="margin-top: 10px; border-top: 1px dashed var(--bd); padding-top: 8px;">
+          <span style="font-size:13px; font-weight:600">Estado anímico:</span>
+          <div class="emotion-picker" id="emo-picker">
+            <button class="emotion-btn active" data-emo="motivado">😊 Motivado</button>
+            <button class="emotion-btn" data-emo="concentrado">🤔 Concentrado</button>
+            <button class="emotion-btn" data-emo="frustrado">😓 Frustrado</button>
+            <button class="emotion-btn" data-emo="confiado">⚡ Confiado</button>
+            <button class="emotion-btn" data-emo="cansado">😴 Cansado</button>
+          </div>
+          <div class="voice-wave" id="v-wave" title="Indicador de voz del asistente" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Protoboard y Guías de Realidad Aumentada -->
+      <div class="boardw" id="bw">
+        <video id="vid" playsinline muted hidden aria-label="Transmisión de cámara AR"></video>
+        <svg id="bd" class="board" viewBox="0 0 600 280" role="img"
+          aria-label="Protoboard interactivo con guías de realidad aumentada"></svg>
+      </div>
+
+      <!-- Barra de herramientas operativas -->
+      <div class="card row">
+        <button class="p" id="nx">➕ Colocar paso</button>
+        <button id="rv" class="p">🔍 Revisar circuito</button>
+        <button id="mic" class="mic" aria-pressed="false">🎙 Hablar</button>
+        <button id="cam">📷 Cámara AR</button>
+        <button id="er" aria-pressed="false">⚠ Simular LED al revés</button>
+        <button id="ask-help" class="btn-warn">🙋 Pedir ayuda al Docente</button>
+        <label style="font-size:13px;">Enfoque <input type="range" id="fo" min="0" max="100" value="80" title="Control de nitidez óptica"></label>
+      </div>
+
+      <!-- Tarjeta Reflexiva Metacognitiva (Norman - Nivel Reflexivo) -->
+      <div id="refl-card" class="reflection-card" style="display:none;">
+        <h3 style="margin-top:0">🧠 Reflexión Metacognitiva: ¡Circuito Completado!</h3>
+        <p id="refl-text" style="font-size:14px; margin:4px 0 8px;"></p>
+        <div class="row">
+          <span class="badge success" id="refl-stats">Tiempo: 48s · Errores: 0</span>
+          <button id="refl-btn-next" class="p" style="padding:6px 12px; font-size:13px;">Pasar al siguiente circuito ➔</button>
+        </div>
+      </div>
+
+      <!-- Guía paso a paso y entrada textual -->
+      <div class="card">
+        <h2>Guía AR paso a paso (Toca los círculos verdes en el protoboard o usa los botones)</h2>
+        <ol id="st"></ol>
+        <div class="row" style="margin-top: 10px;">
+          <input type="text" id="tx" class="grow" placeholder="Escribe o di: «CircuitLens, revisa mi circuito»"
+            aria-label="Consulta por texto">
+          <button id="sd" class="p">Enviar</button>
+        </div>
+      </div>
+
+      <!-- Log de conversación -->
+      <div class="card">
+        <h2>Historial de interacción y diagnóstico</h2>
+        <div id="log" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         Vista 2: Panel del Instructor con Salas y Colaboración
+         ======================================================== -->
+    <section id="ins" class="tab">
+      <div class="card">
+        <h2>Panel del Instructor · Salas y Colaboración en Tiempo Real</h2>
+        <p style="font-size:14px; margin:4px 0 10px;">
+          Monitorea los protoboards de tus estudiantes en vivo, detecta dificultades emocionales o de montaje, y dibuja anotaciones pedagógicas sobre su vista.
+        </p>
+
+        <!-- Gestión de Sala -->
+        <div class="row" style="background:var(--bb); padding:10px; border-radius:10px;">
+          <label>
+            <b>Código de Sala:</b>
+            <input type="text" id="ins-room-input" value="SALA-ELECTRO-1" style="width:160px;">
+          </label>
+          <button id="btn-change-room">Unirse / Cambiar Sala</button>
+          <button id="btn-copy-room">📋 Copiar enlace de sala</button>
+          <span class="badge" id="ins-students-count">Alumnos activos: 1</span>
+        </div>
+      </div>
+
+      <!-- Lista de estudiantes conectados en la sala -->
+      <div class="card">
+        <h2>Estudiantes en la sala (Haz clic para ver su protoboard)</h2>
+        <div id="student-grid" class="student-grid"></div>
+      </div>
+
+      <!-- Pizarra de anotaciones bidireccional -->
+      <div class="card">
+        <div class="row" style="justify-content:space-between;">
+          <h2>Pizarra del Instructor (Dibuja sobre el circuito del alumno)</h2>
+          <div class="row">
+            <button id="clr">Borrar mis trazos</button>
+          </div>
+        </div>
+        <div class="boardw">
+          <svg id="ib" class="board" viewBox="0 0 600 280" style="cursor:crosshair"
+            aria-label="Pizarra de anotación para el instructor"></svg>
+        </div>
+
+        <!-- Pistas pedagógicas afectivas inmediatas -->
+        <h3 style="margin-top:12px;">Enviar Pista Pedagógica Afectiva al Alumno</h3>
+        <div class="row">
+          <button class="badge" id="btn-nudge-led">💡 «Revisa la pata larga del LED (ánodo al +)»</button>
+          <button class="badge" id="btn-nudge-res">🔍 «Verifica el valor de la resistencia»</button>
+          <button class="badge" id="btn-nudge-praise">👏 «¡Gran concentración, vas excelente!»</button>
+        </div>
+        <div class="row" style="margin-top:8px;">
+          <input type="text" id="ins-msg-input" class="grow" placeholder="Escribe un mensaje personalizado para el alumno...">
+          <button id="btn-send-ins-msg" class="p">Enviar al Alumno</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         Vista 3: Perfil de Usuario y Personalización Continua
+         ======================================================== -->
+    <section id="prf" class="tab">
+      <div class="card">
+        <h2>👤 Mi Perfil de Aprendizaje Continuo</h2>
+        <p style="font-size:14px; margin:4px 0 10px;">
+          Este perfil se adapta continuamente a tu ritmo, registra tus errores recurrentes y ajusta el tono del asistente y la profundidad de las explicaciones.
+        </p>
+
+        <!-- Tarjetas de estadísticas de ritmo y precisión -->
+        <div class="profile-stats">
+          <div class="stat-box">
+            <div class="desc">Ritmo de aprendizaje</div>
+            <div class="val" id="prf-pace">Constante</div>
+            <div class="desc" id="prf-pace-detail">~20s por componente</div>
+          </div>
+          <div class="stat-box">
+            <div class="desc">Circuitos dominados</div>
+            <div class="val" id="prf-done">0 / 5</div>
+            <div class="desc">Laboratorio completado</div>
+          </div>
+          <div class="stat-box">
+            <div class="desc">Tasa de precisión</div>
+            <div class="val" id="prf-acc">100%</div>
+            <div class="desc" id="prf-err-count">0 errores registrados</div>
+          </div>
+          <div class="stat-box">
+            <div class="desc">Estado emocional actual</div>
+            <div class="val" id="prf-emo">😊 Motivado</div>
+            <div class="desc" id="prf-emo-inferred">Inferido: Enfocado</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Diagnóstico de errores frecuentes del usuario -->
+      <div class="card">
+        <h2>Mapa de Dificultades y Puntos de Refuerzo</h2>
+        <div id="prf-errors-list">
+          <p style="font-size:14px; color:var(--ac);">¡Aún no has tenido errores graves! Sigue montando con atención.</p>
+        </div>
+      </div>
+
+      <!-- Preferencias adaptativas del usuario -->
+      <div class="card">
+        <h2>Adaptación Pedagógica del Asistente</h2>
+        <div class="row">
+          <label class="grow">
+            Tono del Asistente:
+            <select id="prf-tone-sel">
+              <option value="empatico">Empático y Alentador (Cálido y afectivo)</option>
+              <option value="socratico">Socrático (Guía mediante preguntas reflexivas)</option>
+              <option value="tecnico">Técnico / Físico (Rigor ingenieril directo)</option>
+            </select>
+          </label>
+          <label class="grow">
+            Profundidad pedagógica:
+            <select id="prf-lvl-sel">
+              <option value="auto">Automática (según historial de errores)</option>
+              <option value="basica">Básica (paso a paso guiado)</option>
+              <option value="detallada">Detallada (con teoría de circuitos)</option>
+            </select>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         Vista 4: Panel Institucional (Analítica Anonimizada)
+         ======================================================== -->
+    <section id="org" class="tab">
+      <div class="card">
+        <h2>Panel Institucional · Métricas Anonimizadas de Cohorte</h2>
+        <div id="mt"></div>
+        <p style="font-size:13px; margin-top:10px;">
+          Cohorte simulada de 24 estudiantes + tu sesión local. Datos anonimizados de conformidad con políticas de privacidad educativa.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>Distribución de Errores Comunes en el Laboratorio</h2>
+        <div class="cmp"><span>Polaridad LED invertida</span><div class="bar" style="width:41%; background:var(--bad);"></div><b>41%</b></div>
+        <div class="cmp"><span>Resistencia omitida</span><div class="bar" style="width:27%; background:var(--warn);"></div><b>27%</b></div>
+        <div class="cmp"><span>Pin o pista desalineada</span><div class="bar" style="width:18%;"></div><b>18%</b></div>
+        <div class="cmp"><span>Riel (+ / −) confundido</span><div class="bar" style="width:14%;"></div><b>14%</b></div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         Vista 5: Ajustes, Proveedor LLM y Accesibilidad Universal
+         ======================================================== -->
+    <section id="aju" class="tab">
+      <div class="card">
+        <h2>Accesibilidad Universal (WCAG 2.1 AA)</h2>
+        <label><input type="checkbox" id="o-d"> Modo daltonismo (etiquetas con valor y colores en resistencias)</label>
+        <label><input type="checkbox" id="o-h"> Alto contraste (paleta optimizada para baja visión)</label>
+        <label><input type="checkbox" id="o-c"> Baja estimulación (sin animaciones ni destellos)</label>
+        <label><input type="checkbox" id="o-t" checked> Voz del asistente (Síntesis TTS)</label>
+        <label><input type="checkbox" id="o-snd" checked> Feedback sonoro (Earcons musicales con Web Audio API)</label>
+        <label><input type="checkbox" id="o-m" checked> Vibración en alertas (Feedback háptico)</label>
+        <label><input type="checkbox" id="o-f"> Modo manos libres continuo (Palabra clave: «CircuitLens»)</label>
+      </div>
+
+      <div class="card">
+        <h2>Capa de Abstracción LLM (Agnóstica y Resiliente)</h2>
+        <div id="env-badge-container" class="banner">
+          <span id="env-status">Detectando configuración .env...</span>
+        </div>
+
+        <label>
+          <b>Proveedor LLM:&nbsp;</b>
+          <select id="pv">
+            <option value="sim">Simulado Local (Motor heurístico < 350 ms, 100% offline)</option>
+            <option value="gemini">Google Gemini (gemini-1.5-flash / gemini-2.0-flash)</option>
+            <option value="claude">Anthropic Claude (claude-sonnet-4-6)</option>
+            <option value="openai">OpenAI (gpt-4o-mini)</option>
+            <option value="ollama">Ollama Local (llama3.2-vision en localhost)</option>
+          </select>
+        </label>
+
+        <label id="lbl-api-key">
+          API Key:&nbsp;
+          <input type="password" id="ky" placeholder="Configurable aquí o en archivo .env" class="grow">
+        </label>
+
+        <label id="lbl-ollama-url" style="display:none;">
+          Ollama Endpoint:&nbsp;
+          <input type="text" id="ollama-url" value="http://localhost:11434" class="grow">
+        </label>
+
+        <p style="font-size:13px; opacity:0.85;">
+          <b>Resiliencia:</b> Si el proveedor remoto tarda más de 2.5 s o no hay conexión a internet, el sistema activa automáticamente el motor heurístico local simulado sin interrumpir la clase.
+        </p>
+
+        <div class="row" style="margin-top:14px;">
+          <button id="rs" class="btn-danger">🗑 Borrar mis datos y reiniciar perfil</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Subtítulos accesibles fijos -->
+  <div id="cap" role="status" aria-live="polite">Subtítulos: el asistente aparecerá aquí.</div>
+
+  <!-- Canvas de confeti celebratorio -->
+  <canvas id="conf"></canvas>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

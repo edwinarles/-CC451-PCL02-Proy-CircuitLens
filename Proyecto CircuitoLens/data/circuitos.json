@@ -1,0 +1,268 @@
+{
+  "descripcion": "Definición esquemática de los 5 circuitos del laboratorio móvil CircuitLens",
+  "codigoColoresResistencias": {
+    "330": {
+      "colores": [
+        "Naranja",
+        "Naranja",
+        "Marrón"
+      ],
+      "hex": [
+        "#f80",
+        "#f80",
+        "#852"
+      ],
+      "texto": "330 Ω"
+    },
+    "220": {
+      "colores": [
+        "Rojo",
+        "Rojo",
+        "Marrón"
+      ],
+      "hex": [
+        "#d22",
+        "#d22",
+        "#852"
+      ],
+      "texto": "220 Ω"
+    },
+    "1000": {
+      "colores": [
+        "Marrón",
+        "Negro",
+        "Rojo"
+      ],
+      "hex": [
+        "#852",
+        "#111",
+        "#d22"
+      ],
+      "texto": "1 kΩ"
+    },
+    "2200": {
+      "colores": [
+        "Rojo",
+        "Rojo",
+        "Rojo"
+      ],
+      "hex": [
+        "#d22",
+        "#d22",
+        "#d22"
+      ],
+      "texto": "2.2 kΩ"
+    }
+  },
+  "circuitos": [
+    {
+      "id": 0,
+      "nombre": "Encender un LED",
+      "descripcion": "Circuito básico con resistencia limitadora de corriente de 330 Ω y diodo LED rojo.",
+      "pasos": [
+        {
+          "tipo": "wire",
+          "color": "#d22",
+          "de": "p3",
+          "a": "6a",
+          "etiqueta": "Cable rojo: riel + 3 → pin 6a"
+        },
+        {
+          "tipo": "res",
+          "valor": 330,
+          "de": "6b",
+          "a": "10b",
+          "etiqueta": "Resistencia 330 Ω: pin 6b → pin 10b"
+        },
+        {
+          "tipo": "led",
+          "color": "#e33",
+          "de": "10c",
+          "a": "14c",
+          "etiqueta": "LED rojo: ánodo(+) en pin 10c, cátodo(−) en pin 14c"
+        },
+        {
+          "tipo": "wire",
+          "color": "#111",
+          "de": "14e",
+          "a": "m14",
+          "etiqueta": "Cable negro: pin 14e → riel − 14"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "nombre": "Dos LEDs en serie",
+      "descripcion": "Conexión de dos diodos luminosos compartiendo la misma corriente a través de una resistencia de 220 Ω.",
+      "pasos": [
+        {
+          "tipo": "wire",
+          "color": "#d22",
+          "de": "p3",
+          "a": "6a",
+          "etiqueta": "Cable rojo: riel + 3 → pin 6a"
+        },
+        {
+          "tipo": "res",
+          "valor": 220,
+          "de": "6b",
+          "a": "10b",
+          "etiqueta": "Resistencia 220 Ω: pin 6b → pin 10b"
+        },
+        {
+          "tipo": "led",
+          "color": "#e33",
+          "de": "10c",
+          "a": "14c",
+          "etiqueta": "LED rojo: ánodo(+) en pin 10c, cátodo(−) en pin 14c"
+        },
+        {
+          "tipo": "led",
+          "color": "#3c3",
+          "de": "14d",
+          "a": "18d",
+          "etiqueta": "LED verde: ánodo(+) en pin 14d, cátodo(−) en pin 18d"
+        },
+        {
+          "tipo": "wire",
+          "color": "#111",
+          "de": "18e",
+          "a": "m18",
+          "etiqueta": "Cable negro: pin 18e → riel − 18"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Pulsador + LED",
+      "descripcion": "Control manual del encendido mediante interruptor de contacto momentáneo (pulsador normalmente abierto).",
+      "pasos": [
+        {
+          "tipo": "wire",
+          "color": "#d22",
+          "de": "p3",
+          "a": "6a",
+          "etiqueta": "Cable rojo: riel + 3 → pin 6a"
+        },
+        {
+          "tipo": "btn",
+          "de": "6b",
+          "a": "10b",
+          "etiqueta": "Pulsador: pin 6b → pin 10b"
+        },
+        {
+          "tipo": "res",
+          "valor": 330,
+          "de": "10c",
+          "a": "14c",
+          "etiqueta": "Resistencia 330 Ω: pin 10c → pin 14c"
+        },
+        {
+          "tipo": "led",
+          "color": "#e33",
+          "de": "14d",
+          "a": "18d",
+          "etiqueta": "LED rojo: ánodo(+) en pin 14d, cátodo(−) en pin 18d"
+        },
+        {
+          "tipo": "wire",
+          "color": "#111",
+          "de": "18e",
+          "a": "m18",
+          "etiqueta": "Cable negro: pin 18e → riel − 18"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "nombre": "Divisor de tensión",
+      "descripcion": "Configuración resistiva serie (1 kΩ y 2.2 kΩ) para obtener un voltaje proporcional en el nodo intermedio.",
+      "pasos": [
+        {
+          "tipo": "wire",
+          "color": "#d22",
+          "de": "p3",
+          "a": "6a",
+          "etiqueta": "Cable rojo: riel + 3 → pin 6a"
+        },
+        {
+          "tipo": "res",
+          "valor": 1000,
+          "de": "6b",
+          "a": "10b",
+          "etiqueta": "Resistencia 1 kΩ: pin 6b → pin 10b"
+        },
+        {
+          "tipo": "res",
+          "valor": 2200,
+          "de": "10c",
+          "a": "14c",
+          "etiqueta": "Resistencia 2.2 kΩ: pin 10c → pin 14c"
+        },
+        {
+          "tipo": "wire",
+          "color": "#111",
+          "de": "14d",
+          "a": "m14",
+          "etiqueta": "Cable negro: pin 14d → riel − 14"
+        },
+        {
+          "tipo": "wire",
+          "color": "#ea0",
+          "de": "10d",
+          "a": "16d",
+          "etiqueta": "Cable amarillo: pin 10d → pin 16d"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "nombre": "Dos ramas LED en paralelo",
+      "descripcion": "Dos circuitos independientes alimentados con la misma fuente de voltaje y resistencias calculadas para cada LED.",
+      "pasos": [
+        {
+          "tipo": "wire",
+          "color": "#d22",
+          "de": "p3",
+          "a": "6a",
+          "etiqueta": "Cable rojo: riel + 3 → pin 6a"
+        },
+        {
+          "tipo": "res",
+          "valor": 330,
+          "de": "6b",
+          "a": "9b",
+          "etiqueta": "Resistencia 330 Ω: pin 6b → pin 9b"
+        },
+        {
+          "tipo": "led",
+          "color": "#e33",
+          "de": "9c",
+          "a": "13c",
+          "etiqueta": "LED rojo: ánodo(+) en pin 9c, cátodo(−) en pin 13c"
+        },
+        {
+          "tipo": "res",
+          "valor": 220,
+          "de": "6d",
+          "a": "10d",
+          "etiqueta": "Resistencia 220 Ω: pin 6d → pin 10d"
+        },
+        {
+          "tipo": "led",
+          "color": "#3c3",
+          "de": "10e",
+          "a": "13e",
+          "etiqueta": "LED verde: ánodo(+) en pin 10e, cátodo(−) en pin 13e"
+        },
+        {
+          "tipo": "wire",
+          "color": "#111",
+          "de": "13a",
+          "a": "m13",
+          "etiqueta": "Cable negro: pin 13a → riel − 13"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "descripcion": "Guiones pedagógicos de diagnóstico, heurísticas de feedback y configuración de prompts para LLM agnóstico",
+  "reglasHeuristicas": {
+    "desenfoque": {
+      "condicion": "focus < 30",
+      "mensaje": "La cámara parece estar desenfocada. Ajusta el enfoque para poder inspeccionar los pines del protoboard."
+    },
+    "polaridadInvertidaLED": {
+      "condicion": "err == true",
+      "explicacionBasica": "El LED está al revés.",
+      "explicacionDetallada": "El LED está al revés: su pata larga (ánodo, +) debe ir hacia el lado del cable rojo y la corta (cátodo, −) hacia tierra. Con polaridad invertida no pasa corriente.",
+      "tonoEmpatico": "No te preocupes, la polaridad invertida en diodos es el tropiezo más común al iniciar. ¡Vamos a resolverlo juntos!",
+      "tonoSocratico": "¿Hacia dónde debe apuntar la patita más larga del LED para que fluya la corriente en sentido directo?"
+    },
+    "componentesIncompletos": {
+      "condicion": "placed < totalPasos",
+      "plantilla": "Vas muy bien. El siguiente componente a montar es: {siguientePaso.etiqueta}."
+    },
+    "circuitoCompletado": {
+      "condicion": "placed == totalPasos && !err",
+      "mensaje": "¡Excelente trabajo! Has montado el circuito a la perfección. La corriente fluye correctamente."
+    }
+  },
+  "comandosVoz": [
+    {
+      "patron": "revis|no enciende|por qué|diagn|verific",
+      "accion": "diagnose()"
+    },
+    {
+      "patron": "sigui|coloc|listo|avanz",
+      "accion": "next()"
+    },
+    {
+      "patron": "repit|lee|resist|valor",
+      "accion": "repitePasoActual()"
+    },
+    {
+      "patron": "daltoni",
+      "accion": "alternarModoDaltonismo()"
+    },
+    {
+      "patron": "frustra|molest|no me sale",
+      "accion": "setEmotion('frustrado')"
+    },
+    {
+      "patron": "motiva|content|feliz",
+      "accion": "setEmotion('motivado')"
+    },
+    {
+      "patron": "ayuda|docente|profesor",
+      "accion": "askTeacherHelp()"
+    },
+    {
+      "patron": "circuito (1|2|3|4|5|uno|dos|tres|cuatro|cinco)",
+      "accion": "selectCircuit(index)"
+    }
+  ],
+  "llmPrompts": {
+    "gemini": {
+      "modelo": "gemini-1.5-flash",
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
+      "systemPrompt": "Eres CircuitLens, un asistente inteligente y tutor pedagógico para laboratorios de electrónica práctica. Diagnostica con tono empático y afectivo el circuito del estudiante.",
+      "temperature": 0.2
+    },
+    "claude": {
+      "modelo": "claude-sonnet-4-6",
+      "endpoint": "https://api.anthropic.com/v1/messages",
+      "systemPrompt": "Eres CircuitLens, un tutor experto y paciente en electrónica básica para laboratorios prácticos. Diagnostica en español conciso el estado del protoboard que te envía el estudiante.",
+      "temperature": 0.2,
+      "maxTokens": 180
+    },
+    "openai": {
+      "modelo": "gpt-4o-mini",
+      "endpoint": "https://api.openai.com/v1/chat/completions",
+      "systemPrompt": "Eres CircuitLens, tutor de electrónica. Diagnostica en español conciso y afectivo el montaje en protoboard.",
+      "temperature": 0.2,
+      "maxTokens": 160
+    },
+    "ollama": {
+      "modelo": "llama3.2-vision",
+      "endpoint": "http://localhost:11434/api/generate",
+      "promptTemplate": "Diagnostica en español: {estadoJSON}",
+      "stream": false
+    }
+  }
+}

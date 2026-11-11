@@ -1,0 +1,282 @@
+{
+  "descripcion": "Cohorte simulada de 24 estudiantes con métricas de progreso y diagnóstico anonimizadas",
+  "totalEstudiantes": 24,
+  "resumen": {
+    "circuito1Completado": 22,
+    "circuito2Completado": 17,
+    "circuito3Completado": 13,
+    "circuito4Completado": 9,
+    "circuito5Completado": 6,
+    "erroresFrecuentes": [
+      {
+        "tipo": "polaridad_led_invertida",
+        "porcentaje": 41,
+        "descripcion": "Ánodo y cátodo del LED invertidos"
+      },
+      {
+        "tipo": "resistencia_omitida",
+        "porcentaje": 27,
+        "descripcion": "Conexión directa sin resistencia limitadora"
+      },
+      {
+        "tipo": "pin_desalineado",
+        "porcentaje": 18,
+        "descripcion": "Inserción en hilera contigua o pin incorrecto"
+      },
+      {
+        "tipo": "riel_alimentacion_erroneo",
+        "porcentaje": 14,
+        "descripcion": "Confusión entre bus positivo (+) y negativo (−)"
+      }
+    ],
+    "latenciaMediaDiagnosticoMs": 348
+  },
+  "estudiantes": [
+    {
+      "id": "ALU-01",
+      "circuitosCompletados": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "erroresTotales": 1,
+      "tiempoPromedioPasoSeg": 24
+    },
+    {
+      "id": "ALU-02",
+      "circuitosCompletados": [
+        0,
+        1,
+        2
+      ],
+      "erroresTotales": 4,
+      "tiempoPromedioPasoSeg": 45
+    },
+    {
+      "id": "ALU-03",
+      "circuitosCompletados": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "erroresTotales": 2,
+      "tiempoPromedioPasoSeg": 32
+    },
+    {
+      "id": "ALU-04",
+      "circuitosCompletados": [
+        0,
+        1
+      ],
+      "erroresTotales": 5,
+      "tiempoPromedioPasoSeg": 58
+    },
+    {
+      "id": "ALU-05",
+      "circuitosCompletados": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "erroresTotales": 0,
+      "tiempoPromedioPasoSeg": 19
+    },
+    {
+      "id": "ALU-06",
+      "circuitosCompletados": [
+        0
+      ],
+      "erroresTotales": 6,
+      "tiempoPromedioPasoSeg": 70
+    },
+    {
+      "id": "ALU-07",
+      "circuitosCompletados": [
+        0,
+        1,
+        2
+      ],
+      "erroresTotales": 3,
+      "tiempoPromedioPasoSeg": 41
+    },
+    {
+      "id": "ALU-08",
+      "circuitosCompletados": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "erroresTotales": 2,
+      "tiempoPromedioPasoSeg": 35
+    },
+    {
+      "id": "ALU-09",
+      "circuitosCompletados": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "erroresTotales": 1,
+      "tiempoPromedioPasoSeg": 22
+    },
+    {
+      "id": "ALU-10",
+      "circuitosCompletados": [
+        0,
+        1
+      ],
+      "erroresTotales": 4,
+      "tiempoPromedioPasoSeg": 49
+    },
+    {
+      "id": "ALU-11",
+      "circuitosCompletados": [
+        0,
+        1,
+        2
+      ],
+      "erroresTotales": 2,
+      "tiempoPromedioPasoSeg": 38
+    },
+    {
+      "id": "ALU-12",
+      "circuitosCompletados": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "erroresTotales": 1,
+      "tiempoPromedioPasoSeg": 21
+    },
+    {
+      "id": "ALU-13",
+      "circuitosCompletados": [
+        0
+      ],
+      "erroresTotales": 7,
+      "tiempoPromedioPasoSeg": 65
+    },
+    {
+      "id": "ALU-14",
+      "circuitosCompletados": [
+        0,
+        1,
+        2
+      ],
+      "erroresTotales": 3,
+      "tiempoPromedioPasoSeg": 40
+    },
+    {
+      "id": "ALU-15",
+      "circuitosCompletados": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "erroresTotales": 2,
+      "tiempoPromedioPasoSeg": 33
+    },
+    {
+      "id": "ALU-16",
+      "circuitosCompletados": [
+        0,
+        1
+      ],
+      "erroresTotales": 4,
+      "tiempoPromedioPasoSeg": 51
+    },
+    {
+      "id": "ALU-17",
+      "circuitosCompletados": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "erroresTotales": 0,
+      "tiempoPromedioPasoSeg": 18
+    },
+    {
+      "id": "ALU-18",
+      "circuitosCompletados": [
+        0,
+        1,
+        2
+      ],
+      "erroresTotales": 3,
+      "tiempoPromedioPasoSeg": 39
+    },
+    {
+      "id": "ALU-19",
+      "circuitosCompletados": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "erroresTotales": 1,
+      "tiempoPromedioPasoSeg": 29
+    },
+    {
+      "id": "ALU-20",
+      "circuitosCompletados": [
+        0,
+        1
+      ],
+      "erroresTotales": 5,
+      "tiempoPromedioPasoSeg": 55
+    },
+    {
+      "id": "ALU-21",
+      "circuitosCompletados": [
+        0,
+        1,
+        2
+      ],
+      "erroresTotales": 2,
+      "tiempoPromedioPasoSeg": 37
+    },
+    {
+      "id": "ALU-22",
+      "circuitosCompletados": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "erroresTotales": 2,
+      "tiempoPromedioPasoSeg": 26
+    },
+    {
+      "id": "ALU-23",
+      "circuitosCompletados": [
+        0
+      ],
+      "erroresTotales": 6,
+      "tiempoPromedioPasoSeg": 62
+    },
+    {
+      "id": "ALU-24",
+      "circuitosCompletados": [
+        0,
+        1,
+        2
+      ],
+      "erroresTotales": 3,
+      "tiempoPromedioPasoSeg": 43
+    }
+  ]
+}

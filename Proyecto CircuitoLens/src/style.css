@@ -1,0 +1,565 @@
+:root {
+  --bg: #f4f6fb;
+  --fg: #14213d;
+  --card: #fff;
+  --bd: #d5dbe8;
+  --ac: #0b6e4f;
+  --ac2: #1d4ed8;
+  --bad: #b42318;
+  --warn: #d97706;
+  --bb: #e9edf6;
+  --glow-led: rgba(255, 50, 50, 0.85);
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1220;
+    --fg: #e8edf8;
+    --card: #151d30;
+    --bd: #2a3550;
+    --ac: #34d399;
+    --ac2: #7aa2ff;
+    --bad: #ff8a80;
+    --warn: #fbbf24;
+    --bb: #1c2640;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0c1220;
+  --fg: #e8edf8;
+  --card: #151d30;
+  --bd: #2a3550;
+  --ac: #34d399;
+  --ac2: #7aa2ff;
+  --bad: #ff8a80;
+  --warn: #fbbf24;
+  --bb: #1c2640;
+}
+
+body.hc {
+  --bg: #000;
+  --fg: #fff;
+  --card: #000;
+  --bd: #ff0;
+  --ac: #ff0;
+  --ac2: #0ff;
+  --bad: #f66;
+  --warn: #ff0;
+  --bb: #111;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+header {
+  padding: 12px 16px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--bd);
+  background: var(--card);
+}
+
+h1 {
+  font-size: 20px;
+  margin: 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+h2 {
+  font-size: 16px;
+  margin: 0 0 8px;
+}
+
+h3 {
+  font-size: 14px;
+  margin: 10px 0 6px;
+  color: var(--ac2);
+}
+
+nav {
+  display: flex;
+  gap: 6px;
+  padding: 8px 16px;
+  overflow-x: auto;
+  background: var(--card);
+  border-bottom: 1px solid var(--bd);
+}
+
+button,
+select,
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+  font: inherit;
+  color: var(--fg);
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 10px;
+  padding: 10px 14px;
+  min-height: 44px;
+  transition: transform 0.1s ease, border-color 0.15s ease;
+}
+
+button {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+body.calm button:active {
+  transform: none;
+}
+
+button.p {
+  background: var(--ac);
+  color: #fff;
+  border-color: var(--ac);
+  font-weight: 600;
+}
+
+body.hc button.p {
+  color: #000;
+}
+
+button.btn-warn {
+  background: var(--warn);
+  color: #fff;
+  border-color: var(--warn);
+}
+
+button.btn-danger {
+  background: var(--bad);
+  color: #fff;
+  border-color: var(--bad);
+}
+
+nav button {
+  background: var(--card);
+  border: 1px solid var(--bd);
+  color: var(--fg);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+nav button[aria-selected="true"] {
+  background: var(--ac2);
+  color: #fff;
+  border-color: var(--ac2);
+  font-weight: 700;
+}
+
+:focus-visible {
+  outline: 3px solid var(--ac2);
+  outline-offset: 2px;
+}
+
+main {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 16px 140px;
+}
+
+.tab {
+  display: none;
+}
+
+.tab.on {
+  display: block;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+body.calm .tab.on {
+  animation: none;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 14px;
+  padding: 14px;
+  margin: 10px 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.grow {
+  flex: 1;
+}
+
+.boardw {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #1b2a3a;
+  border: 1px solid var(--bd);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.boardw video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.55;
+}
+
+svg.board {
+  display: block;
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+
+.ring {
+  animation: pu 1.2s infinite;
+  cursor: pointer;
+}
+
+.ring:hover {
+  stroke-width: 5;
+  stroke: #ffea00;
+}
+
+@keyframes pu {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+body.calm .ring {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring {
+    animation: none;
+  }
+}
+
+/* Efecto de encendido de LED (Diseño Visceral de Norman) */
+.led-glow-red {
+  filter: drop-shadow(0 0 14px #ff3333) drop-shadow(0 0 24px #ff0000);
+  animation: ledPulse 1.4s ease-in-out infinite alternate;
+}
+
+.led-glow-green {
+  filter: drop-shadow(0 0 14px #33ff66) drop-shadow(0 0 24px #00ff44);
+  animation: ledPulse 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes ledPulse {
+  from { opacity: 0.85; transform: scale(1); }
+  to { opacity: 1; transform: scale(1.08); }
+}
+
+body.calm .led-glow-red,
+body.calm .led-glow-green {
+  animation: none;
+  filter: none;
+}
+
+ol {
+  padding-left: 22px;
+  margin: 4px 0;
+}
+
+li.done {
+  color: var(--ac);
+}
+
+li.cur {
+  font-weight: 700;
+  color: var(--ac2);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: var(--bb);
+  border: 1px solid var(--bd);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.badge.success {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: var(--ac);
+  color: var(--ac);
+}
+
+.badge.warn {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: var(--warn);
+  color: var(--warn);
+}
+
+.badge.offline {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: var(--bad);
+  color: var(--bad);
+}
+
+#cap {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  background: #000;
+  color: #fff;
+  font-size: 17px;
+  z-index: 5;
+  min-height: 56px;
+  border-top: 2px solid var(--ac);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.4);
+}
+
+#cap b {
+  color: #ffd54a;
+}
+
+#log {
+  max-height: 160px;
+  overflow: auto;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#log div {
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--bb);
+}
+
+#conf {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9;
+}
+
+.bar {
+  height: 16px;
+  border-radius: 8px;
+  background: var(--ac);
+  min-width: 2px;
+}
+
+.cmp {
+  display: grid;
+  grid-template-columns: 150px 1fr 40px;
+  gap: 8px;
+  align-items: center;
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.mic.on {
+  background: var(--bad);
+  color: #fff;
+  animation: pulseMic 1.5s infinite;
+}
+
+@keyframes pulseMic {
+  0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+}
+
+label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* Selector de Emociones (Diseño Emocional de Norman) */
+.emotion-picker {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 6px 0;
+}
+
+.emotion-btn {
+  padding: 6px 12px;
+  min-height: 38px;
+  border-radius: 20px;
+  border: 1px solid var(--bd);
+  background: var(--card);
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.15s ease;
+}
+
+.emotion-btn:hover {
+  background: var(--bb);
+  transform: translateY(-1px);
+}
+
+.emotion-btn.active {
+  background: var(--ac2);
+  color: #fff;
+  border-color: var(--ac2);
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(29, 78, 216, 0.3);
+}
+
+/* Indicador de onda de voz (Voice wave) */
+.voice-wave {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 20px;
+  padding: 0 4px;
+}
+
+.voice-wave span {
+  width: 3px;
+  height: 6px;
+  background: var(--ac);
+  border-radius: 2px;
+  transition: height 0.1s ease;
+}
+
+.voice-wave.active span {
+  animation: waveAnim 0.8s ease-in-out infinite alternate;
+}
+
+.voice-wave.active span:nth-child(2) { animation-delay: 0.15s; }
+.voice-wave.active span:nth-child(3) { animation-delay: 0.3s; }
+.voice-wave.active span:nth-child(4) { animation-delay: 0.45s; }
+.voice-wave.active span:nth-child(5) { animation-delay: 0.6s; }
+
+@keyframes waveAnim {
+  from { height: 4px; }
+  to { height: 18px; }
+}
+
+/* Tarjeta de Reflexión Metacognitiva */
+.reflection-card {
+  border-left: 4px solid var(--ac);
+  background: linear-gradient(135deg, rgba(11, 110, 79, 0.08), rgba(29, 78, 216, 0.05));
+  padding: 14px;
+  border-radius: 10px;
+  margin: 12px 0;
+}
+
+/* Lista de estudiantes en la sala del instructor */
+.student-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.student-card {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--bd);
+  background: var(--card);
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.1s;
+}
+
+.student-card:hover,
+.student-card.active {
+  border-color: var(--ac2);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.student-card .status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.status-dot.normal { background: var(--ac); }
+.status-dot.error { background: var(--bad); }
+.status-dot.help { background: var(--warn); }
+
+/* Perfil continuo dashboard */
+.profile-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.stat-box {
+  background: var(--bb);
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid var(--bd);
+  text-align: center;
+}
+
+.stat-box .val {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--ac);
+  margin-top: 4px;
+}
+
+.stat-box .desc {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/* Banner de PWA y avisos */
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin: 8px 0;
+  background: var(--bb);
+  border: 1px solid var(--bd);
+}
