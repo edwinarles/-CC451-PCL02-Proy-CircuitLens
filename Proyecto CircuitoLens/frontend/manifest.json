@@ -1,0 +1,41 @@
+{
+  "name": "CircuitLens · Laboratorio de Electrónica Móvil",
+  "short_name": "CircuitLens",
+  "id": "/circuitlens-pwa",
+  "start_url": "./circuitlens.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0c1220",
+  "theme_color": "#0b6e4f",
+  "description": "Asistente inteligente con AR, voz y diagnóstico multimodal agnóstico con LLM para laboratorios de circuitos electrónicos",
+  "categories": ["education", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='46' fill='%230b6e4f'/><text x='50' y='65' font-size='45' text-anchor='middle' fill='white'>🔬</text></svg>",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Práctica de Circuitos",
+      "short_name": "Circuitos",
+      "description": "Abrir protoboard de estudiante",
+      "url": "./circuitlens.html#est"
+    },
+    {
+      "name": "Panel del Instructor",
+      "short_name": "Instructor",
+      "description": "Monitorear y anotar en sala",
+      "url": "./circuitlens.html#ins"
+    },
+    {
+      "name": "Mi Perfil de Aprendizaje",
+      "short_name": "Mi Perfil",
+      "description": "Ver ritmo, emociones y progreso",
+      "url": "./circuitlens.html#prf"
+    }
+  ]
+}
