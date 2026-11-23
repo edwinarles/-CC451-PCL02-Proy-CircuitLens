@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: circuitlens-platform
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: oregon
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: DEFAULT_LLM_PROVIDER
+        value: sim
+      - key: BOOTSTRAP_TEACHER_EMAIL
+        value: docente@circuitlens.edu.pe
+      - key: BOOTSTRAP_TEACHER_NAME
+        value: Prof. Edwin Requena
+      - key: BOOTSTRAP_TEACHER_PASSWORD
+        value: CircuitLens2026!
