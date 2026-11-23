@@ -1,0 +1,6 @@
+# CircuitLens Platform - SEO Robots Configuration
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://circuitlens-app.onrender.com/sitemap.xml

@@ -18,7 +18,7 @@ from typing import Optional, List, Dict, Any
 from fastapi import FastAPI, Depends, HTTPException, Header, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse, Response
 from pydantic import BaseModel, EmailStr
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -439,6 +439,21 @@ if not os.path.exists(FRONTEND_DIR):
     FRONTEND_DIR = os.path.join(BASE_DIR, "src")
 
 app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
+
+@app.get("/robots.txt", response_class=PlainTextResponse)
+def get_robots_txt():
+    robots_path = os.path.join(FRONTEND_DIR, "robots.txt")
+    if os.path.exists(robots_path):
+        with open(robots_path, 'r', encoding='utf-8') as f:
+            return PlainTextResponse(f.read(), media_type="text/plain")
+    return PlainTextResponse("User-agent: *\nAllow: /\nDisallow: /api/\n", media_type="text/plain")
+
+@app.get("/sitemap.xml")
+def get_sitemap():
+    sitemap_path = os.path.join(FRONTEND_DIR, "sitemap.xml")
+    if os.path.exists(sitemap_path):
+        return FileResponse(sitemap_path, media_type="application/xml")
+    return Response('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://circuitlens-app.onrender.com/</loc></url></urlset>', media_type="application/xml")
 
 @app.get("/")
 def serve_index():
