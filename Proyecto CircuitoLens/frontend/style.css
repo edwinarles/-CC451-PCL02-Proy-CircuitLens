@@ -521,3 +521,232 @@ ol#st li.done {
   overflow-y: auto;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
+
+.account-select-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.account-card {
+  background: var(--bb);
+  border: 1.5px solid var(--bd);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.account-card:hover {
+  border-color: var(--bd-focus);
+  background: var(--card-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+
+.badge-easy {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  font-weight: 600;
+  font-size: 11px;
+}
+
+.badge-med {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  font-weight: 600;
+  font-size: 11px;
+}
+
+.badge-hard {
+  background: rgba(239, 68, 68, 0.18);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.complex-task-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background: var(--bb);
+  border: 1px solid var(--bd);
+  border-radius: var(--radius-md);
+  margin-bottom: 8px;
+}
+
+/* ========================================================
+   Centro de Supervisión y Revisión Docente en Vivo
+   ======================================================== */
+.supervisor-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+@media (max-width: 900px) {
+  .supervisor-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.student-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 680px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.student-item-card {
+  background: var(--bb);
+  border: 1.5px solid var(--bd);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.student-item-card:hover {
+  border-color: var(--bd-focus);
+  background: var(--card-hover);
+  transform: translateX(2px);
+}
+
+.student-item-card.active {
+  border-color: var(--ac);
+  background: rgba(37, 99, 235, 0.12);
+  box-shadow: 0 0 0 2px var(--ac);
+}
+
+.student-item-card.has-error {
+  border-color: var(--bad);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.student-item-card.needs-help {
+  border-color: #f59e0b;
+  animation: pulse-border 1.5s infinite;
+}
+
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.6); }
+  70% { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+}
+
+.live-inspection-card {
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.teacher-tools-panel {
+  background: var(--bb);
+  border: 1px solid var(--bd);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quick-hints-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+}
+
+.btn-quick-hint {
+  background: var(--card);
+  border: 1px solid var(--bd);
+  color: var(--fg);
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-quick-hint:hover {
+  background: var(--card-hover);
+  border-color: var(--bd-focus);
+  color: #fff;
+}
+
+/* Notificación flotante de pista o mensaje para el Estudiante */
+.teacher-alert-banner {
+  background: linear-gradient(135deg, rgba(37,99,235,0.2), rgba(16,185,129,0.15));
+  border: 1.5px solid var(--ac);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  animation: slide-in 0.3s ease-out;
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Efecto de anillo cuando el profesor marca un pin */
+.ring-teacher-mark {
+  stroke: #ef4444;
+  stroke-width: 3;
+  fill: rgba(239, 68, 68, 0.25);
+  animation: ping 1.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+/* ========================================================
+   Control Estricto de Vistas por Rol (Docente vs Estudiante)
+   ======================================================== */
+.role-teacher .tab-btn-est {
+  display: none !important;
+}
+.role-teacher #est,
+.role-teacher #workspaces,
+.role-teacher #prf {
+  display: none !important;
+}
+
+.role-student .tab-btn-doc {
+  display: none !important;
+}
+.role-student #ins,
+.role-student #teacher-settings,
+.role-student #interviews {
+  display: none !important;
+}
+
+
+

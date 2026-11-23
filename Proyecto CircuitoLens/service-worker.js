@@ -1,25 +1,26 @@
 /* ========================================================
-   CircuitLens Root Service Worker (PWA Offline Engine)
+   CircuitLens Service Worker (PWA Offline Engine)
+   Garantiza funcionamiento 100% offline para laboratorios
    ======================================================== */
 
-const CACHE_NAME = 'circuitlens-root-v3-cache';
+const CACHE_NAME = 'circuitlens-v5-cache';
 
 const STATIC_ASSETS = [
-  './index.html',
-  './src/circuitlens.html',
-  './src/style.css',
-  './src/script.js',
-  './src/manifest.json',
-  './data/circuitos.json',
-  './data/cohorte.json',
-  './data/diagnosticos.json'
+  './circuitlens.html',
+  './style.css',
+  './script.js',
+  './manifest.json',
+  '../index.html',
+  '../data/circuitos.json',
+  '../data/cohorte.json',
+  '../data/diagnosticos.json'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(STATIC_ASSETS).catch((err) => {
-        console.warn('[CircuitLens SW Root] Pre-caching parcial:', err);
+        console.warn('[CircuitLens SW] Pre-caching parcial:', err);
       });
     }).then(() => self.skipWaiting())
   );
@@ -30,7 +31,9 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((keys) => {
       return Promise.all(
         keys.map((key) => {
-          if (key !== CACHE_NAME) return caches.delete(key);
+          if (key !== CACHE_NAME) {
+            return caches.delete(key);
+          }
         })
       );
     }).then(() => self.clients.claim())
@@ -38,9 +41,11 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  // Ignorar peticiones que no sean GET o externas de APIs remotas
   if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
 
+  // No interceptar llamadas a APIs remotas de LLM
   if (
     url.hostname.includes('generativelanguage.googleapis.com') ||
     url.hostname.includes('api.anthropic.com') ||
@@ -52,19 +57,35 @@ self.addEventListener('fetch', (event) => {
 
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) return cachedResponse;
-      return fetch(event.request).then((networkResponse) => {
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+      if (cachedResponse) {
+        // Retornar caché y actualizar en segundo plano (Stale-While-Revalidate)
+        fetch(event.request)
+          .then((networkResponse) => {
+            if (networkResponse && networkResponse.status === 200) {
+              caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResponse));
+            }
+          })
+          .catch(() => {});
+        return cachedResponse;
+      }
+
+      return fetch(event.request)
+        .then((networkResponse) => {
+          if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
+            return networkResponse;
+          }
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
           return networkResponse;
-        }
-        const toCache = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, toCache));
-        return networkResponse;
-      }).catch(() => {
-        if (event.request.headers.get('accept')?.includes('text/html')) {
-          return caches.match('./src/circuitlens.html');
-        }
-      });
+        })
+        .catch(() => {
+          // Si falla y es una navegación HTML, devolver la vista principal
+          if (event.request.headers.get('accept')?.includes('text/html')) {
+            return caches.match('./circuitlens.html');
+          }
+        });
     })
   );
 });

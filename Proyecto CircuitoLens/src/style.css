@@ -1,6 +1,7 @@
 /* ========================================================
    🔬 CircuitLens - Modern, High-Contrast & Accessible Design System
    WCAG 2.1 AA Compliant, Quadriplegia/Switch-Access Friendly
+   Breadboard CAD Viewport with Pan, Zoom & Snapping
    ======================================================== */
 
 :root {
@@ -22,10 +23,8 @@
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
-  --focus-ring: 0 0 0 3px rgba(56, 189, 248, 0.45);
 }
 
-/* High Contrast Mode (WCAG AAA) */
 body.hc {
   --bg: #000000;
   --fg: #ffffff;
@@ -38,7 +37,6 @@ body.hc {
   --warn: #ffff00;
 }
 
-/* Low Stimulation Mode */
 body.calm {
   --p: #475569;
   --good: #334155;
@@ -62,7 +60,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Accessible focus outline for keyboard and switch access */
 :focus-visible {
   outline: 3px solid var(--bd-focus) !important;
   outline-offset: 2px !important;
@@ -87,7 +84,6 @@ header h1 {
   gap: 8px;
 }
 
-/* Modern navigation tabs */
 nav[role="tablist"] {
   display: flex;
   gap: 6px;
@@ -112,7 +108,7 @@ nav button {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  min-height: 42px; /* Touch target minimum for accessibility */
+  min-height: 42px;
 }
 
 nav button:hover {
@@ -127,7 +123,6 @@ nav button[aria-selected="true"] {
   box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
 }
 
-/* Primary Interaction Channels Bar */
 .channels-bar {
   display: flex;
   flex-wrap: wrap;
@@ -175,7 +170,6 @@ nav button[aria-selected="true"] {
   opacity: 0.7;
 }
 
-/* Main Container & Tabs */
 main {
   max-width: 1400px;
   margin: 0 auto;
@@ -190,7 +184,6 @@ main {
   display: block;
 }
 
-/* Cards & Containers */
 .card {
   background: var(--card);
   border: 1px solid var(--bd);
@@ -220,8 +213,7 @@ main {
   flex-grow: 1;
 }
 
-/* Buttons and Large Accessible Interaction Targets */
-button, select, input[type="text"], input[type="range"] {
+button, select, input[type="text"], input[type="password"], input[type="range"] {
   font-family: inherit;
   font-size: 14px;
 }
@@ -238,7 +230,7 @@ button {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  min-height: 44px; /* Accessible standard >= 44x44px */
+  min-height: 42px;
   transition: all 0.15s ease;
 }
 
@@ -275,7 +267,6 @@ button.btn-danger {
   border-color: var(--bad);
 }
 
-/* Badges */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -307,50 +298,55 @@ button.btn-danger {
   color: #fca5a5;
 }
 
-/* Improved Breadboard Workspace & AR Canvas */
-.boardw {
+/* ========================================================
+   CAD Breadboard Viewport with Pan, Smooth Zoom & Responsive Canvas
+   ======================================================== */
+.boardw-container {
   position: relative;
-  background: #0f172a;
+  background: #090e17;
   border: 2px solid var(--bd);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  min-height: 380px;
-  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+  min-height: 440px;
+  width: 100%;
+  cursor: grab;
+  user-select: none;
+  box-shadow: inset 0 2px 14px rgba(0, 0, 0, 0.6);
+  display: block;
+}
+
+.boardw-container:active {
+  cursor: grabbing;
+}
+
+#bw-pan-target {
+  transform-origin: 0 0;
+  display: inline-block;
+  position: relative;
+  width: 880px;
+  height: 380px;
+  margin: 20px auto;
 }
 
 .board {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  width: 880px;
+  height: 380px;
+  display: block;
+  border-radius: 10px;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.4));
 }
 
-.boardw video {
+#vid {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.65;
+  opacity: 0.6;
 }
 
-/* Audio Player and TTS Synchronized Visualizer */
-.audio-controls-panel {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--bb);
-  padding: 8px 14px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--bd);
-  margin-top: 8px;
-}
-
+/* Audio Visualizer & Wave */
 .voice-wave {
   display: inline-flex;
   align-items: center;
@@ -377,9 +373,8 @@ button.btn-danger {
   50% { height: 18px; }
 }
 
-/* Synchronized Karaoke / Spoken Instruction Highlight */
 .spoken-highlight {
-  background: rgba(56, 189, 248, 0.25);
+  background: rgba(56, 189, 248, 0.2);
   border-left: 4px solid var(--bd-focus);
   padding: 8px 12px;
   border-radius: 4px;
@@ -387,7 +382,6 @@ button.btn-danger {
   transition: all 0.3s ease;
 }
 
-/* Step list */
 ol#st {
   padding-left: 20px;
   margin: 10px 0;
@@ -405,10 +399,8 @@ ol#st li.cur {
 
 ol#st li.done {
   color: var(--good);
-  text-decoration: none;
 }
 
-/* Conversation Log */
 #log {
   max-height: 220px;
   overflow-y: auto;
@@ -422,7 +414,6 @@ ol#st li.done {
   border: 1px solid var(--bd);
 }
 
-/* Workspace selector grid */
 .workspaces-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -450,7 +441,6 @@ ol#st li.done {
   box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
 }
 
-/* Usability Interviews Form Styles */
 .interview-form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -481,7 +471,6 @@ ol#st li.done {
   border-color: var(--p);
 }
 
-/* Fixed Accessible Captions */
 #cap {
   position: fixed;
   bottom: 0;
@@ -497,7 +486,6 @@ ol#st li.done {
   box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.4);
 }
 
-/* Confetti canvas */
 #conf {
   position: fixed;
   top: 0;
@@ -508,7 +496,6 @@ ol#st li.done {
   z-index: 1000;
 }
 
-/* Modals */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -528,7 +515,7 @@ ol#st li.done {
   border: 1px solid var(--bd);
   border-radius: var(--radius-lg);
   padding: 24px;
-  max-width: 600px;
+  max-width: 540px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
@@ -539,21 +526,227 @@ ol#st li.done {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin: 16px 0;
+  margin: 14px 0;
 }
 
 .account-card {
   background: var(--bb);
-  border: 1px solid var(--bd);
+  border: 1.5px solid var(--bd);
   border-radius: var(--radius-md);
   padding: 14px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   gap: 4px;
+  transition: all 0.2s ease;
 }
 
 .account-card:hover {
   border-color: var(--bd-focus);
   background: var(--card-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
+
+.badge-easy {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  font-weight: 600;
+  font-size: 11px;
+}
+
+.badge-med {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  font-weight: 600;
+  font-size: 11px;
+}
+
+.badge-hard {
+  background: rgba(239, 68, 68, 0.18);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.complex-task-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background: var(--bb);
+  border: 1px solid var(--bd);
+  border-radius: var(--radius-md);
+  margin-bottom: 8px;
+}
+
+/* ========================================================
+   Centro de Supervisión y Revisión Docente en Vivo
+   ======================================================== */
+.supervisor-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+@media (max-width: 900px) {
+  .supervisor-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.student-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 680px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.student-item-card {
+  background: var(--bb);
+  border: 1.5px solid var(--bd);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.student-item-card:hover {
+  border-color: var(--bd-focus);
+  background: var(--card-hover);
+  transform: translateX(2px);
+}
+
+.student-item-card.active {
+  border-color: var(--ac);
+  background: rgba(37, 99, 235, 0.12);
+  box-shadow: 0 0 0 2px var(--ac);
+}
+
+.student-item-card.has-error {
+  border-color: var(--bad);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.student-item-card.needs-help {
+  border-color: #f59e0b;
+  animation: pulse-border 1.5s infinite;
+}
+
+@keyframes pulse-border {
+  0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.6); }
+  70% { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+}
+
+.live-inspection-card {
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.teacher-tools-panel {
+  background: var(--bb);
+  border: 1px solid var(--bd);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quick-hints-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+}
+
+.btn-quick-hint {
+  background: var(--card);
+  border: 1px solid var(--bd);
+  color: var(--fg);
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.btn-quick-hint:hover {
+  background: var(--card-hover);
+  border-color: var(--bd-focus);
+  color: #fff;
+}
+
+/* Notificación flotante de pista o mensaje para el Estudiante */
+.teacher-alert-banner {
+  background: linear-gradient(135deg, rgba(37,99,235,0.2), rgba(16,185,129,0.15));
+  border: 1.5px solid var(--ac);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  animation: slide-in 0.3s ease-out;
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Efecto de anillo cuando el profesor marca un pin */
+.ring-teacher-mark {
+  stroke: #ef4444;
+  stroke-width: 3;
+  fill: rgba(239, 68, 68, 0.25);
+  animation: ping 1.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+/* ========================================================
+   Control Estricto de Vistas por Rol (Docente vs Estudiante)
+   ======================================================== */
+.role-teacher .tab-btn-est {
+  display: none !important;
+}
+.role-teacher #est,
+.role-teacher #workspaces,
+.role-teacher #prf {
+  display: none !important;
+}
+
+.role-student .tab-btn-doc {
+  display: none !important;
+}
+.role-student #ins,
+.role-student #teacher-settings,
+.role-student #interviews {
+  display: none !important;
+}
+
+
+

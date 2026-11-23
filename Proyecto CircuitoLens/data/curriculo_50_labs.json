@@ -1,5 +1,7 @@
 {
-  "descripcion": "Currículo Universitario de Ingeniería Eléctrica y Electrónica (50 Laboratorios en 5 Niveles)",
+  "institucion": "Universidad Nacional de Ingeniería — Facultad de Ingeniería Eléctrica y Electrónica",
+  "curso": "CircuitLens — Plataforma Universitaria Avanzada de Laboratorios de Ingeniería",
+  "version": "2.0.0",
   "totalLaboratorios": 50,
   "niveles": [
     {
@@ -28,101 +30,49 @@
       "total": 10
     }
   ],
-  "codigoColoresResistencias": {
-    "220": {
-      "colores": [
-        "Rojo",
-        "Rojo",
-        "Marrón"
-      ],
-      "hex": [
-        "#d22",
-        "#d22",
-        "#852"
-      ],
-      "texto": "220 Ω"
-    },
-    "330": {
-      "colores": [
-        "Naranja",
-        "Naranja",
-        "Marrón"
-      ],
-      "hex": [
-        "#f80",
-        "#f80",
-        "#852"
-      ],
-      "texto": "330 Ω"
-    },
-    "1000": {
-      "colores": [
-        "Marrón",
-        "Negro",
-        "Rojo"
-      ],
-      "hex": [
-        "#852",
-        "#111",
-        "#d22"
-      ],
-      "texto": "1 kΩ"
-    },
-    "2200": {
-      "colores": [
-        "Rojo",
-        "Rojo",
-        "Rojo"
-      ],
-      "hex": [
-        "#d22",
-        "#d22",
-        "#d22"
-      ],
-      "texto": "2.2 kΩ"
-    }
-  },
   "circuitos": [
     {
       "id": 0,
       "nivel": 1,
       "nivelNombre": "Nivel 1 — Análisis Avanzado de Circuitos",
       "laboratorioNumero": 1,
-      "nombre": "L1.1 — Ley de Ohm y Análisis Nodal Básico",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Comprobar la Ley de Ohm y el método de voltajes nodales en redes resistivas.",
-      "ecuaciones": "I = V/R, sum(I_k) = 0",
-      "descripcion": "Comprobar la Ley de Ohm y el método de voltajes nodales en redes resistivas. Ecuaciones rectoras: I = V/R, sum(I_k) = 0",
-      "medicionesEsperadas": "V_nodo2 = 3.76 V, I_total = 3.76 mA",
-      "diagnosticoResolucion": "Si el voltaje en nodo 2 es 0V, verifique falso contacto en pin 10c.",
+      "complejidad": "basico",
+      "complejidadTexto": "🟢 Sencillo",
+      "nombre": "L1.1 — Ley de Ohm y Divisor Resistivo Elemental",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Comprobar la Ley de Ohm (V=I*R) y el cálculo de voltajes nodales en resistores serie.",
+      "ecuaciones": "I = V / (R1 + R2), V_nodo = Vcc * R2 / (R1 + R2)",
+      "descripcion": "Divisor de tensión elemental para comprobar caída de potencial y ley de Ohm.",
+      "medicionesEsperadas": "V_nodo = 3.76 V con Vcc=5V, R1=330 Ω, R2=1 kΩ.",
+      "diagnosticoResolucion": "Verificar continuidad en nodo intermedio 10b-10c.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
-          "de": "p3",
-          "a": "6a",
-          "etiqueta": "Vcc 5V -> nodo 1"
+          "de": "p2",
+          "a": "5a",
+          "etiqueta": "Línea de alimentación Vcc (+5V) al protoboard"
         },
         {
           "type": "res",
           "valor": 330,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "R1 (330 Ω)"
+          "de": "5b",
+          "a": "9b",
+          "etiqueta": "R1 (330 Ω): Resistor superior limitador"
         },
         {
           "type": "res",
           "valor": 1000,
-          "de": "10c",
-          "a": "14c",
-          "etiqueta": "R2 (1 kΩ) a nodo 2"
+          "de": "9c",
+          "a": "13c",
+          "etiqueta": "R2 (1 kΩ): Resistor inferior a nodo de medición"
         },
         {
           "type": "wire",
           "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND de referencia"
+          "de": "13e",
+          "a": "m13",
+          "etiqueta": "Retorno de referencia a GND (-)"
         }
       ]
     },
@@ -131,41 +81,42 @@
       "nivel": 1,
       "nivelNombre": "Nivel 1 — Análisis Avanzado de Circuitos",
       "laboratorioNumero": 2,
-      "nombre": "L1.2 — Análisis de Mallas y Ley de Voltajes de Kirchhoff (KVL)",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Verificar la sumatoria de caídas de tensión en mallas cerradas independientes.",
-      "ecuaciones": "sum(V_k) = 0",
-      "descripcion": "Verificar la sumatoria de caídas de tensión en mallas cerradas independientes. Ecuaciones rectoras: sum(V_k) = 0",
-      "medicionesEsperadas": "Caída en R1 = 2.0V, Caída en R_compartida = 3.0V",
-      "diagnosticoResolucion": "Discrepancia en KVL indica resistencia fuera de tolerancia.",
+      "complejidad": "basico",
+      "complejidadTexto": "🟢 Sencillo",
+      "nombre": "L1.2 — Circuito LED con Pulsador y Resistor de Polarización",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Implementar control manual on/off de un diodo emisor de luz con protección resistiva.",
+      "ecuaciones": "R_lim = (Vcc - V_led) / I_led = (5V - 2V) / 10mA = 300 Ω ~ 330 Ω",
+      "descripcion": "Pulsador táctil normalmente abierto que activa un LED rojo con resistor de 330 Ω.",
+      "medicionesEsperadas": "V_led = 1.95 V encendido, I_led = 9.2 mA.",
+      "diagnosticoResolucion": "Si el LED no enciende, comprobar la polaridad: cátodo (pata corta) a tierra.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
-          "de": "p2",
-          "a": "5a",
-          "etiqueta": "Línea de alimentación 5V"
+          "de": "p3",
+          "a": "6a",
+          "etiqueta": "Vcc 5V hacia terminal de entrada del pulsador"
         },
         {
-          "type": "res",
-          "valor": 220,
-          "de": "5b",
-          "a": "9b",
-          "etiqueta": "R_malla1 (220 Ω)"
+          "type": "btn",
+          "de": "6b",
+          "a": "10b",
+          "etiqueta": "Pulsador táctil normalmente abierto (NO)"
         },
         {
           "type": "res",
           "valor": 330,
-          "de": "9c",
-          "a": "13c",
-          "etiqueta": "R_compartida (330 Ω)"
+          "de": "10c",
+          "a": "14c",
+          "etiqueta": "Resistor limitador R (330 Ω)"
         },
         {
-          "type": "wire",
-          "color": "#111",
-          "de": "13e",
-          "a": "m13",
-          "etiqueta": "Retorno común a tierra"
+          "type": "led",
+          "color": "#e33",
+          "de": "14d",
+          "a": "m14",
+          "etiqueta": "Diodo LED rojo: Ánodo en 14d, Cátodo a GND (m14)"
         }
       ]
     },
@@ -174,41 +125,50 @@
       "nivel": 1,
       "nivelNombre": "Nivel 1 — Análisis Avanzado de Circuitos",
       "laboratorioNumero": 3,
-      "nombre": "L1.3 — Principio de Superposición en Redes Lineales",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Demostrar que la respuesta con múltiples fuentes es la suma de respuestas individuales.",
-      "ecuaciones": "V_total = V'(V1=0) + V''(V2=0)",
-      "descripcion": "Demostrar que la respuesta con múltiples fuentes es la suma de respuestas individuales. Ecuaciones rectoras: V_total = V'(V1=0) + V''(V2=0)",
-      "medicionesEsperadas": "Corriente de rama lineal concordante con el cálculo analítico.",
-      "diagnosticoResolucion": "No cortocircuitar la fuente de tensión durante la medición activa.",
+      "complejidad": "basico",
+      "complejidadTexto": "🟢 Sencillo",
+      "nombre": "L1.3 — Red Serie-Paralelo y Leyes de Kirchhoff (KVL/KCL)",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Verificar la división de corriente en ramas paralelas y la conservación de la energía.",
+      "ecuaciones": "sum(I_in) = sum(I_out), R_eq = R1 + (R2 || R3)",
+      "descripcion": "Circuito mixto con un resistor en serie y dos ramas resistivas paralelas idénticas.",
+      "medicionesEsperadas": "R_eq = 720 Ω. Corriente dividida exactamente a la mitad en cada rama (R2 y R3).",
+      "diagnosticoResolucion": "Verificar que ambas resistencias paralelas compartan los mismos nodos 9 y 13.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
-          "de": "p4",
-          "a": "7a",
-          "etiqueta": "Fuente V1 (5V)"
+          "de": "p2",
+          "a": "5a",
+          "etiqueta": "Alimentación Vcc 5V a nodo de entrada"
+        },
+        {
+          "type": "res",
+          "valor": 220,
+          "de": "5b",
+          "a": "9b",
+          "etiqueta": "R_serie (220 Ω) en rama principal"
         },
         {
           "type": "res",
           "valor": 1000,
-          "de": "7b",
-          "a": "11b",
-          "etiqueta": "R1 (1 kΩ)"
+          "de": "9c",
+          "a": "13c",
+          "etiqueta": "R_rama1 (1 kΩ) en paralelo"
         },
         {
           "type": "res",
-          "valor": 2200,
-          "de": "11c",
-          "a": "15c",
-          "etiqueta": "R_carga (2.2 kΩ)"
+          "valor": 1000,
+          "de": "9d",
+          "a": "13d",
+          "etiqueta": "R_rama2 (1 kΩ) en paralelo"
         },
         {
           "type": "wire",
           "color": "#111",
-          "de": "15e",
-          "a": "m15",
-          "etiqueta": "GND"
+          "de": "13e",
+          "a": "m13",
+          "etiqueta": "Retorno de corriente común a GND"
         }
       ]
     },
@@ -217,41 +177,50 @@
       "nivel": 1,
       "nivelNombre": "Nivel 1 — Análisis Avanzado de Circuitos",
       "laboratorioNumero": 4,
-      "nombre": "L1.4 — Teorema de Thevenin y Circuito Equivalente",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Obtener el voltaje de circuito abierto (Vth) y la resistencia equivalente (Rth).",
-      "ecuaciones": "Vth = V_oc, Rth = V_oc / I_sc",
-      "descripcion": "Obtener el voltaje de circuito abierto (Vth) y la resistencia equivalente (Rth). Ecuaciones rectoras: Vth = V_oc, Rth = V_oc / I_sc",
-      "medicionesEsperadas": "Vth = 2.50 V, Rth = 500 Ω",
-      "diagnosticoResolucion": "Retirar la carga antes de medir V_oc en bornes.",
+      "complejidad": "basico",
+      "complejidadTexto": "🟢 Sencillo",
+      "nombre": "L1.4 — Teorema de Thévenin y Circuito Equivalente",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Obtener el voltaje de circuito abierto Vth y la resistencia equivalente Rth.",
+      "ecuaciones": "Vth = Vcc * R2 / (R1 + R2), Rth = R1 || R2",
+      "descripcion": "Determinación experimental de los parámetros Thévenin y efecto de carga con R_load.",
+      "medicionesEsperadas": "Vth = 2.50 V, Rth = 500 Ω, V_load = 2.03 V con R_load=2.2 kΩ.",
+      "diagnosticoResolucion": "Asegurar que la carga R_load conecte entre el nodo Thévenin y tierra.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
-          "de": "p5",
-          "a": "8a",
-          "etiqueta": "Alimentación V_in"
+          "de": "p4",
+          "a": "7a",
+          "etiqueta": "Vcc 5V a red generadora Thévenin"
         },
         {
           "type": "res",
           "valor": 1000,
-          "de": "8b",
-          "a": "12b",
-          "etiqueta": "R_thev1 (1 kΩ)"
+          "de": "7b",
+          "a": "11b",
+          "etiqueta": "R1 Thévenin (1 kΩ)"
         },
         {
           "type": "res",
           "valor": 1000,
-          "de": "12c",
-          "a": "16c",
-          "etiqueta": "R_thev2 divisor (1 kΩ)"
+          "de": "11c",
+          "a": "m11",
+          "etiqueta": "R2 Thévenin (1 kΩ) a GND"
+        },
+        {
+          "type": "res",
+          "valor": 2200,
+          "de": "11d",
+          "a": "15d",
+          "etiqueta": "R_load (2.2 kΩ): Resistor de carga de prueba"
         },
         {
           "type": "wire",
           "color": "#111",
-          "de": "16e",
-          "a": "m16",
-          "etiqueta": "GND"
+          "de": "15e",
+          "a": "m15",
+          "etiqueta": "Cierre de malla de carga a GND"
         }
       ]
     },
@@ -260,41 +229,50 @@
       "nivel": 1,
       "nivelNombre": "Nivel 1 — Análisis Avanzado de Circuitos",
       "laboratorioNumero": 5,
+      "complejidad": "basico",
+      "complejidadTexto": "🟢 Sencillo",
       "nombre": "L1.5 — Teorema de Norton y Transformación de Fuentes",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Evaluar la corriente de cortocircuito (I_N) y su equivalencia con Thevenin.",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Evaluar la corriente de cortocircuito I_N y su equivalencia dual con el modelo Thévenin.",
       "ecuaciones": "I_N = Vth / Rth, R_N = Rth",
-      "descripcion": "Evaluar la corriente de cortocircuito (I_N) y su equivalencia con Thevenin. Ecuaciones rectoras: I_N = Vth / Rth, R_N = Rth",
-      "medicionesEsperadas": "I_Norton = 15.1 mA, R_N = 286.9 Ω",
-      "diagnosticoResolucion": "Asegurar que el amperímetro no introduzca resistencia serie parásita excesiva.",
+      "descripcion": "Verificación del modelo dual de Norton con resistencia en paralelo y rama de carga.",
+      "medicionesEsperadas": "I_N = 15.1 mA, V_carga concordante con la transformación dual.",
+      "diagnosticoResolucion": "Comprobar que Rn derive a tierra en paralelo al nodo de salida.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
           "de": "p3",
           "a": "6a",
-          "etiqueta": "Fuente continua"
+          "etiqueta": "Línea de alimentación V_in 5V"
         },
         {
           "type": "res",
           "valor": 330,
           "de": "6b",
-          "a": "10b",
-          "etiqueta": "R_rama (330 Ω)"
+          "a": "m6",
+          "etiqueta": "R_norton (330 Ω) derivación en paralelo a GND"
         },
         {
           "type": "res",
-          "valor": 2200,
-          "de": "10c",
-          "a": "14c",
-          "etiqueta": "R_shunteo (2.2 kΩ)"
+          "valor": 1000,
+          "de": "6c",
+          "a": "10c",
+          "etiqueta": "R_acoplo (1 kΩ) hacia carga"
+        },
+        {
+          "type": "res",
+          "valor": 470,
+          "de": "10d",
+          "a": "m10",
+          "etiqueta": "R_carga (470 Ω) a tierra"
         },
         {
           "type": "wire",
-          "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND"
+          "color": "#ea0",
+          "de": "10b",
+          "a": "14b",
+          "etiqueta": "Terminal de prueba para amperímetro (I_sc)"
         }
       ]
     },
@@ -303,41 +281,57 @@
       "nivel": 1,
       "nivelNombre": "Nivel 1 — Análisis Avanzado de Circuitos",
       "laboratorioNumero": 6,
-      "nombre": "L1.6 — Máxima Transferencia de Potencia",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Comprobar empíricamente que P_L es máxima cuando R_L = Rth.",
-      "ecuaciones": "P_max = Vth^2 / (4 * Rth)",
-      "descripcion": "Comprobar empíricamente que P_L es máxima cuando R_L = Rth. Ecuaciones rectoras: P_max = Vth^2 / (4 * Rth)",
-      "medicionesEsperadas": "P_L máxima = 6.25 mW cuando R_L = 1 kΩ",
-      "diagnosticoResolucion": "Con valores de R_L de 330 Ω o 2.2 kΩ la potencia útil decrece.",
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L1.6 — Máxima Transferencia de Potencia y Puente de Wheatstone",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Demostrar que P_L es máxima cuando R_L = Rth y equilibrar una red en puente de 4 ramas.",
+      "ecuaciones": "P_max = Vth^2 / (4 * Rth), V_AB = 0 cuando R1/R2 = R3/Rx",
+      "descripcion": "Puente de Wheatstone con 4 ramas resistivas y medición diferencial de balance.",
+      "medicionesEsperadas": "V_diferencial V_AB = 0.00 V en equilibrio con resistores iguales.",
+      "diagnosticoResolucion": "Si V_AB != 0, verificar tolerancia de las resistencias del puente.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
-          "de": "p4",
-          "a": "7a",
-          "etiqueta": "V_in 5V"
+          "de": "p2",
+          "a": "6a",
+          "etiqueta": "Excitación Vcc (+5V) al vértice superior del puente"
         },
         {
           "type": "res",
           "valor": 1000,
-          "de": "7b",
-          "a": "11b",
-          "etiqueta": "R_fuente (1 kΩ)"
+          "de": "6b",
+          "a": "10b",
+          "etiqueta": "R1 (1 kΩ) en rama izquierda superior"
         },
         {
           "type": "res",
           "valor": 1000,
-          "de": "11c",
-          "a": "15c",
-          "etiqueta": "R_carga óptima (1 kΩ)"
+          "de": "6c",
+          "a": "14b",
+          "etiqueta": "R3 (1 kΩ) en rama derecha superior"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "10c",
+          "a": "m10",
+          "etiqueta": "R2 (1 kΩ) en rama izquierda inferior a GND"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "14c",
+          "a": "m14",
+          "etiqueta": "Rx (1 kΩ) en rama derecha inferior a GND"
         },
         {
           "type": "wire",
-          "color": "#111",
-          "de": "15e",
-          "a": "m15",
-          "etiqueta": "GND"
+          "color": "#38bdf8",
+          "de": "10d",
+          "a": "14d",
+          "etiqueta": "Línea diferencial galvanométrica de balance (Nodo A -> Nodo B)"
         }
       ]
     },
@@ -346,41 +340,56 @@
       "nivel": 1,
       "nivelNombre": "Nivel 1 — Análisis Avanzado de Circuitos",
       "laboratorioNumero": 7,
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
       "nombre": "L1.7 — Respuesta Transitoria de Circuitos RC de Primer Orden",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
       "objetivos": "Medir la constante de tiempo tau = R*C y la curva de carga y descarga exponencial.",
-      "ecuaciones": "v_C(t) = V_0 * (1 - e^(-t / tau)), tau = R * C",
-      "descripcion": "Medir la constante de tiempo tau = R*C y la curva de carga y descarga exponencial. Ecuaciones rectoras: v_C(t) = V_0 * (1 - e^(-t / tau)), tau = R * C",
-      "medicionesEsperadas": "Al tiempo t = tau el condensador alcanza el 63.2% de la tensión final.",
-      "diagnosticoResolucion": "Verificar la polaridad de condensadores electrolíticos para evitar sobrepresión.",
+      "ecuaciones": "tau = R * C = 1000 * 10e-6 = 10 ms, Vc(t) = V0 * (1 - e^(-t/tau))",
+      "descripcion": "Circuito RC con condensador electrolítico, resistencia de carga y pulsador de descarga.",
+      "medicionesEsperadas": "Vc a 1 tau = 3.16 V (63.2% de 5V), descarga completa en ~5 tau (50 ms).",
+      "diagnosticoResolucion": "Verificar polaridad del condensador: pata con franja (-) al riel GND m16.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
-          "de": "p3",
-          "a": "6a",
-          "etiqueta": "Pulso escalón"
+          "de": "p4",
+          "a": "8a",
+          "etiqueta": "Vcc 5V línea de carga"
         },
         {
           "type": "res",
-          "valor": 2200,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "R_tau (2.2 kΩ)"
+          "valor": 1000,
+          "de": "8b",
+          "a": "12b",
+          "etiqueta": "R_carga (1 kΩ): fija constante de tiempo tau"
         },
         {
-          "type": "led",
-          "color": "#e33",
-          "de": "10c",
-          "a": "14c",
-          "etiqueta": "Indicador óptico / Carga"
+          "type": "cap",
+          "valor": "10 µF",
+          "de": "12c",
+          "a": "16c",
+          "etiqueta": "Condensador electrolítico C (10 µF): Ánodo en 12c"
         },
         {
           "type": "wire",
           "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND"
+          "de": "16e",
+          "a": "m16",
+          "etiqueta": "GND negativo de retorno del condensador"
+        },
+        {
+          "type": "btn",
+          "de": "12d",
+          "a": "16d",
+          "etiqueta": "Pulsador de descarga rápida en paralelo con C"
+        },
+        {
+          "type": "wire",
+          "color": "#ea0",
+          "de": "12e",
+          "a": "19e",
+          "etiqueta": "Sonda de monitoreo del nodo de tensión Vc(t)"
         }
       ]
     },
@@ -389,41 +398,50 @@
       "nivel": 1,
       "nivelNombre": "Nivel 1 — Análisis Avanzado de Circuitos",
       "laboratorioNumero": 8,
-      "nombre": "L1.8 — Respuesta Transitoria de Circuitos RL",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Analizar la constante de tiempo inductiva tau = L / R y la fem autoinducida.",
-      "ecuaciones": "i_L(t) = I_max * (1 - e^(-t / (L/R)))",
-      "descripcion": "Analizar la constante de tiempo inductiva tau = L / R y la fem autoinducida. Ecuaciones rectoras: i_L(t) = I_max * (1 - e^(-t / (L/R)))",
-      "medicionesEsperadas": "La inductancia se opone a cambios bruscos de corriente.",
-      "diagnosticoResolucion": "Cuidado con picos inductivos inversos de alto voltaje al desconectar.",
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L1.8 — Respuesta Transitoria de Circuitos RL y Fem Autoinducida",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Analizar la constante de tiempo inductiva tau = L / R y la protección por diodo volante.",
+      "ecuaciones": "tau = L / R, V_ind = -L * (di / dt)",
+      "descripcion": "Bobina inductiva con resistencia amortiguadora y diodo volante flyback.",
+      "medicionesEsperadas": "Supresión efectiva del pico inductivo inverso mediante el diodo flyback.",
+      "diagnosticoResolucion": "El diodo volante debe estar polarizado en inversa respecto a Vcc.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
-          "de": "p2",
-          "a": "5a",
-          "etiqueta": "Línea DC con conmutación"
+          "de": "p3",
+          "a": "7a",
+          "etiqueta": "Línea DC de alimentación controlada"
         },
         {
           "type": "res",
           "valor": 330,
-          "de": "5b",
-          "a": "9b",
-          "etiqueta": "R_amortiguación (330 Ω)"
+          "de": "7b",
+          "a": "11b",
+          "etiqueta": "R_amortiguación (330 Ω) limitadora"
+        },
+        {
+          "type": "diode",
+          "t": "1N4007",
+          "de": "11c",
+          "a": "7c",
+          "etiqueta": "Diodo volante flyback 1N4007 (supresor de transitorios)"
         },
         {
           "type": "res",
           "valor": 220,
-          "de": "9c",
-          "a": "13c",
-          "etiqueta": "R_bobina equivalente"
+          "de": "11d",
+          "a": "15d",
+          "etiqueta": "R_bobina (220 Ω) que modela el devanado inductivo L"
         },
         {
           "type": "wire",
           "color": "#111",
-          "de": "13e",
-          "a": "m13",
-          "etiqueta": "Retorno GND"
+          "de": "15e",
+          "a": "m15",
+          "etiqueta": "Retorno de corriente a GND"
         }
       ]
     },
@@ -432,34 +450,1063 @@
       "nivel": 1,
       "nivelNombre": "Nivel 1 — Análisis Avanzado de Circuitos",
       "laboratorioNumero": 9,
-      "nombre": "L1.9 — Impedancia Compleja y Fasores en Régimen Sinusoidal",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Comprobar relaciones fasoriales de tensión y corriente en impedancias Z = R + jX.",
-      "ecuaciones": "Z = |Z| /_ theta, V = I * Z",
-      "descripcion": "Comprobar relaciones fasoriales de tensión y corriente en impedancias Z = R + jX. Ecuaciones rectoras: Z = |Z| /_ theta, V = I * Z",
-      "medicionesEsperadas": "Desfase angular entre corriente y voltaje medido en osciloscopio.",
-      "diagnosticoResolucion": "Sincronizar el trigger del osciloscopio en el canal de tensión de entrada.",
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L1.9 — Impedancia Compleja y Red Desfasadora RC en Régimen AC",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Comprobar relaciones fasoriales de tensión y corriente en impedancias Z = R - jXc.",
+      "ecuaciones": "Z = sqrt(R^2 + Xc^2), theta = -arctan(1 / (2*pi*f*R*C))",
+      "descripcion": "Red desfasadora RC con monitoreo en doble canal de entrada y salida.",
+      "medicionesEsperadas": "Desfase angular medido en osciloscopio: V_salida atrasada ~45° a f=f_corte.",
+      "diagnosticoResolucion": "Verificar acoplamiento en modo AC en la sonda del osciloscopio.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
           "de": "p4",
+          "a": "8a",
+          "etiqueta": "Señal AC sinusoidal del generador de funciones"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "8b",
+          "a": "12b",
+          "etiqueta": "R_referencia (1 kΩ)"
+        },
+        {
+          "type": "cap",
+          "valor": "10 µF",
+          "de": "12c",
+          "a": "16c",
+          "etiqueta": "Condensador desfasador C (10 µF)"
+        },
+        {
+          "type": "res",
+          "valor": 2200,
+          "de": "16d",
+          "a": "m16",
+          "etiqueta": "Resistor de carga en derivación a GND (2.2 kΩ)"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "12e",
+          "a": "19e",
+          "etiqueta": "Sonda Canal 2 (V_out desfasada)"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "nivel": 1,
+      "nivelNombre": "Nivel 1 — Análisis Avanzado de Circuitos",
+      "laboratorioNumero": 10,
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L1.10 — Resonancia Serie RLC y Factor de Calidad (Q)",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Identificar la frecuencia de resonancia f_0 = 1 / (2*pi*sqrt(L*C)) y el ancho de banda BW.",
+      "ecuaciones": "f_0 = 1 / (2*pi*sqrt(L*C)), Q = (1/R) * sqrt(L/C)",
+      "descripcion": "Circuito RLC serie con respuesta de pico de corriente e indicador de resonancia.",
+      "medicionesEsperadas": "Impedancia mínima puramente resistiva (Z = R) y corriente pico en f = f_0.",
+      "diagnosticoResolucion": "Asegurar que el condensador y resistor compartan nodo serie 11 y 15.",
+      "pasos": [
+        {
+          "type": "wire",
+          "color": "#d22",
+          "de": "p3",
           "a": "7a",
-          "etiqueta": "Señal AC sinusoidal"
+          "etiqueta": "Entrada de señal de frecuencia variable (barrido)"
+        },
+        {
+          "type": "res",
+          "valor": 100,
+          "de": "7b",
+          "a": "11b",
+          "etiqueta": "R_Q (100 Ω): Resistor amortiguador que fija el factor Q"
+        },
+        {
+          "type": "cap",
+          "valor": "10 µF",
+          "de": "11c",
+          "a": "15c",
+          "etiqueta": "Condensador de sintonía C (10 µF)"
+        },
+        {
+          "type": "res",
+          "valor": 220,
+          "de": "15d",
+          "a": "19d",
+          "etiqueta": "Inductor serie equivalente L (devanado 220 Ω)"
+        },
+        {
+          "type": "led",
+          "color": "#3c3",
+          "de": "19e",
+          "a": "m19",
+          "etiqueta": "LED indicador de resonancia y máxima corriente"
+        },
+        {
+          "type": "wire",
+          "color": "#111",
+          "de": "19f",
+          "a": "m20",
+          "etiqueta": "GND de retorno del lazo RLC"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "nivel": 2,
+      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
+      "laboratorioNumero": 1,
+      "complejidad": "basico",
+      "complejidadTexto": "🟢 Sencillo",
+      "nombre": "L2.1 — Curva Característica I-V del Diodo Semiconductor",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Determinar la tensión de umbral V_gamma (0.7V en Si) y la resistencia dinámica r_d.",
+      "ecuaciones": "I_D = I_S * (e^(V_D / (n*V_T)) - 1), r_d = 26 mV / I_D",
+      "descripcion": "Polarización directa de diodo 1N4007 con resistencia limitadora de corriente.",
+      "medicionesEsperadas": "V_diodo = 0.68 V a 15 mA. Conducción exponencial clara sobre 0.6 V.",
+      "diagnosticoResolucion": "Verificar franja plateada (cátodo) hacia el terminal de menor potencial 10b.",
+      "pasos": [
+        {
+          "type": "wire",
+          "color": "#d22",
+          "de": "p3",
+          "a": "6a",
+          "etiqueta": "Fuente de voltaje variable V_in"
+        },
+        {
+          "type": "diode",
+          "t": "1N4007",
+          "de": "6b",
+          "a": "10b",
+          "etiqueta": "Diodo rectificador 1N4007: Ánodo en 6b, Cátodo en 10b"
+        },
+        {
+          "type": "res",
+          "valor": 330,
+          "de": "10c",
+          "a": "14c",
+          "etiqueta": "Resistor limitador R (330 Ω)"
+        },
+        {
+          "type": "wire",
+          "color": "#111",
+          "de": "14e",
+          "a": "m14",
+          "etiqueta": "Retorno a tierra GND"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "nivel": 2,
+      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
+      "laboratorioNumero": 2,
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L2.2 — Rectificador de Onda Completa con Filtro Capacitivo",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Transformar corriente alterna en continua mediante puente rectificador y condensador de filtrado.",
+      "ecuaciones": "V_dc = V_peak - 2*V_diode, V_rizado = I_dc / (2 * f * C)",
+      "descripcion": "Puente de diodos con condensador electrolítico de filtro y carga resistiva.",
+      "medicionesEsperadas": "Tensión DC suave con rizado inferior al 5% con C=100 µF.",
+      "diagnosticoResolucion": "Comprobar que el condensador electrolítico tenga su terminal negativo al riel GND.",
+      "pasos": [
+        {
+          "type": "wire",
+          "color": "#d22",
+          "de": "p2",
+          "a": "6a",
+          "etiqueta": "Fase AC de entrada secundaria 1"
+        },
+        {
+          "type": "wire",
+          "color": "#ea0",
+          "de": "p4",
+          "a": "8a",
+          "etiqueta": "Fase AC de entrada secundaria 2"
+        },
+        {
+          "type": "diode",
+          "t": "1N4007",
+          "de": "6b",
+          "a": "11b",
+          "etiqueta": "Diodo rectificador D1 hacia nodo positivo (+)"
+        },
+        {
+          "type": "diode",
+          "t": "1N4007",
+          "de": "8b",
+          "a": "11c",
+          "etiqueta": "Diodo rectificador D2 hacia nodo positivo (+)"
+        },
+        {
+          "type": "cap",
+          "valor": "100 µF",
+          "de": "11d",
+          "a": "m11",
+          "etiqueta": "Condensador electrolítico de filtrado (100 µF): Ánodo en 11d"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "11e",
+          "a": "15e",
+          "etiqueta": "Resistor de carga RL (1 kΩ)"
+        },
+        {
+          "type": "wire",
+          "color": "#111",
+          "de": "15f",
+          "a": "m15",
+          "etiqueta": "Retorno de referencia a GND"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "nivel": 2,
+      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
+      "laboratorioNumero": 3,
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L2.3 — Regulador de Tensión con Diodo Zener",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Estabilizar el voltaje de salida frente a variaciones de entrada mediante ruptura Zener inversa.",
+      "ecuaciones": "V_out = V_Z (5.1 V), I_S = (V_in - V_Z) / R_S, I_Z = I_S - I_L",
+      "descripcion": "Regulador en derivación con Zener 5.1V, resistencia serie limitadora y carga RL.",
+      "medicionesEsperadas": "V_out regulado a 5.08 V aun cuando V_in suba de 8V a 12V.",
+      "diagnosticoResolucion": "El Zener DEBE conectarse en polarización inversa: cátodo a nodo 11c y ánodo a tierra.",
+      "pasos": [
+        {
+          "type": "wire",
+          "color": "#d22",
+          "de": "p3",
+          "a": "7a",
+          "etiqueta": "Tensión de entrada no regulada V_in (9V - 12V)"
+        },
+        {
+          "type": "res",
+          "valor": 330,
+          "de": "7b",
+          "a": "11b",
+          "etiqueta": "Resistor de balasto serie Rs (330 Ω)"
+        },
+        {
+          "type": "diode",
+          "t": "Zener 5.1V",
+          "de": "11c",
+          "a": "m11",
+          "etiqueta": "Diodo Zener 5.1V en polarización inversa (Cátodo en 11c)"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "11d",
+          "a": "15d",
+          "etiqueta": "Resistor de carga RL (1 kΩ) en paralelo con Zener"
+        },
+        {
+          "type": "wire",
+          "color": "#111",
+          "de": "15e",
+          "a": "m15",
+          "etiqueta": "GND de referencia de retorno"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "nivel": 2,
+      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
+      "laboratorioNumero": 4,
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L2.4 — Polarización de Transistor BJT por Divisor de Tensión",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Fijar un punto de trabajo Q (V_ce, I_c) estable e inmune a las dispersiones del parámetro beta.",
+      "ecuaciones": "V_B = Vcc * R2 / (R1 + R2), I_E ~ (V_B - 0.7V) / R_E, V_CE = Vcc - I_C*(R_C + R_E)",
+      "descripcion": "Etapa de polarización universal BJT con divisor resistivo de base y estabilidad térmica.",
+      "medicionesEsperadas": "V_B = 1.8 V, V_E = 1.1 V, V_CE = 6.2 V (centrado en la recta de carga).",
+      "diagnosticoResolucion": "Comprobar el patillaje del BJT 2N2222: Colector (14c), Base (12d), Emisor (14e).",
+      "pasos": [
+        {
+          "type": "wire",
+          "color": "#d22",
+          "de": "p4",
+          "a": "8a",
+          "etiqueta": "Línea de alimentación Vcc (+12V)"
+        },
+        {
+          "type": "res",
+          "valor": 10000,
+          "de": "8b",
+          "a": "12b",
+          "etiqueta": "R1 divisor de base superior (10 kΩ)"
+        },
+        {
+          "type": "res",
+          "valor": 2200,
+          "de": "12c",
+          "a": "m12",
+          "etiqueta": "R2 divisor de base inferior (2.2 kΩ) a GND"
+        },
+        {
+          "type": "trans",
+          "t": "2N2222",
+          "de": "12d",
+          "a": "14d",
+          "etiqueta": "Transistor BJT NPN 2N2222: Base conectada a nodo 12d"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "8c",
+          "a": "14c",
+          "etiqueta": "Resistor de colector Rc (1 kΩ)"
+        },
+        {
+          "type": "res",
+          "valor": 330,
+          "de": "14e",
+          "a": "m14",
+          "etiqueta": "Resistor de emisor Re (330 Ω) de estabilidad térmica"
+        },
+        {
+          "type": "wire",
+          "color": "#111",
+          "de": "m14",
+          "a": "m16",
+          "etiqueta": "GND común"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "nivel": 2,
+      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
+      "laboratorioNumero": 5,
+      "complejidad": "complejo",
+      "complejidadTexto": "🔴 Complejo",
+      "nombre": "L2.5 — Amplificador BJT en Emisor Común (Pequeña Señal)",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Medir la ganancia de tensión A_v, impedancia de entrada y verificar el desfase de 180°.",
+      "ecuaciones": "A_v = -g_m * (Rc || R_L), g_m = I_cq / V_T = 40 * I_cq",
+      "descripcion": "Amplificador analógico con desacoplo de emisor y condensadores de acoplamiento AC.",
+      "medicionesEsperadas": "Ganancia de tensión A_v ~ -45 (inversión de 180° comprobada en osciloscopio).",
+      "diagnosticoResolucion": "Si la salida satura en el semiciclo positivo, aumentar la resistencia de emisor.",
+      "pasos": [
+        {
+          "type": "wire",
+          "color": "#d22",
+          "de": "p3",
+          "a": "7a",
+          "etiqueta": "Entrada de señal de audio/AC pequeña señal"
+        },
+        {
+          "type": "cap",
+          "valor": "10 µF",
+          "de": "7b",
+          "a": "11b",
+          "etiqueta": "Condensador de acoplamiento de entrada C_in (10 µF)"
+        },
+        {
+          "type": "trans",
+          "t": "2N2222",
+          "de": "11c",
+          "a": "13c",
+          "etiqueta": "Transistor amplificador 2N2222"
+        },
+        {
+          "type": "res",
+          "valor": 10000,
+          "de": "p5",
+          "a": "11d",
+          "etiqueta": "Resistor de polarización de base R_base (10 kΩ)"
+        },
+        {
+          "type": "res",
+          "valor": 2200,
+          "de": "p5",
+          "a": "13b",
+          "etiqueta": "Resistor de colector Rc (2.2 kΩ)"
+        },
+        {
+          "type": "res",
+          "valor": 330,
+          "de": "13d",
+          "a": "17d",
+          "etiqueta": "Resistor de emisor Re (330 Ω)"
+        },
+        {
+          "type": "cap",
+          "valor": "10 µF",
+          "de": "17e",
+          "a": "m17",
+          "etiqueta": "Condensador de desacoplo de emisor Ce (10 µF)"
+        },
+        {
+          "type": "wire",
+          "color": "#111",
+          "de": "m17",
+          "a": "m20",
+          "etiqueta": "GND común"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "nivel": 2,
+      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
+      "laboratorioNumero": 6,
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L2.6 — Seguidor de Emisor BJT (Colector Común y Buffer)",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Adaptación de impedancias: alta impedancia de entrada, muy baja de salida y ganancia unitaria.",
+      "ecuaciones": "A_v ~ 1.0, Z_in = R_B || (beta * R_E), Z_out ~ r_e",
+      "descripcion": "Buffer analógico para acoplar fuentes de alta impedancia sin caída de tensión.",
+      "medicionesEsperadas": "A_v = 0.98, sin inversión de fase, excelente entrega de corriente a la carga.",
+      "diagnosticoResolucion": "El colector debe conectarse directamente a Vcc sin resistencia intermedia.",
+      "pasos": [
+        {
+          "type": "wire",
+          "color": "#d22",
+          "de": "p4",
+          "a": "8a",
+          "etiqueta": "Señal analógica de entrada a la base"
+        },
+        {
+          "type": "trans",
+          "t": "2N2222",
+          "de": "8b",
+          "a": "12b",
+          "etiqueta": "Transistor 2N2222 en configuración Colector Común"
+        },
+        {
+          "type": "wire",
+          "color": "#d22",
+          "de": "p4",
+          "a": "12c",
+          "etiqueta": "Línea de alimentación directa a Colector (+Vcc)"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "12d",
+          "a": "16d",
+          "etiqueta": "Resistor de carga de emisor Re (1 kΩ)"
+        },
+        {
+          "type": "wire",
+          "color": "#111",
+          "de": "16e",
+          "a": "m16",
+          "etiqueta": "Retorno a GND"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "nivel": 2,
+      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
+      "laboratorioNumero": 7,
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L2.7 — Conmutación de Carga con MOSFET de Potencia Canal N",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Controlar cargas inductivas o de alta potencia mediante tensión de Gate con corriente nula.",
+      "ecuaciones": "I_D = K * (V_GS - V_th)^2 en saturación, P_loss = I_D^2 * R_DS(on)",
+      "descripcion": "Interruptor de estado sólido con MOSFET Canal N y resistor pull-down en compuerta.",
+      "medicionesEsperadas": "V_DS ~ 0.05 V en conducción activa (baja disipación térmica).",
+      "diagnosticoResolucion": "Asegurar que el resistor pull-down descargue el Gate al desactivar el control.",
+      "pasos": [
+        {
+          "type": "wire",
+          "color": "#d22",
+          "de": "p3",
+          "a": "7a",
+          "etiqueta": "Línea Vcc de potencia para la carga"
+        },
+        {
+          "type": "led",
+          "color": "#3c3",
+          "de": "7b",
+          "a": "11b",
+          "etiqueta": "Carga de potencia simulada (LED verde de alto brillo)"
+        },
+        {
+          "type": "res",
+          "valor": 220,
+          "de": "11c",
+          "a": "14c",
+          "etiqueta": "Resistor limitador de carga (220 Ω)"
+        },
+        {
+          "type": "trans",
+          "t": "MOSFET N-CH",
+          "de": "14d",
+          "a": "16d",
+          "etiqueta": "Transistor MOSFET Canal N (Drain en 14d, Gate en 16d)"
+        },
+        {
+          "type": "res",
+          "valor": 10000,
+          "de": "16e",
+          "a": "m16",
+          "etiqueta": "Resistor pull-down de Gate (10 kΩ) para apagado seguro"
+        },
+        {
+          "type": "wire",
+          "color": "#111",
+          "de": "14e",
+          "a": "m14",
+          "etiqueta": "Source del MOSFET a GND de referencia"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "nivel": 2,
+      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
+      "laboratorioNumero": 8,
+      "complejidad": "complejo",
+      "complejidadTexto": "🔴 Complejo",
+      "nombre": "L2.8 — Amplificador Operacional LM741: Configuraciones Inversora y No Inversora",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Implementar amplificación lineal con circuito integrado Op-Amp y calcular ganancia con realimentación negativa.",
+      "ecuaciones": "A_v(inversora) = -Rf / Rin, A_v(no inversora) = 1 + (Rf / Rin)",
+      "descripcion": "Montaje de chip DIP-8 LM741 con lazo de realimentación negativa y control de ganancia estable.",
+      "medicionesEsperadas": "A_v = -10.0 (con Rin=1 kΩ y Rf=10 kΩ). Salida invertida y lineal.",
+      "diagnosticoResolucion": "Verificar alimentación simétrica (+Vcc pin 7 en 11a, -Vee / GND pin 4 en 15e).",
+      "pasos": [
+        {
+          "type": "wire",
+          "color": "#d22",
+          "de": "p5",
+          "a": "11a",
+          "etiqueta": "Alimentación positiva Vcc+ (+12V) a pin 7 del Op-Amp"
+        },
+        {
+          "type": "ic",
+          "n": "LM741",
+          "de": "11b",
+          "a": "15b",
+          "etiqueta": "Circuito Integrado Op-Amp LM741 (DIP-8 sobre ranura central)"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "p3",
+          "a": "8a",
+          "etiqueta": "Entrada de señal analógica Vin"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "8b",
+          "a": "11c",
+          "etiqueta": "Resistor de entrada Rin (1 kΩ) hacia pin inversor (-)"
+        },
+        {
+          "type": "res",
+          "valor": 10000,
+          "de": "11d",
+          "a": "15c",
+          "etiqueta": "Resistor de realimentación Rf (10 kΩ) entre salida y pin (-)"
+        },
+        {
+          "type": "wire",
+          "color": "#111",
+          "de": "11e",
+          "a": "m11",
+          "etiqueta": "Pin no inversor (+) referenciado a GND común (tierra virtual)"
+        },
+        {
+          "type": "wire",
+          "color": "#111",
+          "de": "15e",
+          "a": "m15",
+          "etiqueta": "Alimentación negativa Vee / GND a pin 4 del LM741"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "nivel": 2,
+      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
+      "laboratorioNumero": 9,
+      "complejidad": "complejo",
+      "complejidadTexto": "🔴 Complejo",
+      "nombre": "L2.9 — Sumador Ponderado y Restador Diferencial con Op-Amp",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Realizar operaciones matemáticas analógicas en tiempo real (suma y resta de voltajes).",
+      "ecuaciones": "V_out = -(Rf/R1 * V1 + Rf/R2 * V2), CMRR = 20 * log(Ad / Ac)",
+      "descripcion": "Sumador analógico de dos canales con amplificador operacional LM358 de doble canal.",
+      "medicionesEsperadas": "V_out = -(V1 + 2*V2) validado con fuentes independientes.",
+      "diagnosticoResolucion": "Asegurar que ambas entradas analógicas compartan el nodo inversor de suma.",
+      "pasos": [
+        {
+          "type": "wire",
+          "color": "#d22",
+          "de": "p6",
+          "a": "12a",
+          "etiqueta": "Alimentación Vcc (+12V) al chip analógico"
+        },
+        {
+          "type": "ic",
+          "n": "LM358",
+          "de": "12b",
+          "a": "16b",
+          "etiqueta": "Circuito Integrado Op-Amp Dual LM358"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "p3",
+          "a": "12c",
+          "etiqueta": "Entrada V1 canal 1 mediante R1 (1 kΩ)"
+        },
+        {
+          "type": "res",
+          "valor": 2200,
+          "de": "p4",
+          "a": "12d",
+          "etiqueta": "Entrada V2 canal 2 ponderada mediante R2 (2.2 kΩ)"
+        },
+        {
+          "type": "res",
+          "valor": 10000,
+          "de": "12e",
+          "a": "16c",
+          "etiqueta": "Resistor de realimentación Rf (10 kΩ) al pin de salida"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "12f",
+          "a": "m12",
+          "etiqueta": "Resistor de compensación en entrada no inversora a GND"
+        },
+        {
+          "type": "wire",
+          "color": "#111",
+          "de": "16e",
+          "a": "m16",
+          "etiqueta": "GND de retorno del circuito integrado"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "nivel": 2,
+      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
+      "laboratorioNumero": 10,
+      "complejidad": "complejo",
+      "complejidadTexto": "🔴 Complejo",
+      "nombre": "L2.10 — Filtro Activo Pasa-Bajos Sallen-Key de Segundo Orden",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Atenuación de -40 dB/década por encima de la frecuencia de corte f_c y factor de calidad Butterworth.",
+      "ecuaciones": "f_c = 1 / (2*pi*sqrt(R1*R2*C1*C2)), Q = 0.707 (Butterworth plano)",
+      "descripcion": "Filtro activo de segundo orden con topología Sallen-Key y Op-Amp JFET TL081.",
+      "medicionesEsperadas": "Atenuación de -3 dB en f = f_c y pendiente de caída de -40 dB/década.",
+      "diagnosticoResolucion": "Verificar que el condensador C1 cierre la realimentación hacia la salida del Op-Amp.",
+      "pasos": [
+        {
+          "type": "wire",
+          "color": "#d22",
+          "de": "p4",
+          "a": "10a",
+          "etiqueta": "Alimentación Vcc+ (+12V) al integrado"
+        },
+        {
+          "type": "ic",
+          "n": "TL081",
+          "de": "10b",
+          "a": "14b",
+          "etiqueta": "Amplificador Operacional de bajo ruido JFET TL081"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "p2",
+          "a": "7a",
+          "etiqueta": "Entrada de señal analógica multifrecuencia"
         },
         {
           "type": "res",
           "valor": 1000,
           "de": "7b",
-          "a": "11b",
-          "etiqueta": "R_referencia (1 kΩ)"
+          "a": "10c",
+          "etiqueta": "Resistor de filtrado R1 (1 kΩ)"
+        },
+        {
+          "type": "cap",
+          "valor": "10 µF",
+          "de": "7c",
+          "a": "14c",
+          "etiqueta": "Condensador C1 de realimentación activa a salida"
+        },
+        {
+          "type": "cap",
+          "valor": "10 µF",
+          "de": "10d",
+          "a": "m10",
+          "etiqueta": "Condensador C2 a tierra para segundo polo"
         },
         {
           "type": "res",
           "valor": 2200,
-          "de": "11c",
-          "a": "15c",
-          "etiqueta": "Z_compleja equivalente"
+          "de": "14d",
+          "a": "18d",
+          "etiqueta": "Resistor de carga de salida (2.2 kΩ)"
+        },
+        {
+          "type": "wire",
+          "color": "#111",
+          "de": "18e",
+          "a": "m18",
+          "etiqueta": "GND de referencia del filtro"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "nivel": 3,
+      "nivelNombre": "Nivel 3 — Electrónica Digital y Sistemas Secuenciales",
+      "laboratorioNumero": 1,
+      "complejidad": "basico",
+      "complejidadTexto": "🟢 Sencillo",
+      "nombre": "L3.1 — Compuertas Lógicas Fundamentales y Teoremas de De Morgan",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Implementar compuertas AND/NAND mediante chips TTL y comprobar tablas de verdad.",
+      "ecuaciones": "Y = A * B, (A * B)' = A' + B'",
+      "descripcion": "Circuito integrado 74LS08 con entradas digitales y LED indicador de salida lógica.",
+      "medicionesEsperadas": "Salida Y = HIGH (5V) únicamente cuando A=1 y B=1.",
+      "diagnosticoResolucion": "Verificar alimentación pin 14 a Vcc (+5V) y pin 7 a GND del chip TTL.",
+      "pasos": [
+        {
+          "type": "wire",
+          "color": "#d22",
+          "de": "p3",
+          "a": "8a",
+          "etiqueta": "Vcc +5V a pin 14 del integrado digital 74LS08"
+        },
+        {
+          "type": "ic",
+          "n": "74LS08",
+          "de": "8b",
+          "a": "14b",
+          "etiqueta": "IC 74LS08 Quad 2-Input AND Gate (DIP-14)"
+        },
+        {
+          "type": "wire",
+          "color": "#ea0",
+          "de": "p3",
+          "a": "8c",
+          "etiqueta": "Entrada lógica A conectada a nivel lógico HIGH"
+        },
+        {
+          "type": "wire",
+          "color": "#ea0",
+          "de": "p4",
+          "a": "8d",
+          "etiqueta": "Entrada lógica B conectada a nivel lógico HIGH"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "8e",
+          "a": "m8",
+          "etiqueta": "Resistor pull-down de protección (1 kΩ)"
+        },
+        {
+          "type": "res",
+          "valor": 330,
+          "de": "14c",
+          "a": "18c",
+          "etiqueta": "Resistor limitador de salida lógica (330 Ω)"
+        },
+        {
+          "type": "led",
+          "color": "#3c3",
+          "de": "18d",
+          "a": "m18",
+          "etiqueta": "LED verde indicador del estado de salida (Y = 1)"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "nivel": 3,
+      "nivelNombre": "Nivel 3 — Electrónica Digital y Sistemas Secuenciales",
+      "laboratorioNumero": 2,
+      "complejidad": "complejo",
+      "complejidadTexto": "🔴 Complejo",
+      "nombre": "L3.2 — Decodificador BCD a 7 Segmentos y Multiplexado Temporal",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Traducir código binario de 4 bits (0000 a 1001) a patrones visuales de display numérico.",
+      "ecuaciones": "Display a-g = f(A, B, C, D)",
+      "descripcion": "Decodificador BCD a 7 segmentos 74LS47 con bus de resistencias limitadoras.",
+      "medicionesEsperadas": "Decodificación correcta de dígitos 0-9 en salidas a-g en nivel activo bajo.",
+      "diagnosticoResolucion": "Si algún segmento no enciende, verificar la resistencia correspondiente.",
+      "pasos": [
+        {
+          "type": "wire",
+          "color": "#d22",
+          "de": "p6",
+          "a": "12a",
+          "etiqueta": "Alimentación Vcc +5V al decodificador"
+        },
+        {
+          "type": "ic",
+          "n": "74LS47",
+          "de": "12b",
+          "a": "16b",
+          "etiqueta": "Circuito Integrado Decodificador BCD 74LS47 (DIP-16)"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "p2",
+          "a": "12c",
+          "etiqueta": "Entrada BCD Bit 0 (LSB A)"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "p3",
+          "a": "12d",
+          "etiqueta": "Entrada BCD Bit 1 (B)"
+        },
+        {
+          "type": "res",
+          "valor": 330,
+          "de": "16c",
+          "a": "20c",
+          "etiqueta": "Resistor limitador segmento a (330 Ω)"
+        },
+        {
+          "type": "res",
+          "valor": 330,
+          "de": "16d",
+          "a": "20d",
+          "etiqueta": "Resistor limitador segmento b (330 Ω)"
+        },
+        {
+          "type": "led",
+          "color": "#3c3",
+          "de": "20e",
+          "a": "m20",
+          "etiqueta": "LED indicador de segmento activo"
+        },
+        {
+          "type": "wire",
+          "color": "#111",
+          "de": "12e",
+          "a": "m12",
+          "etiqueta": "GND común del integrado"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "nivel": 3,
+      "nivelNombre": "Nivel 3 — Electrónica Digital y Sistemas Secuenciales",
+      "laboratorioNumero": 3,
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L3.3 — Multiplexores y Demultiplexores (Rutas de Datos Digitales)",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Seleccionar 1 de 4 canales de datos binarios mediante líneas de direccionamiento de control.",
+      "ecuaciones": "Y = S1' * S0' * I0 + S1' * S0 * I1 + S1 * S0' * I2 + S1 * S0 * I3",
+      "descripcion": "Multiplexor digital 74LS153 de cuatro canales de entrada a una salida conmutada.",
+      "medicionesEsperadas": "La salida refleja la señal del canal seleccionado por S1 y S0.",
+      "diagnosticoResolucion": "Verificar nivel lógico definido en las líneas de selección mediante pull-up.",
+      "pasos": [
+        {
+          "type": "wire",
+          "color": "#d22",
+          "de": "p4",
+          "a": "10a",
+          "etiqueta": "Vcc 5V a pin de alimentación del multiplexor"
+        },
+        {
+          "type": "ic",
+          "n": "74LS153",
+          "de": "10b",
+          "a": "15b",
+          "etiqueta": "IC Multiplexor Digital 4:1 74LS153"
+        },
+        {
+          "type": "wire",
+          "color": "#ea0",
+          "de": "p2",
+          "a": "10c",
+          "etiqueta": "Línea de selección de canal S0"
+        },
+        {
+          "type": "wire",
+          "color": "#ea0",
+          "de": "p3",
+          "a": "10d",
+          "etiqueta": "Línea de selección de canal S1"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "10e",
+          "a": "p10",
+          "etiqueta": "Resistor pull-up de polarización (1 kΩ)"
+        },
+        {
+          "type": "res",
+          "valor": 330,
+          "de": "15c",
+          "a": "19c",
+          "etiqueta": "Resistor limitador de salida Y (330 Ω)"
+        },
+        {
+          "type": "led",
+          "color": "#3c3",
+          "de": "19d",
+          "a": "m19",
+          "etiqueta": "LED indicador de dato transmitido"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "nivel": 3,
+      "nivelNombre": "Nivel 3 — Electrónica Digital y Sistemas Secuenciales",
+      "laboratorioNumero": 4,
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L3.4 — Comparador de Magnitud Digital y Unidad Aritmética",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Comparar dos palabras binarias A y B determinando las condiciones A > B, A = B y A < B.",
+      "ecuaciones": "A=B si A3=B3 y A2=B2 y A1=B1 y A0=B0",
+      "descripcion": "Comparador de magnitud 74LS85 con visualización de estado en LEDs tricolores.",
+      "medicionesEsperadas": "Activación exacta de la bandera de igualdad o desigualdad según las entradas.",
+      "diagnosticoResolucion": "Las entradas de cascada A=B_in deben conectarse a nivel alto si no hay etapas previas.",
+      "pasos": [
+        {
+          "type": "wire",
+          "color": "#d22",
+          "de": "p5",
+          "a": "11a",
+          "etiqueta": "Vcc 5V al comparador de magnitud"
+        },
+        {
+          "type": "ic",
+          "n": "74LS85",
+          "de": "11b",
+          "a": "16b",
+          "etiqueta": "IC Comparador de Magnitud 4-Bits 74LS85"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "p2",
+          "a": "11c",
+          "etiqueta": "Entrada de dato binario A0 (HIGH)"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "m2",
+          "a": "11d",
+          "etiqueta": "Entrada de dato binario B0 (LOW)"
+        },
+        {
+          "type": "res",
+          "valor": 330,
+          "de": "16c",
+          "a": "20c",
+          "etiqueta": "Resistor limitador salida A > B (330 Ω)"
+        },
+        {
+          "type": "led",
+          "color": "#e33",
+          "de": "20d",
+          "a": "m20",
+          "etiqueta": "LED indicador de condición A > B"
+        },
+        {
+          "type": "wire",
+          "color": "#111",
+          "de": "11e",
+          "a": "m11",
+          "etiqueta": "GND de referencia"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "nivel": 3,
+      "nivelNombre": "Nivel 3 — Electrónica Digital y Sistemas Secuenciales",
+      "laboratorioNumero": 5,
+      "complejidad": "complejo",
+      "complejidadTexto": "🔴 Complejo",
+      "nombre": "L3.5 — Biestables (Flip-Flops D, JK y T) y Tiempos de Setup/Hold",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Comprobar el almacenamiento de 1 bit síncrono disparado por flanco de subida del reloj CLK.",
+      "ecuaciones": "Q(t+1) = D, Q(t+1) = J*Q' + K'*Q",
+      "descripcion": "Flip-Flop dual tipo D 74LS74 con pulsador de reloj antirrebote y estado Q/Q_neg.",
+      "medicionesEsperadas": "El dato D se transfiere a Q únicamente en el flanco positivo del pulso CLK.",
+      "diagnosticoResolucion": "Verificar que las entradas PRE y CLR asíncronas estén amarradas a Vcc.",
+      "pasos": [
+        {
+          "type": "wire",
+          "color": "#d22",
+          "de": "p4",
+          "a": "10a",
+          "etiqueta": "Alimentación Vcc +5V al chip secuencial"
+        },
+        {
+          "type": "ic",
+          "n": "74LS74",
+          "de": "10b",
+          "a": "15b",
+          "etiqueta": "IC Flip-Flop D Dual disparado por flanco 74LS74"
+        },
+        {
+          "type": "wire",
+          "color": "#ea0",
+          "de": "p2",
+          "a": "10c",
+          "etiqueta": "Línea de Reloj síncrono CLK"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "p3",
+          "a": "10d",
+          "etiqueta": "Entrada síncrona de datos D"
+        },
+        {
+          "type": "btn",
+          "de": "10e",
+          "a": "m10",
+          "etiqueta": "Pulsador manual para disparo de reloj CLK"
+        },
+        {
+          "type": "res",
+          "valor": 330,
+          "de": "15c",
+          "a": "19c",
+          "etiqueta": "Resistor limitador salida Q (330 Ω)"
+        },
+        {
+          "type": "led",
+          "color": "#3c3",
+          "de": "19d",
+          "a": "m19",
+          "etiqueta": "LED indicador del estado almacenado Q"
         },
         {
           "type": "wire",
@@ -471,732 +1518,75 @@
       ]
     },
     {
-      "id": 9,
-      "nivel": 1,
-      "nivelNombre": "Nivel 1 — Análisis Avanzado de Circuitos",
-      "laboratorioNumero": 10,
-      "nombre": "L1.10 — Resonancia Serie RLC y Factor de Calidad (Q)",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Identificar la frecuencia de resonancia f_0 = 1 / (2*pi*sqrt(L*C)) y ancho de banda.",
-      "ecuaciones": "w_0 = 1/sqrt(LC), Q = w_0 * L / R = f_0 / BW",
-      "descripcion": "Identificar la frecuencia de resonancia f_0 = 1 / (2*pi*sqrt(L*C)) y ancho de banda. Ecuaciones rectoras: w_0 = 1/sqrt(LC), Q = w_0 * L / R = f_0 / BW",
-      "medicionesEsperadas": "Impedancia mínima puramente resistiva a la frecuencia de resonancia.",
-      "diagnosticoResolucion": "A frecuencias elevadas, las capacidades parásitas del protoboard reducen f_0.",
-      "pasos": [
-        {
-          "type": "wire",
-          "color": "#d22",
-          "de": "p3",
-          "a": "6a",
-          "etiqueta": "Generador de barrido f"
-        },
-        {
-          "type": "res",
-          "valor": 220,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "R_Q (220 Ω)"
-        },
-        {
-          "type": "led",
-          "color": "#3c3",
-          "de": "10c",
-          "a": "14c",
-          "etiqueta": "Detector de resonancia"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND"
-        }
-      ]
-    },
-    {
-      "id": 10,
-      "nivel": 2,
-      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
-      "laboratorioNumero": 1,
-      "nombre": "L2.1 — Curva Característica I-V del Diodo p-n y Resistencia Dinámica",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Determinar la tensión de corte V_gamma y la resistencia dinámica r_d = dV/dI.",
-      "ecuaciones": "I_D = I_S * (e^(V_D / (n*V_T)) - 1), r_d = 26mV / I_D",
-      "descripcion": "Determinar la tensión de corte V_gamma y la resistencia dinámica r_d = dV/dI. Ecuaciones rectoras: I_D = I_S * (e^(V_D / (n*V_T)) - 1), r_d = 26mV / I_D",
-      "medicionesEsperadas": "V_gamma ~ 0.7V en Si, ~1.8V en LED rojo.",
-      "diagnosticoResolucion": "Polarización inversa excesiva puede superar la tensión de ruptura zener.",
-      "pasos": [
-        {
-          "type": "wire",
-          "color": "#d22",
-          "de": "p3",
-          "a": "6a",
-          "etiqueta": "Fuente Vcc variable"
-        },
-        {
-          "type": "res",
-          "valor": 330,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "R_limitadora (330 Ω)"
-        },
-        {
-          "type": "led",
-          "color": "#e33",
-          "de": "10c",
-          "a": "14c",
-          "etiqueta": "Diodo Silicio / LED"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "Retorno a GND"
-        }
-      ]
-    },
-    {
-      "id": 11,
-      "nivel": 2,
-      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
-      "laboratorioNumero": 2,
-      "nombre": "L2.2 — Rectificador de Media Onda y Onda Completa con Filtro Capacitivo",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Evaluar factor de rizado r = V_ac_rms / V_dc y tiempo de conducción de diodos.",
-      "ecuaciones": "V_dc = V_peak - (I_dc / (2*f*C)), r = 1 / (2*sqrt(3)*f*R*C)",
-      "descripcion": "Evaluar factor de rizado r = V_ac_rms / V_dc y tiempo de conducción de diodos. Ecuaciones rectoras: V_dc = V_peak - (I_dc / (2*f*C)), r = 1 / (2*sqrt(3)*f*R*C)",
-      "medicionesEsperadas": "Tensión continua regulada con rizado inversamente proporcional a C.",
-      "diagnosticoResolucion": "Verificar la corriente pico repetitiva en los diodos durante el encendido.",
-      "pasos": [
-        {
-          "type": "wire",
-          "color": "#d22",
-          "de": "p2",
-          "a": "5a",
-          "etiqueta": "Secundario transformador"
-        },
-        {
-          "type": "led",
-          "color": "#e33",
-          "de": "5b",
-          "a": "9b",
-          "etiqueta": "Diodo rectificador"
-        },
-        {
-          "type": "res",
-          "valor": 1000,
-          "de": "9c",
-          "a": "13c",
-          "etiqueta": "R_carga (1 kΩ)"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "13e",
-          "a": "m13",
-          "etiqueta": "Referencia central"
-        }
-      ]
-    },
-    {
-      "id": 12,
-      "nivel": 2,
-      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
-      "laboratorioNumero": 3,
-      "nombre": "L2.3 — Regulador de Voltaje con Diodo Zener",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Analizar regulación de línea (dVo/dVin) y regulación de carga (dVo/dIL).",
-      "ecuaciones": "V_out = V_Z, I_Z = (V_in - V_Z)/R_S - I_L",
-      "descripcion": "Analizar regulación de línea (dVo/dVin) y regulación de carga (dVo/dIL). Ecuaciones rectoras: V_out = V_Z, I_Z = (V_in - V_Z)/R_S - I_L",
-      "medicionesEsperadas": "V_out constante ante fluctuaciones de V_in superiores a V_Z.",
-      "diagnosticoResolucion": "Si I_Z cae bajo la corriente de codo (I_Zk), se pierde la regulación.",
-      "pasos": [
-        {
-          "type": "wire",
-          "color": "#d22",
-          "de": "p4",
-          "a": "7a",
-          "etiqueta": "V_in no regulada"
-        },
-        {
-          "type": "res",
-          "valor": 330,
-          "de": "7b",
-          "a": "11b",
-          "etiqueta": "R_serie (330 Ω)"
-        },
-        {
-          "type": "led",
-          "color": "#3c3",
-          "de": "11c",
-          "a": "15c",
-          "etiqueta": "Zener de regulación"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "15e",
-          "a": "m15",
-          "etiqueta": "GND"
-        }
-      ]
-    },
-    {
-      "id": 13,
-      "nivel": 2,
-      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
-      "laboratorioNumero": 4,
-      "nombre": "L2.4 — Polarización del Transistor BJT por Divisor de Tensión",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Establecer un punto Q estable e independiente de las variaciones térmicas de beta.",
-      "ecuaciones": "V_TH = V_CC * R2/(R1+R2), I_C = (V_TH - V_BE) / (R_TH/beta + R_E)",
-      "descripcion": "Establecer un punto Q estable e independiente de las variaciones térmicas de beta. Ecuaciones rectoras: V_TH = V_CC * R2/(R1+R2), I_C = (V_TH - V_BE) / (R_TH/beta + R_E)",
-      "medicionesEsperadas": "V_CE_Q en la mitad de la recta de carga estática para máxima excursión simétrica.",
-      "diagnosticoResolucion": "Cálculo de R_TH <= 0.1 * beta * R_E para inmunidad frente a dispersión de h_fe.",
-      "pasos": [
-        {
-          "type": "wire",
-          "color": "#d22",
-          "de": "p3",
-          "a": "6a",
-          "etiqueta": "V_CC 12V"
-        },
-        {
-          "type": "res",
-          "valor": 2200,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "R_colector (2.2 kΩ)"
-        },
-        {
-          "type": "led",
-          "color": "#e33",
-          "de": "10c",
-          "a": "14c",
-          "etiqueta": "BJT Canal activo"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND"
-        }
-      ]
-    },
-    {
-      "id": 14,
-      "nivel": 2,
-      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
-      "laboratorioNumero": 5,
-      "nombre": "L2.5 — Amplificador BJT en Emisor Común (Pequeña Señal)",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Calcular y medir la ganancia de tensión A_v, impedancia de entrada Z_in y salida Z_out.",
-      "ecuaciones": "A_v = -g_m * (R_C || R_L), g_m = I_CQ / V_T",
-      "descripcion": "Calcular y medir la ganancia de tensión A_v, impedancia de entrada Z_in y salida Z_out. Ecuaciones rectoras: A_v = -g_m * (R_C || R_L), g_m = I_CQ / V_T",
-      "medicionesEsperadas": "Inversión de fase de 180° y amplificación de pequeña señal (|A_v| > 15).",
-      "diagnosticoResolucion": "Saturación o corte observado en la cresta si la señal de entrada excede 20 mV_pp.",
-      "pasos": [
-        {
-          "type": "wire",
-          "color": "#d22",
-          "de": "p4",
-          "a": "7a",
-          "etiqueta": "Entrada v_in ac"
-        },
-        {
-          "type": "res",
-          "valor": 1000,
-          "de": "7b",
-          "a": "11b",
-          "etiqueta": "R_base (1 kΩ)"
-        },
-        {
-          "type": "res",
-          "valor": 2200,
-          "de": "11c",
-          "a": "15c",
-          "etiqueta": "R_colector (2.2 kΩ)"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "15e",
-          "a": "m15",
-          "etiqueta": "GND"
-        }
-      ]
-    },
-    {
-      "id": 15,
-      "nivel": 2,
-      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
-      "laboratorioNumero": 6,
-      "nombre": "L2.6 — Seguidor de Emisor BJT (Colector Común)",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Comprobar amplificación de corriente unitaria de tensión e impedancia de entrada muy alta.",
-      "ecuaciones": "A_v ~ 1, Z_in ~ beta * (r_e + R_E), Z_out ~ r_e + R_B/beta",
-      "descripcion": "Comprobar amplificación de corriente unitaria de tensión e impedancia de entrada muy alta. Ecuaciones rectoras: A_v ~ 1, Z_in ~ beta * (r_e + R_E), Z_out ~ r_e + R_B/beta",
-      "medicionesEsperadas": "Adaptador de impedancias idóneo para etapas de salida.",
-      "diagnosticoResolucion": "Distorsión de cruce si la excursión negativa excede el potencial de emisor continuo.",
-      "pasos": [
-        {
-          "type": "wire",
-          "color": "#d22",
-          "de": "p3",
-          "a": "6a",
-          "etiqueta": "Señal analógica de alta impedancia"
-        },
-        {
-          "type": "res",
-          "valor": 1000,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "R_polarización (1 kΩ)"
-        },
-        {
-          "type": "res",
-          "valor": 330,
-          "de": "10c",
-          "a": "14c",
-          "etiqueta": "R_emisor de carga (330 Ω)"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND"
-        }
-      ]
-    },
-    {
-      "id": 16,
-      "nivel": 2,
-      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
-      "laboratorioNumero": 7,
-      "nombre": "L2.7 — Polarización y Conmutación de MOSFETs de Canal N",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Evaluar la transconductancia g_fs y la resistencia de conducción R_DS(on).",
-      "ecuaciones": "I_D = 0.5 * mu_n * C_ox * (W/L) * (V_GS - V_th)^2",
-      "descripcion": "Evaluar la transconductancia g_fs y la resistencia de conducción R_DS(on). Ecuaciones rectoras: I_D = 0.5 * mu_n * C_ox * (W/L) * (V_GS - V_th)^2",
-      "medicionesEsperadas": "Corriente de compuerta nula en régimen estacionario (I_G = 0).",
-      "diagnosticoResolucion": "Proteger el gate con diodo zener contra descargas electrostáticas (ESD).",
-      "pasos": [
-        {
-          "type": "wire",
-          "color": "#d22",
-          "de": "p5",
-          "a": "8a",
-          "etiqueta": "Línea de potencia 12V"
-        },
-        {
-          "type": "res",
-          "valor": 330,
-          "de": "8b",
-          "a": "12b",
-          "etiqueta": "Carga resistiva de potencia"
-        },
-        {
-          "type": "led",
-          "color": "#3c3",
-          "de": "12c",
-          "a": "16c",
-          "etiqueta": "MOSFET N-Channel"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "16e",
-          "a": "m16",
-          "etiqueta": "Source a GND"
-        }
-      ]
-    },
-    {
-      "id": 17,
-      "nivel": 2,
-      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
-      "laboratorioNumero": 8,
-      "nombre": "L2.8 — Amplificador Operacional: Configuraciones Inversora y No Inversora",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Comprobar el concepto de cortocircuito virtual (V+ = V-) y ganancia en lazo cerrado.",
-      "ecuaciones": "A_inv = -R_f / R_in, A_no_inv = 1 + R_f / R_in",
-      "descripcion": "Comprobar el concepto de cortocircuito virtual (V+ = V-) y ganancia en lazo cerrado. Ecuaciones rectoras: A_inv = -R_f / R_in, A_no_inv = 1 + R_f / R_in",
-      "medicionesEsperadas": "Ganancia teórica inversora A_v = -2.2, ancho de banda limitado por GBP.",
-      "diagnosticoResolucion": "Saturación a los rieles de alimentación si |A_v * v_in| > V_supply.",
-      "pasos": [
-        {
-          "type": "wire",
-          "color": "#d22",
-          "de": "p3",
-          "a": "6a",
-          "etiqueta": "Entrada de señal analógica"
-        },
-        {
-          "type": "res",
-          "valor": 1000,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "R_in (1 kΩ)"
-        },
-        {
-          "type": "res",
-          "valor": 2200,
-          "de": "10c",
-          "a": "14c",
-          "etiqueta": "R_feedback (2.2 kΩ)"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND"
-        }
-      ]
-    },
-    {
-      "id": 18,
-      "nivel": 2,
-      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
-      "laboratorioNumero": 9,
-      "nombre": "L2.9 — Sumador Ponderado y Restador Diferencial con Op-Amp",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Implementar operaciones matemáticas analógicas y calcular el rechazo en modo común (CMRR).",
-      "ecuaciones": "V_out = -( (R_f/R1)*V1 + (R_f/R2)*V2 ), CMRR = |A_d / A_cm|",
-      "descripcion": "Implementar operaciones matemáticas analógicas y calcular el rechazo en modo común (CMRR). Ecuaciones rectoras: V_out = -( (R_f/R1)*V1 + (R_f/R2)*V2 ), CMRR = |A_d / A_cm|",
-      "medicionesEsperadas": "Combinación lineal precisa de las señales analógicas de entrada.",
-      "diagnosticoResolucion": "El desbalance en resistencias del restador degrada drásticamente el CMRR.",
-      "pasos": [
-        {
-          "type": "wire",
-          "color": "#d22",
-          "de": "p2",
-          "a": "5a",
-          "etiqueta": "Canal analógico V1"
-        },
-        {
-          "type": "res",
-          "valor": 1000,
-          "de": "5b",
-          "a": "9b",
-          "etiqueta": "R_entrada 1 (1 kΩ)"
-        },
-        {
-          "type": "res",
-          "valor": 1000,
-          "de": "9c",
-          "a": "13c",
-          "etiqueta": "R_entrada 2 (1 kΩ)"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "13e",
-          "a": "m13",
-          "etiqueta": "GND"
-        }
-      ]
-    },
-    {
-      "id": 19,
-      "nivel": 2,
-      "nivelNombre": "Nivel 2 — Electrónica Analógica y Semiconductores",
-      "laboratorioNumero": 10,
-      "nombre": "L2.10 — Filtro Activo Pasa-Bajos Sallen-Key de Segundo Orden",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Diseñar y verificar la respuesta en frecuencia Butterworth con caída de -40 dB/década.",
-      "ecuaciones": "f_c = 1 / (2*pi*sqrt(R1*R2*C1*C2)), Q = 0.707 (Butterworth)",
-      "descripcion": "Diseñar y verificar la respuesta en frecuencia Butterworth con caída de -40 dB/década. Ecuaciones rectoras: f_c = 1 / (2*pi*sqrt(R1*R2*C1*C2)), Q = 0.707 (Butterworth)",
-      "medicionesEsperadas": "Atenuación de 3 dB en la frecuencia de corte f_c y respuesta plana en banda pasante.",
-      "diagnosticoResolucion": "Oscilaciones parasitarias si la ganancia en lazo cerrado excede 3.",
-      "pasos": [
-        {
-          "type": "wire",
-          "color": "#d22",
-          "de": "p4",
-          "a": "7a",
-          "etiqueta": "Generador de barrido de frecuencia"
-        },
-        {
-          "type": "res",
-          "valor": 1000,
-          "de": "7b",
-          "a": "11b",
-          "etiqueta": "R1 de filtrado (1 kΩ)"
-        },
-        {
-          "type": "res",
-          "valor": 1000,
-          "de": "11c",
-          "a": "15c",
-          "etiqueta": "R2 de filtrado (1 kΩ)"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "15e",
-          "a": "m15",
-          "etiqueta": "GND"
-        }
-      ]
-    },
-    {
-      "id": 20,
-      "nivel": 3,
-      "nivelNombre": "Nivel 3 — Electrónica Digital y Sistemas Secuenciales",
-      "laboratorioNumero": 1,
-      "nombre": "L3.1 — Compuertas Lógicas Fundamentales y Teoremas de De Morgan",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Verificar tablas de verdad de NAND, NOR, XOR y optimización mediante álgebra booleana.",
-      "ecuaciones": "not(A and B) = not(A) or not(B), not(A or B) = not(A) and not(B)",
-      "descripcion": "Verificar tablas de verdad de NAND, NOR, XOR y optimización mediante álgebra booleana. Ecuaciones rectoras: not(A and B) = not(A) or not(B), not(A or B) = not(A) and not(B)",
-      "medicionesEsperadas": "Niveles lógicos TTL: V_IL < 0.8V, V_IH > 2.0V.",
-      "diagnosticoResolucion": "Pines de entrada flotantes en CMOS causan consumos espurios y estados erráticos.",
-      "pasos": [
-        {
-          "type": "wire",
-          "color": "#d22",
-          "de": "p3",
-          "a": "6a",
-          "etiqueta": "Lógica Vcc 5V (Nivel 1)"
-        },
-        {
-          "type": "res",
-          "valor": 330,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "R_pull-down (330 Ω)"
-        },
-        {
-          "type": "led",
-          "color": "#3c3",
-          "de": "10c",
-          "a": "14c",
-          "etiqueta": "Indicador lógico de salida"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND"
-        }
-      ]
-    },
-    {
-      "id": 21,
-      "nivel": 3,
-      "nivelNombre": "Nivel 3 — Electrónica Digital y Sistemas Secuenciales",
-      "laboratorioNumero": 2,
-      "nombre": "L3.2 — Decodificador BCD a 7 Segmentos y Multiplexado Temporal",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Construir la decodificación de 4 bits para displays de cátodo/ánodo común.",
-      "ecuaciones": "f(A,B,C,D) sintetizado con mapas de Karnaugh.",
-      "descripcion": "Construir la decodificación de 4 bits para displays de cátodo/ánodo común. Ecuaciones rectoras: f(A,B,C,D) sintetizado con mapas de Karnaugh.",
-      "medicionesEsperadas": "Representación correcta de dígitos hexadecimales 0-9 y A-F.",
-      "diagnosticoResolucion": "Verificar polaridad si los segmentos no encienden (ánodo vs cátodo común).",
-      "pasos": [
-        {
-          "type": "wire",
-          "color": "#d22",
-          "de": "p2",
-          "a": "5a",
-          "etiqueta": "Bus BCD de entrada"
-        },
-        {
-          "type": "res",
-          "valor": 330,
-          "de": "5b",
-          "a": "9b",
-          "etiqueta": "Array limitador segmento A-G"
-        },
-        {
-          "type": "led",
-          "color": "#e33",
-          "de": "9c",
-          "a": "13c",
-          "etiqueta": "Segmento display 7-seg"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "13e",
-          "a": "m13",
-          "etiqueta": "Cátodo común a tierra"
-        }
-      ]
-    },
-    {
-      "id": 22,
-      "nivel": 3,
-      "nivelNombre": "Nivel 3 — Electrónica Digital y Sistemas Secuenciales",
-      "laboratorioNumero": 3,
-      "nombre": "L3.3 — Multiplexores y Demultiplexores (Rutas de Datos Digitales)",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Sintetizar funciones lógicas arbitrarias empleando multiplexores 4:1 y 8:1.",
-      "ecuaciones": "Y = S1' * S0' * D0 + S1' * S0 * D1 + S1 * S0' * D2 + S1 * S0 * D3",
-      "descripcion": "Sintetizar funciones lógicas arbitrarias empleando multiplexores 4:1 y 8:1. Ecuaciones rectoras: Y = S1' * S0' * D0 + S1' * S0 * D1 + S1 * S0' * D2 + S1 * S0 * D3",
-      "medicionesEsperadas": "Encaminamiento de datos con retardo de propagación t_pd < 15 ns.",
-      "diagnosticoResolucion": "Glitches transitorios por retardos asimétricos en el decodificador de líneas.",
-      "pasos": [
-        {
-          "type": "wire",
-          "color": "#d22",
-          "de": "p4",
-          "a": "7a",
-          "etiqueta": "Líneas de selección S0/S1"
-        },
-        {
-          "type": "res",
-          "valor": 1000,
-          "de": "7b",
-          "a": "11b",
-          "etiqueta": "Resistencias de selección"
-        },
-        {
-          "type": "led",
-          "color": "#3c3",
-          "de": "11c",
-          "a": "15c",
-          "etiqueta": "Salida multiplexada"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "15e",
-          "a": "m15",
-          "etiqueta": "GND"
-        }
-      ]
-    },
-    {
-      "id": 23,
-      "nivel": 3,
-      "nivelNombre": "Nivel 3 — Electrónica Digital y Sistemas Secuenciales",
-      "laboratorioNumero": 4,
-      "nombre": "L3.4 — Comparador de Magnitud Digital y Unidad Aritmética Elemental",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Diseñar comparadores de 4 bits (A>B, A=B, A<B) y sumadores completos (Full Adder).",
-      "ecuaciones": "S = A xor B xor Cin, Cout = (A and B) or (Cin and (A xor B))",
-      "descripcion": "Diseñar comparadores de 4 bits (A>B, A=B, A<B) y sumadores completos (Full Adder). Ecuaciones rectoras: S = A xor B xor Cin, Cout = (A and B) or (Cin and (A xor B))",
-      "medicionesEsperadas": "Cálculo aritmético binario instantáneo con propagación de acarreo.",
-      "diagnosticoResolucion": "El acarreo en cascada (Ripple Carry) acumula retardo proporcional a n bits.",
-      "pasos": [
-        {
-          "type": "wire",
-          "color": "#d22",
-          "de": "p3",
-          "a": "6a",
-          "etiqueta": "Entrada binaria A y B"
-        },
-        {
-          "type": "res",
-          "valor": 330,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "R_suma (330 Ω)"
-        },
-        {
-          "type": "led",
-          "color": "#e33",
-          "de": "10c",
-          "a": "14c",
-          "etiqueta": "Acarreo de salida C_out"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND"
-        }
-      ]
-    },
-    {
-      "id": 24,
-      "nivel": 3,
-      "nivelNombre": "Nivel 3 — Electrónica Digital y Sistemas Secuenciales",
-      "laboratorioNumero": 5,
-      "nombre": "L3.5 — Biestables (Flip-Flops D, JK y T) y Tiempos de Setup/Hold",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Caracterizar disparo por flanco, tiempo de establecimiento (t_su) y retención (t_h).",
-      "ecuaciones": "Q(t+1) = D, Q_JK(t+1) = J * not(Q) + not(K) * Q",
-      "descripcion": "Caracterizar disparo por flanco, tiempo de establecimiento (t_su) y retención (t_h). Ecuaciones rectoras: Q(t+1) = D, Q_JK(t+1) = J * not(Q) + not(K) * Q",
-      "medicionesEsperadas": "Transición sincrónica exclusivamente en el flanco activo del reloj.",
-      "diagnosticoResolucion": "Rebotes mecánicos en pulsadores causan múltiples pulsos de reloj espurios.",
-      "pasos": [
-        {
-          "type": "wire",
-          "color": "#d22",
-          "de": "p4",
-          "a": "7a",
-          "etiqueta": "Señal de reloj CLK"
-        },
-        {
-          "type": "btn",
-          "de": "7b",
-          "a": "11b",
-          "etiqueta": "Pulsador de reloj manual (Anti-rebote)"
-        },
-        {
-          "type": "led",
-          "color": "#3c3",
-          "de": "11c",
-          "a": "15c",
-          "etiqueta": "Estado Q del Flip-Flop"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "15e",
-          "a": "m15",
-          "etiqueta": "GND"
-        }
-      ]
-    },
-    {
       "id": 25,
       "nivel": 3,
       "nivelNombre": "Nivel 3 — Electrónica Digital y Sistemas Secuenciales",
       "laboratorioNumero": 6,
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
       "nombre": "L3.6 — Contadores Asíncronos (Ripple) y Síncronos Binarios",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Construir contadores módulo 10 (década) y módulo 16 con reset sincrónico y asincrónico.",
-      "ecuaciones": "Modulo = 2^N - estados descartados.",
-      "descripcion": "Construir contadores módulo 10 (década) y módulo 16 con reset sincrónico y asincrónico. Ecuaciones rectoras: Modulo = 2^N - estados descartados.",
-      "medicionesEsperadas": "Secuencia binaria ascendente 0000 -> 1111 y ciclo repetitivo.",
-      "diagnosticoResolucion": "En contadores asíncronos el retardo acumulado genera estados transitorios falsos.",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Construir un contador binario módulo 16 con visualización de bits de conteo Q0-Q3.",
+      "ecuaciones": "f_Qn = f_in / 2^(n+1)",
+      "descripcion": "Contador binario de 4 bits 74LS93 con división sucesiva de frecuencia.",
+      "medicionesEsperadas": "Conteo secuencial 0000 a 1111 reflejado en la barra de LEDs.",
+      "diagnosticoResolucion": "Conectar la salida Q0 a la entrada CP1 para habilitar el conteo de 4 bits completo.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
           "de": "p3",
-          "a": "6a",
-          "etiqueta": "Tren de pulsos de reloj"
+          "a": "9a",
+          "etiqueta": "Vcc 5V al contador binario"
         },
         {
-          "type": "res",
-          "valor": 330,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "R_limitación bus"
+          "type": "ic",
+          "n": "74LS93",
+          "de": "9b",
+          "a": "15b",
+          "etiqueta": "IC Contador Binario de 4 Bits 74LS93 (DIP-14)"
         },
         {
-          "type": "led",
-          "color": "#e33",
-          "de": "10c",
-          "a": "14c",
-          "etiqueta": "Bit de peso Q0-Q3"
+          "type": "wire",
+          "color": "#ea0",
+          "de": "p2",
+          "a": "9c",
+          "etiqueta": "Señal de pulsos de reloj CLK"
         },
         {
           "type": "wire",
           "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND"
+          "de": "9d",
+          "a": "m9",
+          "etiqueta": "Líneas de reset MR1 y MR2 puestas a tierra"
+        },
+        {
+          "type": "res",
+          "valor": 330,
+          "de": "15c",
+          "a": "18c",
+          "etiqueta": "Resistor limitador Bit 0 (330 Ω)"
+        },
+        {
+          "type": "led",
+          "color": "#e33",
+          "de": "18d",
+          "a": "m18",
+          "etiqueta": "LED Bit 0 (LSB)"
+        },
+        {
+          "type": "res",
+          "valor": 330,
+          "de": "15d",
+          "a": "21d",
+          "etiqueta": "Resistor limitador Bit 1 (330 Ω)"
+        },
+        {
+          "type": "led",
+          "color": "#3c3",
+          "de": "21e",
+          "a": "m21",
+          "etiqueta": "LED Bit 1"
         }
       ]
     },
@@ -1205,41 +1595,64 @@
       "nivel": 3,
       "nivelNombre": "Nivel 3 — Electrónica Digital y Sistemas Secuenciales",
       "laboratorioNumero": 7,
-      "nombre": "L3.7 — Registros de Desplazamiento (SISO, SIPO, PISO, PIPO)",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Implementar conversión serie-paralelo y registros universales bidireccionales.",
-      "ecuaciones": "D_i -> Q_i -> D_i+1 secuenciado por CLK.",
-      "descripcion": "Implementar conversión serie-paralelo y registros universales bidireccionales. Ecuaciones rectoras: D_i -> Q_i -> D_i+1 secuenciado por CLK.",
-      "medicionesEsperadas": "Propagación ordenada de datos digitales en cada ciclo de reloj.",
-      "diagnosticoResolucion": "Verificar que el reloj distribuido llegue en fase a todos los flip-flops (Clock Skew).",
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L3.7 — Registros de Desplazamiento Universal (SISO, SIPO, PISO)",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Conversión serie-paralelo de palabras digitales y almacenamiento temporal en cascada.",
+      "ecuaciones": "Q_A(t+1) = S_in, Q_B(t+1) = Q_A(t)",
+      "descripcion": "Registro universal de 4 bits 74LS194 con control de modo y carga paralela.",
+      "medicionesEsperadas": "Desplazamiento sincronizado de bits a cada pulso de reloj.",
+      "diagnosticoResolucion": "Verificar que el modo S0/S1 esté configurado para shift-right (S0=1, S1=0).",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
+          "de": "p4",
+          "a": "10a",
+          "etiqueta": "Vcc 5V al registro de desplazamiento"
+        },
+        {
+          "type": "ic",
+          "n": "74LS194",
+          "de": "10b",
+          "a": "16b",
+          "etiqueta": "IC Registro de Desplazamiento Bidireccional 74LS194"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
           "de": "p2",
-          "a": "5a",
-          "etiqueta": "Dato serie de entrada"
+          "a": "10c",
+          "etiqueta": "Entrada serie de datos DIN"
+        },
+        {
+          "type": "wire",
+          "color": "#ea0",
+          "de": "p3",
+          "a": "10d",
+          "etiqueta": "Línea de pulso de Reloj CLK"
         },
         {
           "type": "res",
           "valor": 330,
-          "de": "5b",
-          "a": "9b",
-          "etiqueta": "R_bus (330 Ω)"
+          "de": "16c",
+          "a": "20c",
+          "etiqueta": "Resistor de salida QA (330 Ω)"
         },
         {
           "type": "led",
           "color": "#3c3",
-          "de": "9c",
-          "a": "13c",
-          "etiqueta": "Bit paralelo de salida"
+          "de": "20d",
+          "a": "m20",
+          "etiqueta": "LED indicador de bit desplazado QA"
         },
         {
           "type": "wire",
           "color": "#111",
-          "de": "13e",
-          "a": "m13",
-          "etiqueta": "GND"
+          "de": "10e",
+          "a": "m10",
+          "etiqueta": "GND de referencia"
         }
       ]
     },
@@ -1248,41 +1661,64 @@
       "nivel": 3,
       "nivelNombre": "Nivel 3 — Electrónica Digital y Sistemas Secuenciales",
       "laboratorioNumero": 8,
-      "nombre": "L3.8 — Máquinas de Estado Finito (FSM) Tipo Mealy y Moore",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Diseñar e implementar un detector de secuencias binarias (p. ej. 1011) en hardware discreto.",
-      "ecuaciones": "Moore: Out = g(State), Mealy: Out = g(State, In)",
-      "descripcion": "Diseñar e implementar un detector de secuencias binarias (p. ej. 1011) en hardware discreto. Ecuaciones rectoras: Moore: Out = g(State), Mealy: Out = g(State, In)",
-      "medicionesEsperadas": "Transición rigurosa de estados sin bloqueos en estados inalcanzables.",
-      "diagnosticoResolucion": "Asignar siempre código seguro de reset para recuperar el estado inicial.",
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L3.8 — Máquinas de Estado Finito (FSM) Tipo Moore y Mealy",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Diseñar e implementar un secuenciador de control con memoria de estados y lógica combinacional.",
+      "ecuaciones": "Estado_siguiente = f(Estado_actual, Entradas), Salida = g(Estado_actual)",
+      "descripcion": "Controlador secuencial de semáforo simple implementado con lógica digital y flip-flops.",
+      "medicionesEsperadas": "Transición ordenada de estados (Verde -> Amarillo -> Rojo) sincronizada.",
+      "diagnosticoResolucion": "Verificar las condiciones iniciales en el pin de RESET asíncrono.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
-          "de": "p4",
-          "a": "7a",
-          "etiqueta": "Línea de entrada de secuencia"
+          "de": "p5",
+          "a": "11a",
+          "etiqueta": "Alimentación Vcc +5V del controlador FSM"
+        },
+        {
+          "type": "ic",
+          "n": "FSM-SEQ",
+          "de": "11b",
+          "a": "16b",
+          "etiqueta": "Módulo Lógico Secuencial FSM"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "p2",
+          "a": "11c",
+          "etiqueta": "Entrada de sensor detector de evento X"
+        },
+        {
+          "type": "wire",
+          "color": "#ea0",
+          "de": "p3",
+          "a": "11d",
+          "etiqueta": "Reloj de transición del sistema"
         },
         {
           "type": "res",
-          "valor": 1000,
-          "de": "7b",
-          "a": "11b",
-          "etiqueta": "Lógica de siguiente estado"
+          "valor": 330,
+          "de": "16c",
+          "a": "20c",
+          "etiqueta": "Resistor limitador de estado activo (330 Ω)"
         },
         {
           "type": "led",
           "color": "#e33",
-          "de": "11c",
-          "a": "15c",
-          "etiqueta": "Indicador de secuencia detectada"
+          "de": "20d",
+          "a": "m20",
+          "etiqueta": "LED indicador de estado actual del sistema"
         },
         {
           "type": "wire",
           "color": "#111",
-          "de": "15e",
-          "a": "m15",
-          "etiqueta": "GND"
+          "de": "16e",
+          "a": "m16",
+          "etiqueta": "GND común"
         }
       ]
     },
@@ -1291,41 +1727,71 @@
       "nivel": 3,
       "nivelNombre": "Nivel 3 — Electrónica Digital y Sistemas Secuenciales",
       "laboratorioNumero": 9,
-      "nombre": "L3.9 — Convertidor Digital a Analógico (DAC tipo Escalera R-2R)",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Diseñar red resistiva R-2R y medir linealidad integral (INL) y diferencial (DNL).",
-      "ecuaciones": "V_out = -V_ref * sum(b_i * 2^(-i))",
-      "descripcion": "Diseñar red resistiva R-2R y medir linealidad integral (INL) y diferencial (DNL). Ecuaciones rectoras: V_out = -V_ref * sum(b_i * 2^(-i))",
-      "medicionesEsperadas": "Escalón analógico proporcional exacto a cada incremento binario.",
-      "diagnosticoResolucion": "Tolerancias resistivas del 5% provocan no-monotonía y saltos irregulares.",
+      "complejidad": "complejo",
+      "complejidadTexto": "🔴 Complejo",
+      "nombre": "L3.9 — Convertidor Digital a Analógico (DAC Tipo Escalera R-2R)",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Convertir valores digitales binarios en niveles de tensión analógica proporcional con red R-2R.",
+      "ecuaciones": "V_out = V_ref * sum(b_i * 2^(-(4-i))), R=1 kΩ, 2R=2.2 kΩ",
+      "descripcion": "Escalera resistiva R-2R de 4 bits que genera 16 niveles de tensión analógica.",
+      "medicionesEsperadas": "Escalera de tensión monótona con pasos discretos de Vcc/16 = 0.31 V.",
+      "diagnosticoResolucion": "Utilizar resistores de precisión (1%) para evitar no-monotonía en los saltos.",
       "pasos": [
         {
           "type": "wire",
-          "color": "#d22",
-          "de": "p3",
+          "color": "#38bdf8",
+          "de": "p2",
           "a": "6a",
-          "etiqueta": "Bits binarios b0..b3"
-        },
-        {
-          "type": "res",
-          "valor": 1000,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "Rama R (1 kΩ)"
+          "etiqueta": "Entrada digital Bit 0 (LSB)"
         },
         {
           "type": "res",
           "valor": 2200,
-          "de": "10c",
-          "a": "14c",
-          "etiqueta": "Rama 2R (2.2 kΩ aprox)"
+          "de": "6b",
+          "a": "9b",
+          "etiqueta": "Resistor 2R (2.2 kΩ) de la rama Bit 0"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "p3",
+          "a": "9c",
+          "etiqueta": "Entrada digital Bit 1"
+        },
+        {
+          "type": "res",
+          "valor": 2200,
+          "de": "9d",
+          "a": "12d",
+          "etiqueta": "Resistor 2R (2.2 kΩ) de la rama Bit 1"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "9e",
+          "a": "12e",
+          "etiqueta": "Resistor R de escalera (1 kΩ) entre nodos"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "12f",
+          "a": "m12",
+          "etiqueta": "Resistor de terminación R a tierra (1 kΩ)"
+        },
+        {
+          "type": "wire",
+          "color": "#ea0",
+          "de": "12c",
+          "a": "17c",
+          "etiqueta": "Sonda de salida analógica Vout"
         },
         {
           "type": "wire",
           "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND analógica"
+          "de": "17d",
+          "a": "m17",
+          "etiqueta": "GND de referencia analógica"
         }
       ]
     },
@@ -1334,41 +1800,64 @@
       "nivel": 3,
       "nivelNombre": "Nivel 3 — Electrónica Digital y Sistemas Secuenciales",
       "laboratorioNumero": 10,
-      "nombre": "L3.10 — Convertidor Analógico a Digital (ADC Flash y Aproximaciones Sucesivas)",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Comprender cuantización, error de cuantización Q = V_ref / 2^N y teorema de Nyquist.",
-      "ecuaciones": "f_muestreo >= 2 * f_max, SNR = 6.02 * N + 1.76 dB",
-      "descripcion": "Comprender cuantización, error de cuantización Q = V_ref / 2^N y teorema de Nyquist. Ecuaciones rectoras: f_muestreo >= 2 * f_max, SNR = 6.02 * N + 1.76 dB",
-      "medicionesEsperadas": "Palabra binaria representativa del nivel de tensión analógico continuo.",
-      "diagnosticoResolucion": "Introducir filtro antialiasing previo para evitar solapamiento espectral.",
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L3.10 — Convertidor Analógico a Digital (ADC por Comparadores Flash)",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Digitalización a máxima velocidad mediante red de comparadores de tensión y divisor resistivo.",
+      "ecuaciones": "Resolución = V_ref / 2^n, Tiempo de conversión ~ retardo de compuerta",
+      "descripcion": "ADC Flash de 2 bits con 3 comparadores en paralelo y umbrales equidistantes.",
+      "medicionesEsperadas": "Código de termómetro instantáneo ante variaciones de la tensión de entrada.",
+      "diagnosticoResolucion": "Verificar los voltajes de referencia en la escalera resistiva de precisión.",
       "pasos": [
         {
           "type": "wire",
-          "color": "#d22",
-          "de": "p4",
+          "color": "#38bdf8",
+          "de": "p3",
           "a": "7a",
-          "etiqueta": "Voltaje analógico v_in"
+          "etiqueta": "Tensión analógica de entrada a digitalizar"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "7b",
+          "a": "11b",
+          "etiqueta": "R1 escalera de referencia de umbral (1 kΩ)"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "11c",
+          "a": "15c",
+          "etiqueta": "R2 escalera de referencia de umbral (1 kΩ)"
+        },
+        {
+          "type": "ic",
+          "n": "LM339",
+          "de": "11d",
+          "a": "16d",
+          "etiqueta": "IC Banco de Comparadores Cuádruple LM339"
         },
         {
           "type": "res",
           "valor": 330,
-          "de": "7b",
-          "a": "11b",
-          "etiqueta": "Divisor de umbrales comparadores"
+          "de": "16c",
+          "a": "20c",
+          "etiqueta": "Resistor limitador salida digital (330 Ω)"
         },
         {
           "type": "led",
           "color": "#3c3",
-          "de": "11c",
-          "a": "15c",
-          "etiqueta": "Bit de cuantización MSB"
+          "de": "20d",
+          "a": "m20",
+          "etiqueta": "LED indicador de bit digitalizado"
         },
         {
           "type": "wire",
           "color": "#111",
           "de": "15e",
           "a": "m15",
-          "etiqueta": "GND"
+          "etiqueta": "GND de referencia de la escalera"
         }
       ]
     },
@@ -1377,41 +1866,64 @@
       "nivel": 4,
       "nivelNombre": "Nivel 4 — Señales, Control y Electrónica de Potencia",
       "laboratorioNumero": 1,
-      "nombre": "L4.1 — Acondicionamiento de Señal: Filtros de Muestreo y Ganancia Variable",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Acondicionar señales de bajo nivel (milivoltios) provenientes de transductores industriales.",
-      "ecuaciones": "V_out = A_v * (V_in + V_offset)",
-      "descripcion": "Acondicionar señales de bajo nivel (milivoltios) provenientes de transductores industriales. Ecuaciones rectoras: V_out = A_v * (V_in + V_offset)",
-      "medicionesEsperadas": "Relación señal a ruido (SNR) incrementada significativamente.",
-      "diagnosticoResolucion": "Evitar bucles de tierra (Ground Loops) que acoplan armónicos de red a 60 Hz.",
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L4.1 — Acondicionamiento de Señal: Filtros y Diodos de Clamping",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Proteger entradas analógicas contra sobretensiones y limitar excursiones con diodos Schottky.",
+      "ecuaciones": "V_clamp = Vcc + 0.3V, V_clamp_low = GND - 0.3V",
+      "descripcion": "Etapa de entrada analógica industrial con recorte de diodo y filtro pasabajos pasivo.",
+      "medicionesEsperadas": "Señal recortada rígidamente dentro de la ventana segura de 0V a 5V.",
+      "diagnosticoResolucion": "Los diodos de clamping deben tener bajo tiempo de recuperación inversa trr.",
       "pasos": [
         {
           "type": "wire",
-          "color": "#d22",
-          "de": "p3",
+          "color": "#38bdf8",
+          "de": "p2",
           "a": "6a",
-          "etiqueta": "Señal del sensor con ruido"
+          "etiqueta": "Entrada de señal de sensor con ruido industrial"
+        },
+        {
+          "type": "trans",
+          "t": "2N2222",
+          "de": "6b",
+          "a": "9b",
+          "etiqueta": "Transistor preamplificador de señal"
         },
         {
           "type": "res",
           "valor": 1000,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "R_amplificación (1 kΩ)"
+          "de": "p2",
+          "a": "9c",
+          "etiqueta": "Resistor de colector (1 kΩ)"
+        },
+        {
+          "type": "diode",
+          "t": "1N4148",
+          "de": "9d",
+          "a": "6d",
+          "etiqueta": "Diodo clamping de protección contra sobrevoltaje"
+        },
+        {
+          "type": "cap",
+          "valor": "10 µF",
+          "de": "9e",
+          "a": "13e",
+          "etiqueta": "Condensador de desacoplo de ruido (10 µF)"
         },
         {
           "type": "res",
-          "valor": 2200,
-          "de": "10c",
-          "a": "14c",
-          "etiqueta": "Filtro paso-bajo (2.2 kΩ)"
+          "valor": 10000,
+          "de": "13f",
+          "a": "m13",
+          "etiqueta": "Resistor de carga de salida a tierra (10 kΩ)"
         },
         {
           "type": "wire",
           "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND limpia"
+          "de": "13c",
+          "a": "m13",
+          "etiqueta": "GND de referencia"
         }
       ]
     },
@@ -1420,41 +1932,57 @@
       "nivel": 4,
       "nivelNombre": "Nivel 4 — Señales, Control y Electrónica de Potencia",
       "laboratorioNumero": 2,
-      "nombre": "L4.2 — Disparo y Control de Ángulo de Fase con SCR y TRIAC",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Analizar control de potencia AC mediante modulación por ángulo de disparo alfa.",
-      "ecuaciones": "V_rms = V_m * sqrt( (1/pi) * (pi - alfa + 0.5*sin(2*alfa)) )",
-      "descripcion": "Analizar control de potencia AC mediante modulación por ángulo de disparo alfa. Ecuaciones rectoras: V_rms = V_m * sqrt( (1/pi) * (pi - alfa + 0.5*sin(2*alfa)) )",
-      "medicionesEsperadas": "Regulación eficaz de potencia entregada a una carga resistiva o luminosa.",
-      "diagnosticoResolucion": "Cargas inductivas requieren circuito de amortiguación (Snubber RC) por dv/dt.",
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L4.2 — Disparo y Control de Ángulo de Fase con Tiristor SCR y TRIAC",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Controlar la potencia entregada a una carga AC variando el ángulo de disparo alfa.",
+      "ecuaciones": "V_rms = V_peak * sqrt((pi - alfa + sin(2*alfa)/2) / (2*pi))",
+      "descripcion": "Control de fase con tiristor SCR, pulso de compuerta y lámpara/carga resistiva.",
+      "medicionesEsperadas": "Variación continua de tensión eficaz de salida entre 0V y V_max.",
+      "diagnosticoResolucion": "Verificar que la corriente de mantenimiento Ih se supere para sostener la conducción.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
-          "de": "p2",
-          "a": "5a",
-          "etiqueta": "Fase AC 220V/110V escalada"
+          "de": "p3",
+          "a": "7a",
+          "etiqueta": "Línea de potencia de entrada"
         },
         {
           "type": "res",
           "valor": 1000,
-          "de": "5b",
-          "a": "9b",
-          "etiqueta": "R_red RC de retardo de fase"
+          "de": "7b",
+          "a": "11b",
+          "etiqueta": "Resistor de polarización de compuerta Rg (1 kΩ)"
         },
         {
-          "type": "led",
-          "color": "#e33",
-          "de": "9c",
-          "a": "13c",
-          "etiqueta": "Gate de disparo / DIAC"
+          "type": "diode",
+          "t": "1N4007",
+          "de": "11c",
+          "a": "14c",
+          "etiqueta": "Diodo rectificador de disparo de Gate"
+        },
+        {
+          "type": "trans",
+          "t": "SCR",
+          "de": "14d",
+          "a": "16d",
+          "etiqueta": "Tiristor de potencia SCR (Ánodo en 14d, Gate en 16d)"
+        },
+        {
+          "type": "res",
+          "valor": 330,
+          "de": "16b",
+          "a": "p5",
+          "etiqueta": "Carga de potencia conectada en serie"
         },
         {
           "type": "wire",
           "color": "#111",
-          "de": "13e",
-          "a": "m13",
-          "etiqueta": "Neutro de retorno"
+          "de": "16e",
+          "a": "m16",
+          "etiqueta": "Cátodo del SCR a GND común"
         }
       ]
     },
@@ -1463,41 +1991,71 @@
       "nivel": 4,
       "nivelNombre": "Nivel 4 — Señales, Control y Electrónica de Potencia",
       "laboratorioNumero": 3,
-      "nombre": "L4.3 — Generador de Modulación por Ancho de Pulsos (PWM)",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Diseñar modulador PWM con comparador y rampa triangular para control de actuadores.",
-      "ecuaciones": "Duty_Cycle = T_on / T_period * 100%, V_promedio = D * V_max",
-      "descripcion": "Diseñar modulador PWM con comparador y rampa triangular para control de actuadores. Ecuaciones rectoras: Duty_Cycle = T_on / T_period * 100%, V_promedio = D * V_max",
-      "medicionesEsperadas": "Variación lineal de duty cycle de 0% a 100% proporcional a la señal de control.",
-      "diagnosticoResolucion": "Pérdidas de conmutación en transistores si los flancos de subida son lentos.",
+      "complejidad": "complejo",
+      "complejidadTexto": "🔴 Complejo",
+      "nombre": "L4.3 — Generador PWM con Temporizador NE555 en Modo Astable",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Generar tren de pulsos con ciclo de trabajo ajustable (Duty Cycle D = Ton / T) para control de velocidad/brillo.",
+      "ecuaciones": "f = 1.44 / ((R1 + 2*R2)*C), D = (R1 + R2) / (R1 + 2*R2)",
+      "descripcion": "Oscilador astable con circuito integrado NE555 y diodos de dirección para variar el ciclo de trabajo.",
+      "medicionesEsperadas": "Frecuencia de oscilación f ~ 1.2 kHz, modulación PWM de salida comprobada.",
+      "diagnosticoResolucion": "Unir físicamente los pines 2 (TRIGGER) y 6 (THRESHOLD) en la columna 12.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
           "de": "p4",
-          "a": "7a",
-          "etiqueta": "Onda rampa portadora"
+          "a": "10a",
+          "etiqueta": "Alimentación Vcc +5V a pin 8 y pin 4 (RESET) del NE555"
+        },
+        {
+          "type": "ic",
+          "n": "NE555",
+          "de": "10b",
+          "a": "14b",
+          "etiqueta": "Circuito Integrado Temporizador Universal NE555 (DIP-8)"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "p4",
+          "a": "10c",
+          "etiqueta": "Resistor temporizador R1 (1 kΩ) a pin 7 (DISCHARGE)"
+        },
+        {
+          "type": "res",
+          "valor": 10000,
+          "de": "10d",
+          "a": "12d",
+          "etiqueta": "Resistor temporizador R2 (10 kΩ) entre pin 7 y pin 6"
+        },
+        {
+          "type": "cap",
+          "valor": "10 µF",
+          "de": "12e",
+          "a": "m12",
+          "etiqueta": "Condensador electrolítico temporizador C1 (10 µF) a tierra"
+        },
+        {
+          "type": "diode",
+          "t": "1N4148",
+          "de": "10e",
+          "a": "12f",
+          "etiqueta": "Diodo rápido de bypass para permitir Duty Cycles < 50%"
         },
         {
           "type": "res",
           "valor": 330,
-          "de": "7b",
-          "a": "11b",
-          "etiqueta": "Tensión de control modulante"
+          "de": "14c",
+          "a": "18c",
+          "etiqueta": "Resistor limitador de salida pin 3 (330 Ω)"
         },
         {
           "type": "led",
           "color": "#3c3",
-          "de": "11c",
-          "a": "15c",
-          "etiqueta": "Tren de pulsos modulados PWM"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "15e",
-          "a": "m15",
-          "etiqueta": "GND"
+          "de": "18d",
+          "a": "m18",
+          "etiqueta": "LED indicador de pulsos PWM"
         }
       ]
     },
@@ -1506,41 +2064,71 @@
       "nivel": 4,
       "nivelNombre": "Nivel 4 — Señales, Control y Electrónica de Potencia",
       "laboratorioNumero": 4,
-      "nombre": "L4.4 — Convertidor DC-DC Reductor (Buck Converter)",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Calcular y medir eficiencia energética, rizado de inductor Delta_IL y modo CCM/DCM.",
-      "ecuaciones": "V_out = D * V_in, Delta_I_L = (V_in - V_out)*D / (f_sw * L)",
-      "descripcion": "Calcular y medir eficiencia energética, rizado de inductor Delta_IL y modo CCM/DCM. Ecuaciones rectoras: V_out = D * V_in, Delta_I_L = (V_in - V_out)*D / (f_sw * L)",
-      "medicionesEsperadas": "Eficiencia superior al 85% con tensión de salida V_out = 5.0 V estable.",
-      "diagnosticoResolucion": "El diodo de marcha libre debe ser ultra-rápido (Schottky) para minimizar trr.",
+      "complejidad": "complejo",
+      "complejidadTexto": "🔴 Complejo",
+      "nombre": "L4.4 — Convertidor DC-DC Reductor Conmutado (Buck Converter)",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Reducir voltaje DC con alta eficiencia energética (>85%) mediante conmutación PWM e inductor.",
+      "ecuaciones": "V_out = D * V_in, L_min = (1 - D) * R / (2 * f)",
+      "descripcion": "Fuente conmutada Buck con MOSFET conmutador, diodo Schottky de libre circulación y filtro LC.",
+      "medicionesEsperadas": "V_out = 5.0 V estable a partir de V_in = 12.0 V con rizado < 30 mV.",
+      "diagnosticoResolucion": "Asegurar que el diodo Schottky soporte la corriente pico de recuperación.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
-          "de": "p5",
-          "a": "8a",
-          "etiqueta": "V_in 12V DC"
+          "de": "p3",
+          "a": "7a",
+          "etiqueta": "Entrada Vin 12V de la fuente primaria"
+        },
+        {
+          "type": "trans",
+          "t": "MOSFET N-CH",
+          "de": "7b",
+          "a": "11b",
+          "etiqueta": "MOSFET de conmutación de alta frecuencia"
+        },
+        {
+          "type": "diode",
+          "t": "1N5819",
+          "de": "11c",
+          "a": "m11",
+          "etiqueta": "Diodo Schottky de libre circulación (Ánodo a GND)"
         },
         {
           "type": "res",
-          "valor": 330,
-          "de": "8b",
-          "a": "12b",
-          "etiqueta": "Switching MOSFET + Diodo Schottky"
+          "valor": 100,
+          "de": "11d",
+          "a": "15d",
+          "etiqueta": "Inductor de almacenamiento L (bobina 100 µH modelada)"
+        },
+        {
+          "type": "cap",
+          "valor": "100 µF",
+          "de": "15c",
+          "a": "m15",
+          "etiqueta": "Condensador electrolítico de salida de bajo ESR (100 µF)"
         },
         {
           "type": "res",
-          "valor": 220,
-          "de": "12c",
-          "a": "16c",
-          "etiqueta": "Filtro LC de salida (L=100uH)"
+          "valor": 10000,
+          "de": "15e",
+          "a": "19e",
+          "etiqueta": "Resistor R1 divisor de realimentación (10 kΩ)"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "19f",
+          "a": "m19",
+          "etiqueta": "Resistor R2 divisor de realimentación (1 kΩ) a GND"
         },
         {
           "type": "wire",
           "color": "#111",
-          "de": "16e",
-          "a": "m16",
-          "etiqueta": "GND de potencia"
+          "de": "m11",
+          "a": "m20",
+          "etiqueta": "GND plano común de potencia"
         }
       ]
     },
@@ -1549,41 +2137,64 @@
       "nivel": 4,
       "nivelNombre": "Nivel 4 — Señales, Control y Electrónica de Potencia",
       "laboratorioNumero": 5,
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
       "nombre": "L4.5 — Convertidor DC-DC Elevador (Boost Converter)",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Analizar la transferencia de energía reactiva en inductancias y relación de elevación.",
-      "ecuaciones": "V_out = V_in / (1 - D), D_max teórico limitado por parásitas",
-      "descripcion": "Analizar la transferencia de energía reactiva en inductancias y relación de elevación. Ecuaciones rectoras: V_out = V_in / (1 - D), D_max teórico limitado por parásitas",
-      "medicionesEsperadas": "Tensión de salida superior a la de entrada regulada mediante realimentación.",
-      "diagnosticoResolucion": "Nunca operar un Boost sin carga conectada; la tensión puede sobrepasar el breakdown del capacitor.",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Elevar la tensión continua de entrada (de 5V a 12V) aprovechando la energía inductiva.",
+      "ecuaciones": "V_out = V_in / (1 - D)",
+      "descripcion": "Topología conmutada Boost con acumulador inductivo, diodo rectificador rápido y filtro.",
+      "medicionesEsperadas": "Tensión de salida superior a la entrada: V_out = 10.5 V con D = 0.52.",
+      "diagnosticoResolucion": "No operar el circuito Boost sin carga: la tensión puede elevarse peligrosamente.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
-          "de": "p3",
+          "de": "p2",
           "a": "6a",
-          "etiqueta": "V_in baja tensión (3.3V / 5V)"
+          "etiqueta": "Tensión de entrada baja Vin (5V)"
         },
         {
           "type": "res",
           "valor": 220,
           "de": "6b",
           "a": "10b",
-          "etiqueta": "Inductor de almacenamiento L"
+          "etiqueta": "Inductor de choque L de acumulación de energía"
         },
         {
-          "type": "led",
-          "color": "#e33",
+          "type": "trans",
+          "t": "MOSFET N-CH",
           "de": "10c",
-          "a": "14c",
-          "etiqueta": "V_out elevada (> 12V)"
+          "a": "m10",
+          "etiqueta": "Interruptor MOSFET a tierra para cargar el inductor"
+        },
+        {
+          "type": "diode",
+          "t": "1N5819",
+          "de": "10d",
+          "a": "14d",
+          "etiqueta": "Diodo Schottky rectificador de salida"
+        },
+        {
+          "type": "cap",
+          "valor": "100 µF",
+          "de": "14c",
+          "a": "m14",
+          "etiqueta": "Condensador de almacenamiento de alta tensión (100 µF)"
+        },
+        {
+          "type": "res",
+          "valor": 2200,
+          "de": "14e",
+          "a": "18e",
+          "etiqueta": "Resistor de carga RL (2.2 kΩ)"
         },
         {
           "type": "wire",
           "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND"
+          "de": "18f",
+          "a": "m18",
+          "etiqueta": "GND de retorno"
         }
       ]
     },
@@ -1592,41 +2203,71 @@
       "nivel": 4,
       "nivelNombre": "Nivel 4 — Señales, Control y Electrónica de Potencia",
       "laboratorioNumero": 6,
-      "nombre": "L4.6 — Driver de Potencia en Puente H (H-Bridge) para Motores DC",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Controlar sentido de giro bidireccional y frenado regenerativo con lógica shoot-through protection.",
-      "ecuaciones": "Torque = K_t * I_armadura, V_bemf = K_e * omega",
-      "descripcion": "Controlar sentido de giro bidireccional y frenado regenerativo con lógica shoot-through protection. Ecuaciones rectoras: Torque = K_t * I_armadura, V_bemf = K_e * omega",
-      "medicionesEsperadas": "Conducción en diagonal alternada sin conducción simultánea (Dead-time insertion).",
-      "diagnosticoResolucion": "El fenómeno shoot-through (conducción cruzada vertical) destruye los transistores.",
+      "complejidad": "complejo",
+      "complejidadTexto": "🔴 Complejo",
+      "nombre": "L4.6 — Driver en Puente H (H-Bridge) para Control Bidireccional de Motores",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Controlar el sentido de giro y frenado regenerativo de un motor DC mediante 4 interruptores activos.",
+      "ecuaciones": "V_motor = Vcc * (D_A - D_B), I_arranque = Vcc / R_armadura",
+      "descripcion": "Puente H con transistores de potencia complementarios y diodos flyback de protección.",
+      "medicionesEsperadas": "Inversión de polaridad en bornes del motor (+12V en avance, -12V en retroceso).",
+      "diagnosticoResolucion": "Prevenir disparo simultáneo (shoot-through) de la misma rama vertical.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
-          "de": "p4",
+          "de": "p3",
           "a": "7a",
-          "etiqueta": "V_motor 12V DC"
+          "etiqueta": "Alimentación Vcc (+12V) de potencia del motor"
         },
         {
-          "type": "res",
-          "valor": 330,
+          "type": "trans",
+          "t": "BJT PNP",
           "de": "7b",
           "a": "11b",
-          "etiqueta": "Resistencias de gate superiores"
+          "etiqueta": "Transistor Q1 Rama Alta Izquierda"
+        },
+        {
+          "type": "trans",
+          "t": "2N2222",
+          "de": "11c",
+          "a": "m11",
+          "etiqueta": "Transistor Q2 Rama Baja Izquierda"
+        },
+        {
+          "type": "trans",
+          "t": "BJT PNP",
+          "de": "7c",
+          "a": "15b",
+          "etiqueta": "Transistor Q3 Rama Alta Derecha"
+        },
+        {
+          "type": "trans",
+          "t": "2N2222",
+          "de": "15c",
+          "a": "m15",
+          "etiqueta": "Transistor Q4 Rama Baja Derecha"
+        },
+        {
+          "type": "diode",
+          "t": "1N4007",
+          "de": "11d",
+          "a": "7d",
+          "etiqueta": "Diodo flyback antiparalelo de protección inductiva"
         },
         {
           "type": "res",
           "valor": 330,
-          "de": "11c",
-          "a": "15c",
-          "etiqueta": "Resistencias de gate inferiores"
+          "de": "11e",
+          "a": "13e",
+          "etiqueta": "Borne Motor DC Terminal A"
         },
         {
           "type": "wire",
-          "color": "#111",
+          "color": "#38bdf8",
           "de": "15e",
-          "a": "m15",
-          "etiqueta": "GND"
+          "a": "13f",
+          "etiqueta": "Borne Motor DC Terminal B"
         }
       ]
     },
@@ -1635,41 +2276,64 @@
       "nivel": 4,
       "nivelNombre": "Nivel 4 — Señales, Control y Electrónica de Potencia",
       "laboratorioNumero": 7,
-      "nombre": "L4.7 — Aislamiento Galvánico y Optoacopladores",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Garantizar inmunidad ante transitorios y protección de la lógica de baja tensión.",
-      "ecuaciones": "CTR = I_C / I_F * 100%, Aislamiento típico > 2500 V_rms",
-      "descripcion": "Garantizar inmunidad ante transitorios y protección de la lógica de baja tensión. Ecuaciones rectoras: CTR = I_C / I_F * 100%, Aislamiento típico > 2500 V_rms",
-      "medicionesEsperadas": "Transmisión limpia de señales con rechazo a modo común (CMRR) infinito en DC.",
-      "diagnosticoResolucion": "Mantener físicamente separadas las pistas de GND digital y GND de potencia.",
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L4.7 — Aislamiento Galvánico con Optoacoplador y Fototransistor",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Transmitir señales de control entre circuitos de diferente potencial sin conexión eléctrica directa.",
+      "ecuaciones": "CTR = (I_C / I_F) * 100%, Aislamiento típico > 2500 V_rms",
+      "descripcion": "Optoacoplador 4N35 con LED emisor infrarrojo y receptor fototransistor con tierras separadas.",
+      "medicionesEsperadas": "Inmunidad total a bucles de tierra y ruidos transitorios del lado de potencia.",
+      "diagnosticoResolucion": "Mantener las masas GND primaria y secundaria físicamente desacopladas.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
           "de": "p2",
-          "a": "5a",
-          "etiqueta": "Lado digital de control"
+          "a": "6a",
+          "etiqueta": "Vcc lógica de baja tensión primaria (5V)"
         },
         {
           "type": "res",
           "valor": 330,
-          "de": "5b",
-          "a": "9b",
-          "etiqueta": "R_anodo opto (330 Ω)"
+          "de": "6b",
+          "a": "10b",
+          "etiqueta": "Resistor limitador del LED infrarrojo (330 Ω)"
         },
         {
-          "type": "led",
-          "color": "#3c3",
-          "de": "9c",
-          "a": "13c",
-          "etiqueta": "Optoacoplador 4N35 / PC817"
+          "type": "ic",
+          "n": "4N35",
+          "de": "10c",
+          "a": "14c",
+          "etiqueta": "Optoacoplador industrial 4N35 (DIP-6)"
         },
         {
           "type": "wire",
           "color": "#111",
-          "de": "13e",
-          "a": "m13",
-          "etiqueta": "GND de control (separada de potencia)"
+          "de": "10d",
+          "a": "m10",
+          "etiqueta": "GND primario de control"
+        },
+        {
+          "type": "wire",
+          "color": "#ea0",
+          "de": "p5",
+          "a": "14d",
+          "etiqueta": "Vcc secundario de potencia (+12V o +24V)"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "14e",
+          "a": "18e",
+          "etiqueta": "Resistor pull-up de colector receptor (1 kΩ)"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "18f",
+          "a": "m18",
+          "etiqueta": "GND secundario aislado de potencia"
         }
       ]
     },
@@ -1678,41 +2342,71 @@
       "nivel": 4,
       "nivelNombre": "Nivel 4 — Señales, Control y Electrónica de Potencia",
       "laboratorioNumero": 8,
+      "complejidad": "complejo",
+      "complejidadTexto": "🔴 Complejo",
       "nombre": "L4.8 — Control Proporcional-Integral (PI) Analógico en Lazo Cerrado",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Implementar un controlador de posición o velocidad analógico con amplificadores operacionales.",
-      "ecuaciones": "u(t) = K_p * e(t) + K_i * integral(e(tau) dtau)",
-      "descripcion": "Implementar un controlador de posición o velocidad analógico con amplificadores operacionales. Ecuaciones rectoras: u(t) = K_p * e(t) + K_i * integral(e(tau) dtau)",
-      "medicionesEsperadas": "Error en estado estacionario nulo (e_ss = 0) ante entrada escalón.",
-      "diagnosticoResolucion": "Saturación del integrador (Windup) requiere limitador de excursión en el lazo.",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Eliminar el error en estado estacionario (e_ss = 0) mediante acción integral activa.",
+      "ecuaciones": "u(t) = K_p * e(t) + K_i * int(e(tau) dtau)",
+      "descripcion": "Controlador analógico PI con amplificador operacional y red RC de realimentación.",
+      "medicionesEsperadas": "Respuesta rápida sin oscilaciones críticas y seguimiento fiel de la referencia.",
+      "diagnosticoResolucion": "Evitar saturación del condensador de integración durante arranques bruscos.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
           "de": "p3",
-          "a": "6a",
-          "etiqueta": "Referencia Setpoint"
+          "a": "8a",
+          "etiqueta": "Alimentación Vcc (+12V) al controlador PI"
+        },
+        {
+          "type": "ic",
+          "n": "LM358",
+          "de": "8b",
+          "a": "12b",
+          "etiqueta": "Circuito Integrado Controlador Analógico LM358"
         },
         {
           "type": "res",
-          "valor": 1000,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "R_proporcional Kp (1 kΩ)"
+          "valor": 10000,
+          "de": "p2",
+          "a": "8c",
+          "etiqueta": "Resistor de ganancia proporcional R_P (10 kΩ)"
+        },
+        {
+          "type": "cap",
+          "valor": "10 µF",
+          "de": "8d",
+          "a": "12c",
+          "etiqueta": "Condensador integral C_I (10 µF) en lazo de realimentación"
         },
         {
           "type": "res",
           "valor": 2200,
-          "de": "10c",
-          "a": "14c",
-          "etiqueta": "R_integrador Ki (2.2 kΩ)"
+          "de": "12d",
+          "a": "15d",
+          "etiqueta": "Resistor de acoplo de salida R_I (2.2 kΩ)"
+        },
+        {
+          "type": "res",
+          "valor": 1000,
+          "de": "15c",
+          "a": "m15",
+          "etiqueta": "Resistor de carga del actuador (1 kΩ)"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "15e",
+          "a": "8e",
+          "etiqueta": "Lazo de realimentación negativa del error e(t)"
         },
         {
           "type": "wire",
           "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND"
+          "de": "m15",
+          "a": "m18",
+          "etiqueta": "GND de referencia de control"
         }
       ]
     },
@@ -1721,41 +2415,64 @@
       "nivel": 4,
       "nivelNombre": "Nivel 4 — Señales, Control y Electrónica de Potencia",
       "laboratorioNumero": 9,
-      "nombre": "L4.9 — Osciladores Senoidales: Puente de Wien y Control de Amplitud",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Verificar el criterio de oscilación de Barkhausen (|A*beta| = 1, fase = 0°).",
-      "ecuaciones": "f_osc = 1 / (2*pi*R*C), Ganancia requerida A_v = 3",
-      "descripcion": "Verificar el criterio de oscilación de Barkhausen (|A*beta| = 1, fase = 0°). Ecuaciones rectoras: f_osc = 1 / (2*pi*R*C), Ganancia requerida A_v = 3",
-      "medicionesEsperadas": "Onda senoidal pura de muy baja distorsión armónica total (THD < 0.5%).",
-      "diagnosticoResolucion": "Si la ganancia es menor a 3 la oscilación decae; si es mayor, la señal se recorta a onda cuadrada.",
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L4.9 — Osciladores Senoidales: Puente de Wien y Criterio de Barkhausen",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Generar ondas senoidales puras de baja distorsión armónica con ganancia de lazo A*beta = 1.",
+      "ecuaciones": "f_0 = 1 / (2 * pi * R * C), A_v = 1 + (Rf / R1) >= 3",
+      "descripcion": "Oscilador Puente de Wien con red RC en adelanto-atraso y control de amplitud.",
+      "medicionesEsperadas": "Onda senoidal estable a f = 1 kHz sin saturación en los extremos de la onda.",
+      "diagnosticoResolucion": "Ajustar la ganancia Rf/R1 ligeramente por encima de 3 para arrancar la oscilación.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
           "de": "p4",
-          "a": "7a",
-          "etiqueta": "Lazo de realimentación positiva"
+          "a": "9a",
+          "etiqueta": "Alimentación Vcc+ al chip analógico"
+        },
+        {
+          "type": "ic",
+          "n": "TL081",
+          "de": "9b",
+          "a": "13b",
+          "etiqueta": "Op-Amp de alta velocidad JFET TL081"
         },
         {
           "type": "res",
           "valor": 1000,
-          "de": "7b",
-          "a": "11b",
-          "etiqueta": "R1 red de Wien (1 kΩ)"
+          "de": "p3",
+          "a": "9c",
+          "etiqueta": "Resistor serie de la red de Wien R1 (1 kΩ)"
+        },
+        {
+          "type": "cap",
+          "valor": "10 µF",
+          "de": "9d",
+          "a": "13c",
+          "etiqueta": "Condensador serie C1 (10 µF)"
         },
         {
           "type": "res",
           "valor": 1000,
-          "de": "11c",
-          "a": "15c",
-          "etiqueta": "R2 red de Wien (1 kΩ)"
+          "de": "9e",
+          "a": "m9",
+          "etiqueta": "Resistor paralelo R2 a tierra (1 kΩ)"
         },
         {
-          "type": "wire",
-          "color": "#111",
-          "de": "15e",
-          "a": "m15",
-          "etiqueta": "GND"
+          "type": "cap",
+          "valor": "10 µF",
+          "de": "13d",
+          "a": "m13",
+          "etiqueta": "Condensador paralelo C2 a tierra (10 µF)"
+        },
+        {
+          "type": "res",
+          "valor": 2200,
+          "de": "13e",
+          "a": "17e",
+          "etiqueta": "Resistor de carga de salida (2.2 kΩ)"
         }
       ]
     },
@@ -1764,41 +2481,57 @@
       "nivel": 4,
       "nivelNombre": "Nivel 4 — Señales, Control y Electrónica de Potencia",
       "laboratorioNumero": 10,
-      "nombre": "L4.10 — Comparador con Histéresis (Trigger de Schmitt)",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Eliminar falsos disparos causados por ruido mediante umbrales superior (V_TH) e inferior (V_TL).",
-      "ecuaciones": "V_TH = V_sat * R1 / (R1+R2), V_TL = -V_sat * R1 / (R1+R2)",
-      "descripcion": "Eliminar falsos disparos causados por ruido mediante umbrales superior (V_TH) e inferior (V_TL). Ecuaciones rectoras: V_TH = V_sat * R1 / (R1+R2), V_TL = -V_sat * R1 / (R1+R2)",
-      "medicionesEsperadas": "Transiciones digitales limpias e inmunes al ruido de entrada en la zona de banda muerta.",
-      "diagnosticoResolucion": "Asegurar que la realimentación ingrese al pin no inversor (V+) del operacional.",
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L4.10 — Comparador con Histéresis (Trigger de Schmitt Inversor)",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Inmunizar comparaciones analógicas contra ruido mediante umbrales superior (V_UTP) e inferior (V_LTP).",
+      "ecuaciones": "V_UTP = V_sat+ * R1/(R1+R2), V_LTP = V_sat- * R1/(R1+R2), V_H = V_UTP - V_LTP",
+      "descripcion": "Trigger de Schmitt con realimentación positiva para regeneración de señales cuadradas limpias.",
+      "medicionesEsperadas": "Conmutación limpia y sin rebotes ante señales con rizado o ruido térmico.",
+      "diagnosticoResolucion": "La realimentación DEBE ser positiva: del terminal de salida hacia el pin (+) no inversor.",
       "pasos": [
         {
           "type": "wire",
-          "color": "#d22",
+          "color": "#38bdf8",
           "de": "p3",
-          "a": "6a",
-          "etiqueta": "Entrada ruidosa v_in"
+          "a": "7a",
+          "etiqueta": "Señal analógica de entrada con ruido superpuesto"
+        },
+        {
+          "type": "ic",
+          "n": "LM358",
+          "de": "7b",
+          "a": "11b",
+          "etiqueta": "Comparador Operacional LM358"
         },
         {
           "type": "res",
-          "valor": 1000,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "R1 de realimentación positiva"
+          "valor": 10000,
+          "de": "7c",
+          "a": "11c",
+          "etiqueta": "Resistor de entrada Rin (10 kΩ)"
         },
         {
           "type": "res",
-          "valor": 2200,
-          "de": "10c",
-          "a": "14c",
-          "etiqueta": "R2 divisora de histéresis"
+          "valor": 100000,
+          "de": "11d",
+          "a": "15d",
+          "etiqueta": "Resistor de realimentación positiva Rf (100 kΩ) que fija histéresis"
         },
         {
-          "type": "wire",
-          "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND"
+          "type": "res",
+          "valor": 330,
+          "de": "15c",
+          "a": "19c",
+          "etiqueta": "Resistor limitador de salida digital (330 Ω)"
+        },
+        {
+          "type": "led",
+          "color": "#3c3",
+          "de": "19d",
+          "a": "m19",
+          "etiqueta": "LED indicador de umbral superado"
         }
       ]
     },
@@ -1807,41 +2540,71 @@
       "nivel": 5,
       "nivelNombre": "Nivel 5 — Electrónica Avanzada, Interfaces y Sistemas Embebidos",
       "laboratorioNumero": 1,
+      "complejidad": "complejo",
+      "complejidadTexto": "🔴 Complejo",
       "nombre": "L5.1 — Amplificador de Instrumentación de Tres Op-Amps",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Medir bio-potenciales y señales de puente Wheatstone con CMRR superior a 100 dB.",
-      "ecuaciones": "A_diff = (1 + 2*R1/R_gain) * (R3/R2)",
-      "descripcion": "Medir bio-potenciales y señales de puente Wheatstone con CMRR superior a 100 dB. Ecuaciones rectoras: A_diff = (1 + 2*R1/R_gain) * (R3/R2)",
-      "medicionesEsperadas": "Amplificación lineal de microvoltios rechazando voltajes de modo común de varios voltios.",
-      "diagnosticoResolucion": "Emparejar resistencias R2 y R3 al 0.1% para no degradar el CMRR del tercer amplificador.",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Amplificar señales bioeléctricas o de sensores en puente con altísimo CMRR (>100 dB) e impedancia GΩ.",
+      "ecuaciones": "A_diff = (1 + 2*R1/Rg) * (R3/R2)",
+      "descripcion": "Topología clásica de 3 amplificadores con ajuste de ganancia diferencial por resistor único Rg.",
+      "medicionesEsperadas": "Rechazo de modo común excepcional: la señal de 60 Hz desaparece de la salida.",
+      "diagnosticoResolucion": "Rg controla toda la ganancia sin desbalancear el puente interno.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
-          "de": "p3",
-          "a": "6a",
-          "etiqueta": "Electrodo / Sensor Entrada +"
+          "de": "p4",
+          "a": "10a",
+          "etiqueta": "Alimentación Vcc+ (+12V) al arreglo de instrumentación"
+        },
+        {
+          "type": "ic",
+          "n": "INA-OP3",
+          "de": "10b",
+          "a": "14b",
+          "etiqueta": "Arreglo de Amplificadores Operacionales de Instrumentación"
         },
         {
           "type": "wire",
-          "color": "#ea0",
-          "de": "p4",
-          "a": "7a",
-          "etiqueta": "Electrodo / Sensor Entrada -"
+          "color": "#38bdf8",
+          "de": "p2",
+          "a": "10c",
+          "etiqueta": "Entrada diferencial no inversora V_in(+)"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "p3",
+          "a": "10d",
+          "etiqueta": "Entrada diferencial inversora V_in(-)"
         },
         {
           "type": "res",
           "valor": 220,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "R_gain externa (220 Ω)"
+          "de": "10e",
+          "a": "14c",
+          "etiqueta": "Resistor de ganancia Rg (220 Ω) que fija A_diff ~ 100"
+        },
+        {
+          "type": "res",
+          "valor": 10000,
+          "de": "14d",
+          "a": "18d",
+          "etiqueta": "Resistor de sustracción diferencial R1 (10 kΩ)"
+        },
+        {
+          "type": "res",
+          "valor": 10000,
+          "de": "18e",
+          "a": "m18",
+          "etiqueta": "Resistor de referencia a tierra (10 kΩ)"
         },
         {
           "type": "wire",
           "color": "#111",
           "de": "14e",
           "a": "m14",
-          "etiqueta": "Pierna derecha / GND común"
+          "etiqueta": "GND de referencia de bajo ruido"
         }
       ]
     },
@@ -1850,41 +2613,64 @@
       "nivel": 5,
       "nivelNombre": "Nivel 5 — Electrónica Avanzada, Interfaces y Sistemas Embebidos",
       "laboratorioNumero": 2,
-      "nombre": "L5.2 — Acondicionamiento para Celda de Carga y Puente de Wheatstone",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Compensación de temperatura y calibración de offset en galgas extensométricas.",
-      "ecuaciones": "Delta_V = V_ex * (Delta_R / (4*R_0))",
-      "descripcion": "Compensación de temperatura y calibración de offset en galgas extensométricas. Ecuaciones rectoras: Delta_V = V_ex * (Delta_R / (4*R_0))",
-      "medicionesEsperadas": "Salida proporcional a la deformación mecánica (Strain gauge).",
-      "diagnosticoResolucion": "Cables largos introducen resistencia serie; emplear sensado a 4 hilos (Kelvin).",
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L5.2 — Acondicionamiento para Celda de Carga y Puente de Galgas Extensiométricas",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Medir microdeformaciones mecánicas (microstrain) mediante puente completo de 350 Ω con compensación térmica.",
+      "ecuaciones": "V_out = V_ex * GF * epsilon / 4",
+      "descripcion": "Puente de Wheatstone industrial de galgas con ajuste de balance fino y compensación.",
+      "medicionesEsperadas": "Sensibilidad de 2 mV/V a plena escala de carga.",
+      "diagnosticoResolucion": "Blindar las líneas de señal para evitar acoplamiento de campos electromagnéticos.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
           "de": "p2",
-          "a": "5a",
-          "etiqueta": "V_excitación precisa"
+          "a": "6a",
+          "etiqueta": "Tensión de excitación regulada V_ex (5.00V)"
         },
         {
           "type": "res",
-          "valor": 1000,
-          "de": "5b",
-          "a": "9b",
-          "etiqueta": "Brazo 1 Galga (1 kΩ)"
+          "valor": 330,
+          "de": "6b",
+          "a": "10b",
+          "etiqueta": "Galga extensiométrica activa R1 (350 Ω)"
         },
         {
           "type": "res",
-          "valor": 1000,
-          "de": "9c",
-          "a": "13c",
-          "etiqueta": "Brazo 2 Compensación (1 kΩ)"
+          "valor": 330,
+          "de": "6c",
+          "a": "14b",
+          "etiqueta": "Galga pasiva de compensación térmica R2 (350 Ω)"
+        },
+        {
+          "type": "res",
+          "valor": 330,
+          "de": "10c",
+          "a": "m10",
+          "etiqueta": "Resistor fijo de precisión R3 (350 Ω) a GND"
+        },
+        {
+          "type": "res",
+          "valor": 330,
+          "de": "14c",
+          "a": "m14",
+          "etiqueta": "Resistor fijo de precisión R4 (350 Ω) a GND"
         },
         {
           "type": "wire",
-          "color": "#111",
-          "de": "13e",
-          "a": "m13",
-          "etiqueta": "GND"
+          "color": "#38bdf8",
+          "de": "10d",
+          "a": "18d",
+          "etiqueta": "Salida diferencial Sig(+) hacia amplificador"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "14d",
+          "a": "18e",
+          "etiqueta": "Salida diferencial Sig(-) hacia amplificador"
         }
       ]
     },
@@ -1893,41 +2679,64 @@
       "nivel": 5,
       "nivelNombre": "Nivel 5 — Electrónica Avanzada, Interfaces y Sistemas Embebidos",
       "laboratorioNumero": 3,
+      "complejidad": "complejo",
+      "complejidadTexto": "🔴 Complejo",
       "nombre": "L5.3 — Lazo de Seguimiento de Fase (PLL) y Sintetizador de Frecuencia",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Estudiar detector de fase, filtro de lazo y oscilador controlado por voltaje (VCO).",
-      "ecuaciones": "f_out = N * f_ref, Rango de captura Delta_f_c y enganche Delta_f_L",
-      "descripcion": "Estudiar detector de fase, filtro de lazo y oscilador controlado por voltaje (VCO). Ecuaciones rectoras: f_out = N * f_ref, Rango de captura Delta_f_c y enganche Delta_f_L",
-      "medicionesEsperadas": "Sincronización en fase y multiplicación de frecuencia exacta.",
-      "diagnosticoResolucion": "Jitter excesivo si el filtro pasabajos de lazo no atenúa suficientemente los armónicos de comparación.",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Sincronizar y multiplicar frecuencias de reloj con enganche de fase y filtro pasabajos de bucle.",
+      "ecuaciones": "f_out = N * f_ref, Rango de captura Delta_f_c ~ sqrt(Delta_f_L / tau)",
+      "descripcion": "Sintetizador PLL con circuito integrado CD4046 y comparador de fase digital.",
+      "medicionesEsperadas": "Enganche estable (Phase Lock) con error de fase nulo en estado estacionario.",
+      "diagnosticoResolucion": "Verificar la constante de tiempo del filtro de bucle pasivo.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
           "de": "p4",
-          "a": "7a",
-          "etiqueta": "Señal de referencia externa"
+          "a": "9a",
+          "etiqueta": "Vcc 5V al sintetizador de frecuencia"
+        },
+        {
+          "type": "ic",
+          "n": "CD4046",
+          "de": "9b",
+          "a": "15b",
+          "etiqueta": "Circuito Integrado PLL CMOS CD4046 (DIP-16)"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "p2",
+          "a": "9c",
+          "etiqueta": "Frecuencia de referencia de entrada f_in"
+        },
+        {
+          "type": "cap",
+          "valor": "10 µF",
+          "de": "9d",
+          "a": "13d",
+          "etiqueta": "Condensador del oscilador controlado por tensión (VCO) C1"
         },
         {
           "type": "res",
-          "valor": 1000,
-          "de": "7b",
-          "a": "11b",
-          "etiqueta": "R_filtro de lazo (1 kΩ)"
+          "valor": 10000,
+          "de": "9e",
+          "a": "p9",
+          "etiqueta": "Resistor de rango de frecuencia del VCO R1 (10 kΩ)"
+        },
+        {
+          "type": "res",
+          "valor": 2200,
+          "de": "15c",
+          "a": "18c",
+          "etiqueta": "Resistor del filtro de bucle pasabajos (2.2 kΩ)"
         },
         {
           "type": "led",
           "color": "#3c3",
-          "de": "11c",
-          "a": "15c",
-          "etiqueta": "VCO Output / Pin Lock detect"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "15e",
-          "a": "m15",
-          "etiqueta": "GND"
+          "de": "18d",
+          "a": "m18",
+          "etiqueta": "LED Lock Detect (Enganche de fase exitoso)"
         }
       ]
     },
@@ -1936,41 +2745,57 @@
       "nivel": 5,
       "nivelNombre": "Nivel 5 — Electrónica Avanzada, Interfaces y Sistemas Embebidos",
       "laboratorioNumero": 4,
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
       "nombre": "L5.4 — Interfaz de Bus I2C: Protocolo Físico y Pull-up Resistance",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Analizar la línea bidireccional Open-Drain SDA/SCL, capacitancia de bus y tiempos de subida.",
-      "ecuaciones": "t_r = 0.8473 * R_pullup * C_bus, R_min = (Vcc - V_OL) / I_OL",
-      "descripcion": "Analizar la línea bidireccional Open-Drain SDA/SCL, capacitancia de bus y tiempos de subida. Ecuaciones rectoras: t_r = 0.8473 * R_pullup * C_bus, R_min = (Vcc - V_OL) / I_OL",
-      "medicionesEsperadas": "Tiempos de subida conforme al estándar I2C Fast-Mode (< 300 ns).",
-      "diagnosticoResolucion": "Resistencias pull-up demasiado altas causan redondeo de flancos y errores de ACK.",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Comunicación serie síncrona a 2 hilos (SDA y SCL) con transistores de colector abierto.",
+      "ecuaciones": "R_pullup_min = (Vcc - 0.4V) / 3mA, t_rise = 0.8473 * R_pullup * C_bus <= 1000 ns",
+      "descripcion": "Bus I2C industrial con cálculo de tiempos de subida y resistencias pull-up calibradas.",
+      "medicionesEsperadas": "Señales cuadradas limpias sin redondeo capacitivo excesivo en SDA y SCL.",
+      "diagnosticoResolucion": "Si el bus se bloquea en LOW, verificar que ningún esclavo retenga la línea SDA.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
           "de": "p3",
-          "a": "6a",
-          "etiqueta": "Línea Vcc 3.3V"
+          "a": "7a",
+          "etiqueta": "Alimentación Vcc +3.3V del bus I2C"
         },
         {
           "type": "res",
           "valor": 2200,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "R_pullup SDA (2.2 kΩ)"
+          "de": "p3",
+          "a": "7b",
+          "etiqueta": "Resistor pull-up línea de datos SDA (2.2 kΩ)"
         },
         {
           "type": "res",
           "valor": 2200,
-          "de": "6d",
-          "a": "10d",
-          "etiqueta": "R_pullup SCL (2.2 kΩ)"
+          "de": "p4",
+          "a": "8b",
+          "etiqueta": "Resistor pull-up línea de reloj SCL (2.2 kΩ)"
+        },
+        {
+          "type": "ic",
+          "n": "I2C-SEN",
+          "de": "7c",
+          "a": "11c",
+          "etiqueta": "Módulo sensor esclavo con interfaz I2C"
         },
         {
           "type": "wire",
-          "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND común"
+          "color": "#38bdf8",
+          "de": "7d",
+          "a": "14d",
+          "etiqueta": "Línea física bidireccional SDA"
+        },
+        {
+          "type": "wire",
+          "color": "#ea0",
+          "de": "8d",
+          "a": "14e",
+          "etiqueta": "Línea física de reloj síncrono SCL"
         }
       ]
     },
@@ -1979,41 +2804,71 @@
       "nivel": 5,
       "nivelNombre": "Nivel 5 — Electrónica Avanzada, Interfaces y Sistemas Embebidos",
       "laboratorioNumero": 5,
+      "complejidad": "complejo",
+      "complejidadTexto": "🔴 Complejo",
       "nombre": "L5.5 — Bus SPI de Alta Velocidad e Integridad de Señal",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Evaluar líneas MOSI, MISO, SCK y CS con frecuencias de reloj superiores a 20 MHz.",
-      "ecuaciones": "Z_0 = sqrt(L_line / C_line), Terminación en serie R_term = Z_0 - R_driver",
-      "descripcion": "Evaluar líneas MOSI, MISO, SCK y CS con frecuencias de reloj superiores a 20 MHz. Ecuaciones rectoras: Z_0 = sqrt(L_line / C_line), Terminación en serie R_term = Z_0 - R_driver",
-      "medicionesEsperadas": "Transmisión full-duplex libre de reflexiones y sobreoscilaciones (ringing).",
-      "diagnosticoResolucion": "Colocar planos de masa continuos bajo las trazas de reloj para minimizar diafonía (crosstalk).",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Transmisión full-duplex de alta velocidad (>20 MHz) con 4 líneas (MOSI, MISO, SCK, CS).",
+      "ecuaciones": "T_sck = 1 / f_spi, Setup time t_su >= 5 ns",
+      "descripcion": "Comunicación SPI con memoria Flash / ADC externo y terminación resistiva de línea.",
+      "medicionesEsperadas": "Transferencia de datos a ráfaga completa sin reflexiones de señal ni overshoot.",
+      "diagnosticoResolucion": "Añadir condensador de desacoplo cerámico de 100 nF pegado a los pines de Vcc del integrado.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
+          "de": "p5",
+          "a": "11a",
+          "etiqueta": "Alimentación Vcc 3.3V al dispositivo SPI"
+        },
+        {
+          "type": "ic",
+          "n": "SPI-MEM",
+          "de": "11b",
+          "a": "16b",
+          "etiqueta": "Memoria Flash SPI de alta velocidad (DIP-8)"
+        },
+        {
+          "type": "wire",
+          "color": "#ea0",
+          "de": "p2",
+          "a": "11c",
+          "etiqueta": "Línea de reloj de alta velocidad SCK"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "p3",
+          "a": "11d",
+          "etiqueta": "Línea de datos Master Out Slave In (MOSI)"
+        },
+        {
+          "type": "wire",
+          "color": "#10b981",
           "de": "p4",
-          "a": "7a",
-          "etiqueta": "Línea de reloj SCK 20MHz"
+          "a": "11e",
+          "etiqueta": "Línea de selección de chip activa en bajo (CS)"
+        },
+        {
+          "type": "cap",
+          "valor": "100 nF",
+          "de": "11f",
+          "a": "m11",
+          "etiqueta": "Condensador de desacoplo cerámico de alta frecuencia (100 nF)"
         },
         {
           "type": "res",
-          "valor": 330,
-          "de": "7b",
-          "a": "11b",
-          "etiqueta": "Resistencia de amortiguamiento serie"
-        },
-        {
-          "type": "led",
-          "color": "#3c3",
-          "de": "11c",
-          "a": "15c",
-          "etiqueta": "Chip Select CS activo en bajo"
+          "valor": 100,
+          "de": "16c",
+          "a": "20c",
+          "etiqueta": "Resistor de terminación de línea (100 Ω) amortiguador de reflexiones"
         },
         {
           "type": "wire",
           "color": "#111",
-          "de": "15e",
-          "a": "m15",
-          "etiqueta": "GND de alta frecuencia"
+          "de": "16e",
+          "a": "m16",
+          "etiqueta": "GND de referencia"
         }
       ]
     },
@@ -2022,41 +2877,64 @@
       "nivel": 5,
       "nivelNombre": "Nivel 5 — Electrónica Avanzada, Interfaces y Sistemas Embebidos",
       "laboratorioNumero": 6,
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
       "nombre": "L5.6 — Transmisor Diferencial RS-485 para Entornos Industriales",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Verificar inmunidad electromagnética mediante señalización diferencial balanceada (A-B).",
-      "ecuaciones": "V_diff = V_A - V_B, Terminación R_t = 120 Ω",
-      "descripcion": "Verificar inmunidad electromagnética mediante señalización diferencial balanceada (A-B). Ecuaciones rectoras: V_diff = V_A - V_B, Terminación R_t = 120 Ω",
-      "medicionesEsperadas": "Recepción fidedigna con cables de más de 500 metros en presencia de ruido severo.",
-      "diagnosticoResolucion": "Omitir la resistencia terminadora en los extremos produce reflexiones destructivas.",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Transmisión diferencial balanceada inmune a ruido electromagnético en distancias de hasta 1200 metros.",
+      "ecuaciones": "V_diff = V_A - V_B, Umbral de recepción |V_diff| >= 200 mV",
+      "descripcion": "Transceptor RS-485 MAX485 con resistencia de terminación de par trenzado de 120 Ω.",
+      "medicionesEsperadas": "Líneas complementarias A y B con inmunidad total a ruidos inducidos en modo común.",
+      "diagnosticoResolucion": "Verificar la resistencia de terminación de 120 Ω entre las líneas A y B.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
-          "de": "p3",
-          "a": "6a",
-          "etiqueta": "Alimentación del transceptor 5V"
+          "de": "p4",
+          "a": "10a",
+          "etiqueta": "Vcc +5V al transceptor industrial"
         },
         {
-          "type": "res",
-          "valor": 220,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "Resistencia de polarización Fail-Safe"
-        },
-        {
-          "type": "res",
-          "valor": 220,
-          "de": "10c",
-          "a": "14c",
-          "etiqueta": "Terminación de línea (120 Ω nominal)"
+          "type": "ic",
+          "n": "MAX485",
+          "de": "10b",
+          "a": "14b",
+          "etiqueta": "IC Transceiver RS-485 Diferencial MAX485"
         },
         {
           "type": "wire",
-          "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND apantallada"
+          "color": "#38bdf8",
+          "de": "p2",
+          "a": "10c",
+          "etiqueta": "Señal UART TX del microcontrolador"
+        },
+        {
+          "type": "wire",
+          "color": "#ea0",
+          "de": "p3",
+          "a": "10d",
+          "etiqueta": "Control de habilitación de transmisión DE/RE"
+        },
+        {
+          "type": "res",
+          "valor": 120,
+          "de": "14c",
+          "a": "18c",
+          "etiqueta": "Resistor de terminación de línea diferencial (120 Ω)"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "14d",
+          "a": "20d",
+          "etiqueta": "Línea de bus diferencial B (Inversora)"
+        },
+        {
+          "type": "wire",
+          "color": "#10b981",
+          "de": "18d",
+          "a": "20e",
+          "etiqueta": "Línea de bus diferencial A (No inversora)"
         }
       ]
     },
@@ -2065,41 +2943,71 @@
       "nivel": 5,
       "nivelNombre": "Nivel 5 — Electrónica Avanzada, Interfaces y Sistemas Embebidos",
       "laboratorioNumero": 7,
-      "nombre": "L5.7 — Controlador de Motor Paso a Paso con Microstepping",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Generar corrientes sinusoidales y cosinusoidales en cuadratura para posicionamiento angular preciso.",
-      "ecuaciones": "Paso_micro = Paso_entero / 16, I_A = I_max * cos(theta), I_B = I_max * sin(theta)",
-      "descripcion": "Generar corrientes sinusoidales y cosinusoidales en cuadratura para posicionamiento angular preciso. Ecuaciones rectoras: Paso_micro = Paso_entero / 16, I_A = I_max * cos(theta), I_B = I_max * sin(theta)",
-      "medicionesEsperadas": "Movimiento suave sin resonancia mecánica en bajas revoluciones.",
-      "diagnosticoResolucion": "Sobrecalentamiento si la corriente en reposo (Hold current) no se reduce al 50%.",
+      "complejidad": "complejo",
+      "complejidadTexto": "🔴 Complejo",
+      "nombre": "L5.7 — Controlador de Motor Paso a Paso con Driver A4988",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Posicionamiento angular de alta precisión mediante microstepping y limitación de corriente por chopper.",
+      "ecuaciones": "Resolución = 360° / (200 * microsteps), I_trip = V_ref / (8 * R_sense)",
+      "descripcion": "Driver de motor paso a paso con regulador de corriente PWM y entradas STEP y DIR.",
+      "medicionesEsperadas": "Rotación suave sin pérdida de pasos a frecuencias de micropulsos de hasta 10 kHz.",
+      "diagnosticoResolucion": "Ajustar con precisión el potenciómetro Vref para no sobrecalentar el motor.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
-          "de": "p5",
+          "de": "p3",
           "a": "8a",
-          "etiqueta": "V_motor 24V DC"
+          "etiqueta": "Vcc lógica de 5V para el controlador"
+        },
+        {
+          "type": "wire",
+          "color": "#ea0",
+          "de": "p5",
+          "a": "10a",
+          "etiqueta": "V_mot (+12V a +24V) de potencia de los bobinados"
+        },
+        {
+          "type": "ic",
+          "n": "A4988",
+          "de": "8b",
+          "a": "14b",
+          "etiqueta": "Módulo Driver de Motor Paso a Paso A4988"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "p2",
+          "a": "8c",
+          "etiqueta": "Señal de pulsos de avance STEP"
+        },
+        {
+          "type": "wire",
+          "color": "#10b981",
+          "de": "p4",
+          "a": "8d",
+          "etiqueta": "Señal de sentido de giro DIR"
+        },
+        {
+          "type": "cap",
+          "valor": "100 µF",
+          "de": "10b",
+          "a": "m10",
+          "etiqueta": "Condensador electrolítico de desacoplo de motor (100 µF)"
         },
         {
           "type": "res",
           "valor": 330,
-          "de": "8b",
-          "a": "12b",
-          "etiqueta": "Shunt de sensado de corriente (0.1 Ω eq)"
+          "de": "14c",
+          "a": "18c",
+          "etiqueta": "Borne Bobina 1A del motor paso a paso"
         },
         {
-          "type": "led",
-          "color": "#e33",
-          "de": "12c",
-          "a": "16c",
-          "etiqueta": "Bobina bipolar A"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "16e",
-          "a": "m16",
-          "etiqueta": "GND de potencia"
+          "type": "res",
+          "valor": 330,
+          "de": "14d",
+          "a": "18d",
+          "etiqueta": "Borne Bobina 2A del motor paso a paso"
         }
       ]
     },
@@ -2108,41 +3016,64 @@
       "nivel": 5,
       "nivelNombre": "Nivel 5 — Electrónica Avanzada, Interfaces y Sistemas Embebidos",
       "laboratorioNumero": 8,
-      "nombre": "L5.8 — Adquisición de Datos Multicanal y Procesamiento Digital (DSP)",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Diseñar filtro digital FIR/IIR embebido para remoción de componentes espurias.",
-      "ecuaciones": "y[n] = sum(b_k * x[n-k]) - sum(a_k * y[n-k])",
-      "descripcion": "Diseñar filtro digital FIR/IIR embebido para remoción de componentes espurias. Ecuaciones rectoras: y[n] = sum(b_k * x[n-k]) - sum(a_k * y[n-k])",
-      "medicionesEsperadas": "Atenuación espectral de frecuencias interferentes en tiempo real.",
-      "diagnosticoResolucion": "Evitar desbordamiento aritmético (Overflow) en representaciones de punto fijo Q15.",
+      "complejidad": "intermedio",
+      "complejidadTexto": "🟡 Intermedio",
+      "nombre": "L5.8 — Adquisición de Datos Multicanal y Muestreo S&H",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Multiplexar 8 sensores analógicos hacia un solo convertidor mediante circuito Sample & Hold.",
+      "ecuaciones": "f_muestreo >= 2 * f_max (Teorema de Nyquist-Shannon), Tiempo de adquisición t_acq",
+      "descripcion": "Multiplexor analógico CMOS 4051 con condensador de retención de bajo goteo.",
+      "medicionesEsperadas": "Crosstalk inferior a -70 dB entre canales adyacentes a 10 kHz.",
+      "diagnosticoResolucion": "Verificar la resistencia ON del multiplexor analógico para calcular el error de ganancia.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
           "de": "p3",
-          "a": "6a",
-          "etiqueta": "Canal analógico ADC CH0"
+          "a": "7a",
+          "etiqueta": "Alimentación Vcc +5V al multiplexor analógico"
         },
         {
-          "type": "res",
-          "valor": 1000,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "Filtro antialiasing RC"
+          "type": "ic",
+          "n": "CD4051",
+          "de": "7b",
+          "a": "12b",
+          "etiqueta": "IC Multiplexor Analógico de 8 Canales CD4051"
         },
         {
-          "type": "res",
-          "valor": 1000,
-          "de": "10c",
-          "a": "14c",
-          "etiqueta": "Canal analógico ADC CH1"
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "p2",
+          "a": "7c",
+          "etiqueta": "Canal Analógico 0 (Sensor de temperatura)"
+        },
+        {
+          "type": "wire",
+          "color": "#ea0",
+          "de": "p4",
+          "a": "7d",
+          "etiqueta": "Canal Analógico 1 (Sensor de presión)"
+        },
+        {
+          "type": "cap",
+          "valor": "10 µF",
+          "de": "12c",
+          "a": "m12",
+          "etiqueta": "Condensador de retención de bajo goteo Sample & Hold (10 µF)"
+        },
+        {
+          "type": "wire",
+          "color": "#10b981",
+          "de": "12d",
+          "a": "16d",
+          "etiqueta": "Salida analógica común hacia el ADC"
         },
         {
           "type": "wire",
           "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND analógica"
+          "de": "12e",
+          "a": "m12",
+          "etiqueta": "GND de referencia analógica"
         }
       ]
     },
@@ -2151,41 +3082,71 @@
       "nivel": 5,
       "nivelNombre": "Nivel 5 — Electrónica Avanzada, Interfaces y Sistemas Embebidos",
       "laboratorioNumero": 9,
-      "nombre": "L5.9 — Diseño de Fuente Conmutada Flyback Aislada",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Diseñar transformador de acoplamiento magnético, cálculo de núcleo y ciclo desmagnetizante.",
-      "ecuaciones": "V_out = V_in * (N_s / N_p) * (D / (1 - D))",
-      "descripcion": "Diseñar transformador de acoplamiento magnético, cálculo de núcleo y ciclo desmagnetizante. Ecuaciones rectoras: V_out = V_in * (N_s / N_p) * (D / (1 - D))",
-      "medicionesEsperadas": "Aislamiento galvánico y regulación precisa con lazo optoacoplado TL431.",
-      "diagnosticoResolucion": "La inductancia de dispersión primario-secundario induce sobretensiones destructivas en el MOSFET.",
+      "complejidad": "complejo",
+      "complejidadTexto": "🔴 Complejo",
+      "nombre": "L5.9 — Diseño de Fuente Conmutada Flyback Aislada con Realimentación Optoacoplada",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Convertir potencia AC/DC con aislamiento galvánico de alta tensión y control PWM en modo corriente.",
+      "ecuaciones": "V_out = (N_s / N_p) * V_in * (D / (1 - D)), Eficiencia eta >= 82%",
+      "descripcion": "Fuente Flyback industrial con controlador UC3842, transformador acoplado y lazo TL431.",
+      "medicionesEsperadas": "Tensión regulada a 5.0V con aislamiento de seguridad superior a 3 kV.",
+      "diagnosticoResolucion": "Verificar la red snubber RCD para proteger el MOSFET del pico de fuga.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
-          "de": "p4",
-          "a": "7a",
-          "etiqueta": "Bus DC primario 150V rectificado"
+          "de": "p2",
+          "a": "6a",
+          "etiqueta": "Entrada primaria de alta tensión rectificada"
+        },
+        {
+          "type": "ic",
+          "n": "UC3842",
+          "de": "6b",
+          "a": "10b",
+          "etiqueta": "IC Controlador PWM en modo corriente UC3842"
+        },
+        {
+          "type": "trans",
+          "t": "MOSFET N-CH",
+          "de": "10c",
+          "a": "m10",
+          "etiqueta": "MOSFET de conmutación primaria de potencia"
+        },
+        {
+          "type": "diode",
+          "t": "1N5819",
+          "de": "12b",
+          "a": "16b",
+          "etiqueta": "Diodo Schottky secundario ultrarrápido"
+        },
+        {
+          "type": "cap",
+          "valor": "100 µF",
+          "de": "16c",
+          "a": "m16",
+          "etiqueta": "Condensador de salida de baja impedancia (100 µF)"
         },
         {
           "type": "res",
-          "valor": 2200,
-          "de": "7b",
-          "a": "11b",
-          "etiqueta": "Snubber RCD primario"
+          "valor": 1000,
+          "de": "16d",
+          "a": "20d",
+          "etiqueta": "Resistor de carga de prueba secundaria (1 kΩ)"
         },
         {
-          "type": "led",
-          "color": "#3c3",
-          "de": "11c",
-          "a": "15c",
-          "etiqueta": "Secundario aislado 12V"
+          "type": "ic",
+          "n": "PC817",
+          "de": "10d",
+          "a": "15d",
+          "etiqueta": "Optoacoplador de realimentación aislada PC817"
         },
         {
           "type": "wire",
           "color": "#111",
-          "de": "15e",
-          "a": "m15",
-          "etiqueta": "GND secundaria"
+          "de": "20e",
+          "a": "m20",
+          "etiqueta": "GND secundario aislado"
         }
       ]
     },
@@ -2194,41 +3155,70 @@
       "nivel": 5,
       "nivelNombre": "Nivel 5 — Electrónica Avanzada, Interfaces y Sistemas Embebidos",
       "laboratorioNumero": 10,
-      "nombre": "L5.10 — Proyecto de Integración de Sistema Electrónico y Diagnóstico Autónomo",
-      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado Avanzado)",
-      "objetivos": "Integrar sensado, procesamiento, potencia y telemetría con diagnóstico predictivo asistido por IA.",
-      "ecuaciones": "Disponibilidad A = MTBF / (MTBF + MTTR)",
-      "descripcion": "Integrar sensado, procesamiento, potencia y telemetría con diagnóstico predictivo asistido por IA. Ecuaciones rectoras: Disponibilidad A = MTBF / (MTBF + MTTR)",
-      "medicionesEsperadas": "Operación coordinada sin fallas y diagnóstico de estado reportado al tutor inteligente.",
-      "diagnosticoResolucion": "Auditar el presupuesto térmico total y balance de masas previo a la puesta en marcha.",
+      "complejidad": "complejo",
+      "complejidadTexto": "🔴 Complejo",
+      "nombre": "L5.10 — Proyecto de Integración de Sistema Embebido y Diagnóstico Autónomo",
+      "audiencia": "Ingeniería Eléctrica y Electrónica (Pregrado)",
+      "objetivos": "Integrar microcontrolador, sensores analógicos, actuadores y diagnóstico en tiempo real sobre bus de telemetría.",
+      "ecuaciones": "Ciclo_ejecución <= 10 ms (Hard Real-Time), Watchdog Timer activo",
+      "descripcion": "Sistema embebido completo con microcontrolador ATmega328P, oscilador, entradas y telemetría.",
+      "medicionesEsperadas": "Ejecución continua del firmware con reporte de telemetría a 115200 baudios.",
+      "diagnosticoResolucion": "Verificar el circuito de RESET con resistor pull-up de 10 kΩ a Vcc.",
       "pasos": [
         {
           "type": "wire",
           "color": "#d22",
-          "de": "p3",
-          "a": "6a",
-          "etiqueta": "Línea de alimentación general"
+          "de": "p4",
+          "a": "9a",
+          "etiqueta": "Alimentación Vcc +5V al microcontrolador"
+        },
+        {
+          "type": "ic",
+          "n": "ATmega328P",
+          "de": "9b",
+          "a": "17b",
+          "etiqueta": "Microcontrolador Embebido ATmega328P (DIP-28)"
+        },
+        {
+          "type": "res",
+          "valor": 10000,
+          "de": "p4",
+          "a": "9c",
+          "etiqueta": "Resistor pull-up de RESET (10 kΩ)"
+        },
+        {
+          "type": "btn",
+          "de": "9c",
+          "a": "m9",
+          "etiqueta": "Pulsador manual de RESET a tierra"
+        },
+        {
+          "type": "cap",
+          "valor": "100 nF",
+          "de": "9d",
+          "a": "m9",
+          "etiqueta": "Condensador cerámico de desacoplo de alta frecuencia (100 nF)"
+        },
+        {
+          "type": "wire",
+          "color": "#38bdf8",
+          "de": "p2",
+          "a": "9e",
+          "etiqueta": "Entrada analógica ADC0 conectada a sensor"
         },
         {
           "type": "res",
           "valor": 330,
-          "de": "6b",
-          "a": "10b",
-          "etiqueta": "Etapa de protección y fusibles"
+          "de": "17c",
+          "a": "21c",
+          "etiqueta": "Resistor limitador de línea de telemetría UART TX (330 Ω)"
         },
         {
-          "type": "res",
-          "valor": 1000,
-          "de": "10c",
-          "a": "14c",
-          "etiqueta": "Bus de telemetría y diagnóstico"
-        },
-        {
-          "type": "wire",
-          "color": "#111",
-          "de": "14e",
-          "a": "m14",
-          "etiqueta": "GND central del sistema"
+          "type": "led",
+          "color": "#3c3",
+          "de": "21d",
+          "a": "m21",
+          "etiqueta": "LED indicador de latido de corazón (Heartbeat / TX activo)"
         }
       ]
     }

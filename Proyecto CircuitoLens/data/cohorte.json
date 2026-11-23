@@ -278,5 +278,93 @@
       "erroresTotales": 3,
       "tiempoPromedioPasoSeg": 43
     }
+  ],
+  "metricasComplejidad": {
+    "sencillos": {
+      "total": 18,
+      "tasaCompletitud": 94,
+      "tiempoPromedioMin": 12.4,
+      "erroresPorLab": 0.8
+    },
+    "intermedios": {
+      "total": 18,
+      "tasaCompletitud": 76,
+      "tiempoPromedioMin": 24.2,
+      "erroresPorLab": 2.1
+    },
+    "complejos": {
+      "total": 14,
+      "tasaCompletitud": 48,
+      "tiempoPromedioMin": 45.8,
+      "erroresPorLab": 4.6
+    }
+  },
+  "circuitosComplejosMonitoreo": [
+    {
+      "id": 30,
+      "nombre": "L4.1 — Puente H Bidireccional con 4 Transistores BJT y Diodos Flyback",
+      "pasos": 11,
+      "nivel": "Nivel 4: Potencia",
+      "completados": 7,
+      "enProgreso": 11,
+      "tasaExito": "41%",
+      "errorCritico": "Diodo Flyback invertido en rama derecha (cortocircuito inductivo)",
+      "sugerenciaDocente": "Pista pedagógica: Recuerda que el cátodo (franja) del diodo superior debe ir siempre a Vcc (+)."
+    },
+    {
+      "id": 33,
+      "nombre": "L4.4 — Filtro Activo Pasa-Banda Sallen-Key de Segundo Orden con Op-Amp",
+      "pasos": 11,
+      "nivel": "Nivel 4: Potencia",
+      "completados": 9,
+      "enProgreso": 8,
+      "tasaExito": "52%",
+      "errorCritico": "Lazo de realimentación positiva C2 conectado a masa en vez de pin central",
+      "sugerenciaDocente": "Pista pedagógica: C2 provee la resonancia del polo; conéctalo del nodo R1-R2 a la salida del Op-Amp."
+    },
+    {
+      "id": 24,
+      "nombre": "L3.5 — Contador Binario Asíncrono de 3 Bits con IC Flip-Flops",
+      "pasos": 10,
+      "nivel": "Nivel 3: Digital",
+      "completados": 12,
+      "enProgreso": 7,
+      "tasaExito": "63%",
+      "errorCritico": "Señal de cascada conectada a Q invertida en lugar de reloj del bit siguiente",
+      "sugerenciaDocente": "Pista pedagógica: Para conteo ascendente con flip-flops activos por flanco de bajada, use la salida Q."
+    },
+    {
+      "id": 37,
+      "nombre": "L4.8 — Inversor de Potencia DC-AC Modulado PWM con Etapa Push-Pull",
+      "pasos": 12,
+      "nivel": "Nivel 4: Potencia",
+      "completados": 5,
+      "enProgreso": 12,
+      "tasaExito": "35%",
+      "errorCritico": "Tiempo muerto nulo: conducción simultánea de Q1 y Q2 (Shoot-Through)",
+      "sugerenciaDocente": "Pista pedagógica: Verifica que las señales PWM de ambas ramas no se solapen en nivel alto."
+    },
+    {
+      "id": 48,
+      "nombre": "L5.9 — Amplificador de Instrumentación de Alta Precisión con 3 Op-Amps",
+      "pasos": 12,
+      "nivel": "Nivel 5: Embebidos",
+      "completados": 4,
+      "enProgreso": 9,
+      "tasaExito": "31%",
+      "errorCritico": "Desbalance en resistencias del restador degradando el CMRR",
+      "sugerenciaDocente": "Pista pedagógica: Las 4 resistencias del restador (R1 a R4) deben ser idénticas al 1% (10 kΩ)."
+    },
+    {
+      "id": 44,
+      "nombre": "L5.5 — Sintetizador de Frecuencia PLL con Comparador de Fase y VCO",
+      "pasos": 12,
+      "nivel": "Nivel 5: Embebidos",
+      "completados": 6,
+      "enProgreso": 10,
+      "tasaExito": "38%",
+      "errorCritico": "Filtro de bucle pasabajo subamortiguado que causa inestabilidad en VCO",
+      "sugerenciaDocente": "Pista pedagógica: Añade la resistencia R2 en serie con C2 para introducir el cero de fase."
+    }
   ]
 }
