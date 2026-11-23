@@ -3,7 +3,7 @@
    Garantiza funcionamiento 100% offline para laboratorios
    ======================================================== */
 
-const CACHE_NAME = 'circuitlens-v5-cache';
+const CACHE_NAME = 'circuitlens-v6-cache';
 
 const STATIC_ASSETS = [
   './circuitlens.html',

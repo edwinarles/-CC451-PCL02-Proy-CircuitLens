@@ -346,10 +346,12 @@ const Auth = {
       if (isDoc) {
         btnToggle.innerHTML = '↔ Modo Estudiante 🎓';
         btnToggle.style.background = 'var(--good)';
+        btnToggle.style.color = 'var(--good-text)';
         btnToggle.title = 'Sesión actual: DOCENTE. Clic para cambiar a Estudiante.';
       } else {
         btnToggle.innerHTML = '↔ Modo Docente 👨‍🏫';
         btnToggle.style.background = 'var(--ac)';
+        btnToggle.style.color = 'var(--ac-text)';
         btnToggle.title = 'Sesión actual: ESTUDIANTE. Clic para cambiar a Docente.';
       }
     }
@@ -653,10 +655,13 @@ const BreadboardCAD = {
   },
 
   applyTransform() {
-    const target = $('#bw-pan-target');
-    if (target) {
-      target.style.transform = `translate(${this.panX}px, ${this.panY}px) scale(${this.zoom})`;
-    }
+    if (this._rafId) cancelAnimationFrame(this._rafId);
+    this._rafId = requestAnimationFrame(() => {
+      const target = $('#bw-pan-target');
+      if (target) {
+        target.style.transform = `translate3d(${this.panX}px, ${this.panY}px, 0) scale(${this.zoom})`;
+      }
+    });
   }
 };
 
@@ -4038,35 +4043,75 @@ function comp(s, g) {
 
 function draw(el, isInstructorView = false) {
   if (!el) return;
-  let h = '<rect width="880" height="380" fill="#1e293b" rx="10"/>';
+  // Base del protoboard CAD con contraste profesional y ranuras realistas
+  let h = '<rect width="880" height="380" fill="#141f33" rx="12" stroke="#334155" stroke-width="2"/>';
+  
+  // Rieles de alimentación superior (+ y -)
+  h += '<rect x="25" y="14" width="830" height="52" fill="#0c1322" rx="6" stroke="#1e293b"/>';
+  h += '<line x1="38" y1="28" x2="845" y2="28" stroke="rgba(239, 68, 68, 0.45)" stroke-width="1.5" stroke-dasharray="4 2"/>';
+  h += '<line x1="38" y1="52" x2="845" y2="52" stroke="rgba(59, 130, 246, 0.45)" stroke-width="1.5" stroke-dasharray="4 2"/>';
+  h += '<text x="14" y="33" fill="#ef4444" font-size="14" font-weight="900" font-family="monospace">+</text>';
+  h += '<text x="14" y="57" fill="#3b82f6" font-size="15" font-weight="900" font-family="monospace">−</text>';
+  
+  // Canal central DIP (separación de buses A-E y F-J)
+  h += '<rect x="25" y="198" width="830" height="18" fill="#080c14" rx="4" stroke="#1e293b"/>';
+  h += '<text x="440" y="211" fill="#64748b" font-size="9.5" font-family="monospace" text-anchor="middle" font-weight="700" letter-spacing="1.5">━ CANAL CENTRAL DIP ━</text>';
+
+  // Letras de filas (a-e arriba, f-j abajo) con alto contraste
+  'abcdefghij'.split('').forEach((r, idx) => {
+    const yCoord = idx < 5 ? 100 + idx * 22 : 225 + (idx - 5) * 22;
+    h += `<text x="24" y="${yCoord + 4}" fill="#38bdf8" font-size="11" font-weight="bold" font-family="monospace" text-anchor="middle">${r.toUpperCase()}</text>`;
+    h += `<text x="856" y="${yCoord + 4}" fill="#38bdf8" font-size="11" font-weight="bold" font-family="monospace" text-anchor="middle">${r.toUpperCase()}</text>`;
+  });
+
+  // Números de columnas (1 a 30) y contactos metálicos
   for (let c = 1; c <= 30; c++) {
+    const xCoord = 40 + c * 26;
+    if (c === 1 || c % 5 === 0) {
+      h += `<text x="${xCoord}" y="88" fill="#94a3b8" font-size="10" font-weight="bold" font-family="monospace" text-anchor="middle">${c}</text>`;
+      h += `<text x="${xCoord}" y="342" fill="#94a3b8" font-size="10" font-weight="bold" font-family="monospace" text-anchor="middle">${c}</text>`;
+    }
+
+    // Pines de alimentación Vcc y GND
     for (const p of ['p' + c, 'm' + c]) {
       const [x, y] = xy(p);
-      h += `<circle cx="${x}" cy="${y}" r="3.5" fill="${p[0] === 'p' ? '#ef4444' : '#3b82f6'}"/>`;
+      const isVcc = p[0] === 'p';
+      h += `<circle cx="${x}" cy="${y}" r="4" fill="#0b121e" stroke="${isVcc ? '#ef4444' : '#3b82f6'}" stroke-width="1.2"/>`;
+      h += `<circle cx="${x}" cy="${y}" r="1.8" fill="${isVcc ? '#f87171' : '#60a5fa'}"/>`;
     }
+
+    // Filas a-j (Puntos de contacto del protoboard con anillo metálico visible)
     for (const r of 'abcdefghij') {
       const [x, y] = xy(c + r);
-      h += `<circle cx="${x}" cy="${y}" r="3.5" fill="#0f172a"/>`;
+      h += `<circle cx="${x}" cy="${y}" r="4" fill="#090e1a" stroke="#475569" stroke-width="1.2"/>`;
+      h += `<circle cx="${x}" cy="${y}" r="1.5" fill="#cbd5e1"/>`;
     }
   }
-  h += `<text x="12" y="34" fill="#ef4444" font-size="14" font-weight="bold">+</text><text x="12" y="58" fill="#3b82f6" font-size="14" font-weight="bold">−</text>`;
 
+  // Componentes colocados
   const st = cir();
   st.forEach((s, i) => {
     if (i < S.placed) h += comp(s, 0);
   });
+
+  // Guía de siguiente paso con indicador de pin y animación
   if (S.placed < st.length) {
     const s = st[S.placed];
     h += comp(s, 1);
     for (const p of [s.a, s.b]) {
       const [x, y] = xy(p);
-      h += `<circle class="ring" data-pin="${p}" cx="${x}" cy="${y}" r="12" fill="none" stroke="#10b981" stroke-width="3.5" title="Pin accesible: Haz clic para insertar"/>`;
+      h += `<circle class="ring" data-pin="${p}" cx="${x}" cy="${y}" r="13" fill="rgba(16, 185, 129, 0.22)" stroke="#10b981" stroke-width="3.5" title="Pin ${p.toUpperCase()}: Haz clic o pulsa Espacio para insertar"/>`;
+      h += `<text x="${x}" y="${y - 16}" fill="#34d399" font-size="11" font-weight="800" text-anchor="middle" font-family="monospace" stroke="#090e17" stroke-width="2.5" paint-order="stroke fill">${p.toUpperCase()}</text>`;
     }
   }
+
+  // Marcas del Docente en tiempo real
   ANN.forEach((a) => {
-    h += `<circle cx="${a.x}" cy="${a.y}" r="20" fill="rgba(239, 68, 68, 0.25)" stroke="#ef4444" stroke-width="4"/>`;
+    h += `<circle cx="${a.x}" cy="${a.y}" r="22" fill="rgba(239, 68, 68, 0.3)" stroke="#ef4444" stroke-width="3.5" class="ring-teacher-mark"/>`;
     h += `<circle cx="${a.x}" cy="${a.y}" r="5" fill="#ef4444"/>`;
+    h += `<text x="${a.x}" y="${a.y - 25}" fill="#fca5a5" font-size="11" font-weight="800" text-anchor="middle" font-family="monospace" stroke="#090e17" stroke-width="2.5" paint-order="stroke fill">⚠ REVISAR PIN</text>`;
   });
+
   el.innerHTML = h;
 }
 
@@ -4119,6 +4164,9 @@ function render() {
    10. Asistente y Comunicador Universal: say()
    ======================================================== */
 function say(m, alertType = 0) {
+  const srAnnouncer = $('#cl-sr-announcer');
+  if (srAnnouncer) srAnnouncer.textContent = m;
+
   if (Channels.text) {
     const c = $('#cap');
     if (c) c.innerHTML = '<b>CircuitLens:</b> ' + m;
@@ -5519,8 +5567,15 @@ window.addEventListener('DOMContentLoaded', async () => {
     };
   }
 
-  // Teclado & Switch Access
+  // Teclado Accesible, Atajos WCAG y Switch Access
   window.addEventListener('keydown', (e) => {
+    // Si presiona Escape, cerrar modales abiertos
+    if (e.key === 'Escape') {
+      const modal = $('#modal-auth');
+      if (modal) modal.style.display = 'none';
+      return;
+    }
+
     if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
       if (e.key === ' ' || e.key === 'Enter') {
         if (!e.target.closest('button')) { e.preventDefault(); next(); }
@@ -5528,6 +5583,16 @@ window.addEventListener('DOMContentLoaded', async () => {
         diagnose();
       } else if (e.key === 'v' || e.key === 'V') {
         $('#mic').click();
+      } else if (e.key === '+' || e.key === '=') {
+        BreadboardCAD.setZoom(BreadboardCAD.zoom + 0.15);
+      } else if (e.key === '-' || e.key === '_') {
+        BreadboardCAD.setZoom(BreadboardCAD.zoom - 0.15);
+      } else if (e.key === '0') {
+        BreadboardCAD.resetView();
+      } else if (e.altKey && e.key >= '1' && e.key <= '5') {
+        const tabs = Array.from($$('nav button')).filter((b) => b.style.display !== 'none');
+        const idx = parseInt(e.key, 10) - 1;
+        if (tabs[idx]) tabs[idx].click();
       }
     }
   });

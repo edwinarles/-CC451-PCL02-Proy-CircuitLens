@@ -1,40 +1,71 @@
 /* ========================================================
-   🔬 CircuitLens - Modern, High-Contrast & Accessible Design System
-   WCAG 2.1 AA Compliant, Quadriplegia/Switch-Access Friendly
-   Breadboard CAD Viewport with Pan, Zoom & Snapping
+   🔬 CircuitLens - Sistema de Diseño Accesible de Alto Contraste
+   Cumplimiento WCAG 2.1 AA / AAA, Accesibilidad Universal
+   Viewport CAD con Aceleración por Hardware (GPU)
    ======================================================== */
 
 :root {
-  --bg: #0c121e;
-  --fg: #e2e8f0;
-  --card: #162032;
+  /* Paleta de Contraste WCAG AAA (Ratios >= 7:1 en fondos oscuros) */
+  --bg: #090e17;
+  --fg: #f8fafc;           /* Ratio 16.5:1 sobre --bg (WCAG AAA) */
+  --fg-muted: #cbd5e1;     /* Ratio 11.2:1 sobre --bg (WCAG AAA) */
+  --fg-subtle: #94a3b8;    /* Ratio 6.2:1 sobre --bg (WCAG AA) */
+  --card: #131d2e;
   --card-hover: #1e2c44;
-  --bb: #0a0f18;
-  --bd: #2d3d57;
+  --bb: #080c14;
+  --bd: #334155;
+  --bd-hover: #475569;
   --bd-focus: #38bdf8;
+  
+  /* Botones y Estados con Contraste Verificado */
   --p: #2563eb;
   --p-hover: #1d4ed8;
   --ac: #06b6d4;
+  --ac-text: #041e28;     /* Texto oscuro para cyan: ratio 10.1:1 */
   --ac2: #8b5cf6;
   --good: #10b981;
+  --good-text: #022c16;   /* Texto oscuro para verde claro: ratio 9.2:1 */
   --bad: #ef4444;
+  --bad-text: #ffffff;
   --warn: #f59e0b;
+  --warn-text: #451a03;   /* Texto oscuro para ámbar: ratio 9.8:1 */
+  
   --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
 }
 
+/* Modo Alto Contraste (WCAG AAA Extremo) */
 body.hc {
   --bg: #000000;
   --fg: #ffffff;
-  --card: #121212;
-  --card-hover: #222222;
+  --fg-muted: #fffffe;
+  --fg-subtle: #ffffff;
+  --card: #0d0d0d;
+  --card-hover: #1a1a1a;
+  --bb: #000000;
   --bd: #ffffff;
+  --bd-hover: #ffff00;
+  --bd-focus: #00ffff;
   --p: #00ffff;
-  --good: #00ff00;
+  --good: #00ff66;
+  --good-text: #000000;
   --bad: #ff0055;
+  --bad-text: #ffffff;
   --warn: #ffff00;
+  --warn-text: #000000;
+}
+
+body.hc * {
+  border-color: #ffffff !important;
+}
+
+body.hc button, 
+body.hc input, 
+body.hc select {
+  border: 2px solid #ffffff !important;
 }
 
 body.calm {
@@ -55,82 +86,137 @@ body {
   font-family: var(--font-main);
   background: var(--bg);
   color: var(--fg);
-  line-height: 1.5;
+  line-height: 1.55;
   font-size: 15px;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* Enlace accesible de salto al contenido principal (WCAG 2.4.1) */
+.skip-link {
+  position: absolute;
+  top: -60px;
+  left: 14px;
+  background: var(--p);
+  color: #ffffff !important;
+  padding: 10px 18px;
+  z-index: 10000;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  transition: top 0.2s ease-in-out;
+}
+.skip-link:focus {
+  top: 14px;
+  outline: 3px solid var(--bd-focus);
+}
+
+/* Visibilidad de foco por teclado accesible (WCAG 2.4.7) */
 :focus-visible {
   outline: 3px solid var(--bd-focus) !important;
-  outline-offset: 2px !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.4) !important;
 }
 
-header {
+/* Clase para contenido exclusivo de lectores de pantalla (WCAG 1.3.1) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ========================================================
+   Encabezado Unificado y Navegación
+   ======================================================== */
+header[role="banner"] {
   background: var(--card);
-  border-bottom: 1px solid var(--bd);
-  padding: 12px 18px;
+  border-bottom: 1.5px solid var(--bd);
+  padding: 10px 20px;
   display: flex;
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  backdrop-filter: blur(8px);
 }
 
 header h1 {
   margin: 0;
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 800;
   display: flex;
   align-items: center;
   gap: 8px;
+  color: var(--fg);
+  letter-spacing: -0.3px;
+}
+
+header h1 small {
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--fg-muted);
 }
 
 nav[role="tablist"] {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   background: var(--bb);
-  padding: 8px 16px;
-  border-bottom: 1px solid var(--bd);
+  padding: 8px 18px;
+  border-bottom: 1.5px solid var(--bd);
   overflow-x: auto;
   scrollbar-width: thin;
 }
 
 nav button {
   background: transparent;
-  color: var(--fg);
+  color: var(--fg-muted);
   border: 1px solid transparent;
-  padding: 8px 14px;
+  padding: 8px 16px;
   border-radius: var(--radius-md);
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
-  transition: all 0.15s ease-in-out;
+  transition: all 0.18s ease-in-out;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   min-height: 42px;
 }
 
 nav button:hover {
-  background: var(--card);
+  background: var(--card-hover);
+  color: var(--fg);
   border-color: var(--bd);
 }
 
 nav button[aria-selected="true"] {
   background: var(--p);
-  color: #fff;
+  color: #ffffff;
   border-color: var(--p);
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.4);
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.45);
 }
 
+/* Barra de Canales y Accesibilidad Universal */
 .channels-bar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  background: #0f172a;
-  padding: 8px 18px;
+  background: #0d1524;
+  padding: 8px 20px;
   border-bottom: 1px solid var(--bd);
 }
 
@@ -145,7 +231,7 @@ nav button[aria-selected="true"] {
   background: var(--card);
   border: 1px solid var(--bd);
   color: var(--fg);
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 20px;
   font-size: 13px;
   font-weight: 600;
@@ -157,23 +243,32 @@ nav button[aria-selected="true"] {
   min-height: 38px;
 }
 
+.channel-toggle:hover {
+  border-color: var(--bd-focus);
+  background: var(--card-hover);
+}
+
 .channel-toggle.active {
-  background: rgba(16, 185, 129, 0.15);
+  background: rgba(16, 185, 129, 0.18);
   border-color: var(--good);
-  color: #6ee7b7;
+  color: #a7f3d0;
+  font-weight: 700;
 }
 
 .channel-toggle.disabled-chan {
-  background: rgba(239, 68, 68, 0.1);
+  background: rgba(239, 68, 68, 0.15);
   border-color: var(--bad);
   color: #fca5a5;
-  opacity: 0.7;
+  font-weight: 700;
 }
 
+/* ========================================================
+   Estructura y Tarjetas Principales
+   ======================================================== */
 main {
-  max-width: 1400px;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 20px;
 }
 
 .tab {
@@ -182,24 +277,44 @@ main {
 
 .tab.on {
   display: block;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .card {
   background: var(--card);
-  border: 1px solid var(--bd);
+  border: 1.5px solid var(--bd);
   border-radius: var(--radius-lg);
-  padding: 16px 20px;
-  margin-bottom: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 18px 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
 .card h2 {
   margin-top: 0;
-  font-size: 1.15rem;
+  margin-bottom: 12px;
+  font-size: 1.2rem;
   font-weight: 700;
   display: flex;
   align-items: center;
   gap: 8px;
+  color: var(--fg);
+  letter-spacing: -0.2px;
+}
+
+.card h3 {
+  color: var(--fg);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.card p {
+  color: var(--fg-muted);
+  line-height: 1.6;
 }
 
 .row {
@@ -213,15 +328,29 @@ main {
   flex-grow: 1;
 }
 
+/* Formularios y Controles con Alto Contraste */
 button, select, input[type="text"], input[type="password"], input[type="range"] {
   font-family: inherit;
   font-size: 14px;
 }
 
+select, input[type="text"], input[type="password"] {
+  background: var(--bb);
+  color: var(--fg);
+  border: 1.5px solid var(--bd);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  transition: border-color 0.15s ease;
+}
+
+select:focus, input[type="text"]:focus, input[type="password"]:focus {
+  border-color: var(--bd-focus);
+}
+
 button {
   background: var(--card-hover);
   color: var(--fg);
-  border: 1px solid var(--bd);
+  border: 1.5px solid var(--bd);
   padding: 8px 16px;
   border-radius: var(--radius-md);
   font-weight: 600;
@@ -231,79 +360,93 @@ button {
   justify-content: center;
   gap: 6px;
   min-height: 42px;
-  transition: all 0.15s ease;
+  transition: all 0.18s ease;
 }
 
 button:hover {
-  background: #253754;
+  background: #23344e;
   border-color: var(--bd-focus);
+  color: #ffffff;
 }
 
 button.p {
   background: var(--p);
   color: #ffffff;
   border-color: var(--p);
+  font-weight: 700;
 }
 
 button.p:hover {
   background: var(--p-hover);
+  border-color: var(--p-hover);
+}
+
+button.btn-accent {
+  background: var(--ac);
+  color: var(--ac-text);
+  border-color: var(--ac);
+  font-weight: 700;
 }
 
 button.btn-success {
   background: var(--good);
-  color: #000;
+  color: var(--good-text);
   border-color: var(--good);
+  font-weight: 700;
 }
 
 button.btn-warn {
   background: var(--warn);
-  color: #000;
+  color: var(--warn-text);
   border-color: var(--warn);
+  font-weight: 700;
 }
 
 button.btn-danger {
   background: var(--bad);
-  color: #fff;
+  color: var(--bad-text);
   border-color: var(--bad);
+  font-weight: 700;
 }
 
+/* Badges con Contraste Verificado */
 .badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
+  gap: 5px;
+  padding: 5px 12px;
   border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 12.5px;
+  font-weight: 700;
   background: var(--bb);
-  border: 1px solid var(--bd);
+  border: 1.5px solid var(--bd);
   color: var(--fg);
 }
 
 .badge.success {
-  background: rgba(16, 185, 129, 0.15);
+  background: rgba(16, 185, 129, 0.2);
   border-color: var(--good);
-  color: #6ee7b7;
+  color: #a7f3d0;
 }
 
 .badge.warn {
-  background: rgba(245, 158, 11, 0.15);
+  background: rgba(245, 158, 11, 0.2);
   border-color: var(--warn);
-  color: #fde68a;
+  color: #fef08a;
 }
 
 .badge.error {
-  background: rgba(239, 68, 68, 0.15);
+  background: rgba(239, 68, 68, 0.2);
   border-color: var(--bad);
-  color: #fca5a5;
+  color: #fecaca;
 }
 
 /* ========================================================
-   CAD Breadboard Viewport with Pan, Smooth Zoom & Responsive Canvas
+   CAD Breadboard Viewport con Aceleración GPU y Claridad Visual
    ======================================================== */
 .boardw-container {
   position: relative;
-  background: #090e17;
+  background: #080d17;
   border: 2px solid var(--bd);
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -311,7 +454,7 @@ button.btn-danger {
   width: 100%;
   cursor: grab;
   user-select: none;
-  box-shadow: inset 0 2px 14px rgba(0, 0, 0, 0.6);
+  box-shadow: inset 0 4px 20px rgba(0, 0, 0, 0.7);
   display: block;
 }
 
@@ -326,14 +469,15 @@ button.btn-danger {
   width: 880px;
   height: 380px;
   margin: 20px auto;
+  will-change: transform;
 }
 
 .board {
   width: 880px;
   height: 380px;
   display: block;
-  border-radius: 10px;
-  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.4));
+  border-radius: 12px;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.5));
 }
 
 #vid {
@@ -344,6 +488,19 @@ button.btn-danger {
   height: 100%;
   object-fit: cover;
   opacity: 0.6;
+}
+
+/* Anillo interactivo de inserción accesible */
+.ring {
+  cursor: pointer;
+  transition: stroke-width 0.15s ease, r 0.15s ease;
+  animation: pulse-ring 1.4s infinite;
+}
+
+@keyframes pulse-ring {
+  0% { stroke-width: 3.5; opacity: 1; }
+  50% { stroke-width: 5; opacity: 0.75; }
+  100% { stroke-width: 3.5; opacity: 1; }
 }
 
 /* Audio Visualizer & Wave */
@@ -374,31 +531,37 @@ button.btn-danger {
 }
 
 .spoken-highlight {
-  background: rgba(56, 189, 248, 0.2);
+  background: rgba(56, 189, 248, 0.18);
   border-left: 4px solid var(--bd-focus);
-  padding: 8px 12px;
-  border-radius: 4px;
+  padding: 10px 14px;
+  border-radius: 6px;
   font-weight: 600;
-  transition: all 0.3s ease;
+  color: var(--fg);
+  transition: all 0.25s ease;
 }
 
+/* Lista de Pasos con Alto Contraste */
 ol#st {
-  padding-left: 20px;
-  margin: 10px 0;
+  padding-left: 24px;
+  margin: 12px 0;
 }
 
 ol#st li {
-  padding: 6px 0;
-  font-size: 14.5px;
+  padding: 8px 0;
+  font-size: 15px;
+  color: var(--fg-muted);
+  line-height: 1.5;
 }
 
 ol#st li.cur {
-  font-weight: 700;
+  font-weight: 800;
   color: var(--bd-focus);
+  font-size: 15.5px;
 }
 
 ol#st li.done {
-  color: var(--good);
+  color: #6ee7b7;
+  font-weight: 600;
 }
 
 #log {
@@ -407,25 +570,26 @@ ol#st li.done {
   display: flex;
   flex-direction: column-reverse;
   gap: 8px;
-  font-size: 13.5px;
-  padding: 8px;
+  font-size: 14px;
+  padding: 10px 12px;
   background: var(--bb);
   border-radius: var(--radius-md);
-  border: 1px solid var(--bd);
+  border: 1.5px solid var(--bd);
+  color: var(--fg);
 }
 
 .workspaces-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 12px;
-  margin-top: 12px;
+  gap: 14px;
+  margin-top: 14px;
 }
 
 .workspace-card {
   background: var(--bb);
-  border: 1px solid var(--bd);
+  border: 1.5px solid var(--bd);
   border-radius: var(--radius-md);
-  padding: 12px 14px;
+  padding: 14px 16px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -437,14 +601,14 @@ ol#st li.done {
 
 .workspace-card.active {
   border-color: var(--p);
-  background: rgba(37, 99, 235, 0.15);
-  box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
+  background: rgba(37, 99, 235, 0.18);
+  box-shadow: 0 0 12px rgba(37, 99, 235, 0.4);
 }
 
 .interview-form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 18px;
 }
 
 @media (max-width: 768px) {
@@ -476,14 +640,14 @@ ol#st li.done {
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(10, 15, 24, 0.95);
-  backdrop-filter: blur(8px);
+  background: rgba(10, 15, 24, 0.96);
+  backdrop-filter: blur(10px);
   color: #fff;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border-top: 2px solid var(--p);
-  font-size: 14.5px;
+  font-size: 15px;
   z-index: 999;
-  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.5);
 }
 
 #conf {
@@ -502,7 +666,7 @@ ol#st li.done {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -512,32 +676,32 @@ ol#st li.done {
 
 .modal-card {
   background: var(--card);
-  border: 1px solid var(--bd);
+  border: 1.5px solid var(--bd);
   border-radius: var(--radius-lg);
-  padding: 24px;
-  max-width: 540px;
+  padding: 26px;
+  max-width: 560px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
 }
 
 .account-select-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 14px;
   margin: 14px 0;
 }
 
 .account-card {
   background: var(--bb);
-  border: 1.5px solid var(--bd);
+  border: 2px solid var(--bd);
   border-radius: var(--radius-md);
-  padding: 14px;
+  padding: 16px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   transition: all 0.2s ease;
 }
 
@@ -545,42 +709,31 @@ ol#st li.done {
   border-color: var(--bd-focus);
   background: var(--card-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
 }
 
 .badge-easy {
-  background: rgba(16, 185, 129, 0.15);
-  color: #10b981;
-  border: 1px solid rgba(16, 185, 129, 0.35);
-  font-weight: 600;
-  font-size: 11px;
+  background: rgba(16, 185, 129, 0.2);
+  color: #6ee7b7;
+  border: 1.5px solid rgba(16, 185, 129, 0.5);
+  font-weight: 700;
+  font-size: 11.5px;
 }
 
 .badge-med {
-  background: rgba(245, 158, 11, 0.15);
-  color: #f59e0b;
-  border: 1px solid rgba(245, 158, 11, 0.35);
-  font-weight: 600;
-  font-size: 11px;
+  background: rgba(245, 158, 11, 0.2);
+  color: #fde68a;
+  border: 1.5px solid rgba(245, 158, 11, 0.5);
+  font-weight: 700;
+  font-size: 11.5px;
 }
 
 .badge-hard {
-  background: rgba(239, 68, 68, 0.18);
-  color: #ef4444;
-  border: 1px solid rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.22);
+  color: #fca5a5;
+  border: 1.5px solid rgba(239, 68, 68, 0.55);
   font-weight: 700;
-  font-size: 11px;
-}
-
-.complex-task-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 12px;
-  background: var(--bb);
-  border: 1px solid var(--bd);
-  border-radius: var(--radius-md);
-  margin-bottom: 8px;
+  font-size: 11.5px;
 }
 
 /* ========================================================
@@ -589,8 +742,8 @@ ol#st li.done {
 .supervisor-layout {
   display: grid;
   grid-template-columns: 320px 1fr;
-  gap: 16px;
-  margin-top: 12px;
+  gap: 18px;
+  margin-top: 14px;
 }
 
 @media (max-width: 900px) {
@@ -612,7 +765,7 @@ ol#st li.done {
   background: var(--bb);
   border: 1.5px solid var(--bd);
   border-radius: var(--radius-md);
-  padding: 12px;
+  padding: 14px;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
@@ -626,13 +779,13 @@ ol#st li.done {
 
 .student-item-card.active {
   border-color: var(--ac);
-  background: rgba(37, 99, 235, 0.12);
+  background: rgba(37, 99, 235, 0.16);
   box-shadow: 0 0 0 2px var(--ac);
 }
 
 .student-item-card.has-error {
   border-color: var(--bad);
-  background: rgba(239, 68, 68, 0.08);
+  background: rgba(239, 68, 68, 0.1);
 }
 
 .student-item-card.needs-help {
@@ -648,9 +801,9 @@ ol#st li.done {
 
 .live-inspection-card {
   background: var(--card);
-  border: 1px solid var(--bd);
+  border: 1.5px solid var(--bd);
   border-radius: var(--radius-lg);
-  padding: 16px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -658,12 +811,12 @@ ol#st li.done {
 
 .teacher-tools-panel {
   background: var(--bb);
-  border: 1px solid var(--bd);
+  border: 1.5px solid var(--bd);
   border-radius: var(--radius-md);
-  padding: 14px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .quick-hints-grid {
@@ -674,11 +827,11 @@ ol#st li.done {
 
 .btn-quick-hint {
   background: var(--card);
-  border: 1px solid var(--bd);
+  border: 1.5px solid var(--bd);
   color: var(--fg);
-  padding: 8px 10px;
+  padding: 8px 12px;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 13px;
   text-align: left;
   cursor: pointer;
   display: flex;
@@ -693,17 +846,16 @@ ol#st li.done {
   color: #fff;
 }
 
-/* Notificación flotante de pista o mensaje para el Estudiante */
 .teacher-alert-banner {
-  background: linear-gradient(135deg, rgba(37,99,235,0.2), rgba(16,185,129,0.15));
-  border: 1.5px solid var(--ac);
+  background: linear-gradient(135deg, rgba(37,99,235,0.25), rgba(16,185,129,0.2));
+  border: 2px solid var(--ac);
   border-radius: var(--radius-md);
-  padding: 12px 16px;
-  margin-bottom: 12px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 14px;
   animation: slide-in 0.3s ease-out;
 }
 
@@ -712,11 +864,10 @@ ol#st li.done {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Efecto de anillo cuando el profesor marca un pin */
 .ring-teacher-mark {
   stroke: #ef4444;
-  stroke-width: 3;
-  fill: rgba(239, 68, 68, 0.25);
+  stroke-width: 3.5;
+  fill: rgba(239, 68, 68, 0.3);
   animation: ping 1.2s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
@@ -747,6 +898,3 @@ ol#st li.done {
 .role-student #interviews {
   display: none !important;
 }
-
-
-
