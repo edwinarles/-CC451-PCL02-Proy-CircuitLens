@@ -238,8 +238,8 @@ const Auth = {
       }
     } catch (e) {}
 
-    // Verify token with FastAPI backend
-    if (this.token) {
+    // Verify token with FastAPI backend (sólo si no es token local)
+    if (this.token && !this.token.startsWith('local_token_')) {
       try {
         const resp = await fetch('/api/auth/me', {
           headers: { 'Authorization': `Bearer ${this.token}` }
@@ -247,11 +247,6 @@ const Auth = {
         if (resp.ok) {
           const d = await resp.json();
           if (d.ok && d.user) this.user = d.user;
-        } else {
-          this.token = null;
-          this.user = null;
-          localStorage.removeItem('cl.auth_token');
-          localStorage.removeItem('cl.auth_user');
         }
       } catch (e) {}
     }
@@ -4660,9 +4655,22 @@ const WorkspaceManager = {
   workspaces: [],
 
   async loadUserWorkspaces() {
+    // Si la sesión es de invitado o local, cargar de localStorage sin llamadas que puedan dar 401
+    if (!Auth.token || Auth.token.startsWith('local_token_')) {
+      try {
+        const local = JSON.parse(localStorage.getItem('cl.local_workspaces') || '[]');
+        this.workspaces = local;
+        this.renderWorkspacesList();
+      } catch (e) {
+        this.workspaces = [];
+        this.renderWorkspacesList();
+      }
+      return;
+    }
+
     try {
       const resp = await fetch('/api/breadboards', {
-        headers: Auth.token ? { 'Authorization': `Bearer ${Auth.token}` } : {}
+        headers: { 'Authorization': `Bearer ${Auth.token}` }
       });
       if (resp.ok) {
         const data = await resp.json();
@@ -4670,6 +4678,13 @@ const WorkspaceManager = {
         this.renderWorkspacesList();
         return;
       }
+    } catch (e) {}
+
+    // Fallback local resiliente
+    try {
+      const local = JSON.parse(localStorage.getItem('cl.local_workspaces') || '[]');
+      this.workspaces = local;
+      this.renderWorkspacesList();
     } catch (e) {}
   },
 
@@ -4745,36 +4760,60 @@ const WorkspaceManager = {
       roomCode: S.roomId
     };
 
+    if (Auth.token && !Auth.token.startsWith('local_token_')) {
+      try {
+        const resp = await fetch('/api/breadboards/save', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${Auth.token}`
+          },
+          body: JSON.stringify(wsData)
+        });
+        if (resp.ok) {
+          const d = await resp.json();
+          this.currentWorkspace = d.breadboard;
+          say('Protoboard guardado exitosamente en la nube.', 2);
+          this.loadUserWorkspaces();
+          return;
+        }
+      } catch (e) {}
+    }
+
+    // Persistencia local resiliente (Modo local / Invitado)
     try {
-      const resp = await fetch('/api/breadboards/save', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${Auth.token}`
-        },
-        body: JSON.stringify(wsData)
-      });
-      if (resp.ok) {
-        const d = await resp.json();
-        this.currentWorkspace = d.breadboard;
-        say('Protoboard guardado exitosamente en la nube.', 2);
-        this.loadUserWorkspaces();
-        return;
-      }
+      const local = JSON.parse(localStorage.getItem('cl.local_workspaces') || '[]');
+      const newWs = {
+        ...wsData,
+        id: wsData.id || ('ws_' + Date.now()),
+        updatedAt: new Date().toISOString()
+      };
+      const idx = local.findIndex((x) => x.id === newWs.id);
+      if (idx >= 0) local[idx] = newWs; else local.unshift(newWs);
+      localStorage.setItem('cl.local_workspaces', JSON.stringify(local));
+      this.currentWorkspace = newWs;
+      say('Protoboard guardado exitosamente en este dispositivo.', 2);
+      this.loadUserWorkspaces();
     } catch (e) {}
   },
 
   async deleteWorkspace(wid) {
     if (!confirm('¿Deseas eliminar este protoboard independiente?')) return;
+    if (Auth.token && !Auth.token.startsWith('local_token_')) {
+      try {
+        await fetch('/api/breadboards/delete', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${Auth.token}`
+          },
+          body: JSON.stringify({ id: wid })
+        });
+      } catch (e) {}
+    }
     try {
-      await fetch('/api/breadboards/delete', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${Auth.token}`
-        },
-        body: JSON.stringify({ id: wid })
-      });
+      const local = JSON.parse(localStorage.getItem('cl.local_workspaces') || '[]');
+      localStorage.setItem('cl.local_workspaces', JSON.stringify(local.filter((x) => x.id !== wid)));
     } catch (e) {}
     this.workspaces = this.workspaces.filter((w) => w.id !== wid);
     this.renderWorkspacesList();

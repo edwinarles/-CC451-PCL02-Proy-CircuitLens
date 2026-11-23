@@ -88,6 +88,12 @@ app.add_middleware(
 )
 
 # ================= AUTH DEPENDENCY =================
+def get_optional_user(authorization: Optional[str] = Header(None)) -> Optional[dict]:
+    if not authorization or not authorization.startswith("Bearer "):
+        return None
+    token = authorization.split("Bearer ")[1].strip()
+    return SESSIONS.get(token)
+
 def get_current_user(authorization: Optional[str] = Header(None)):
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token no suministrado")
@@ -228,7 +234,9 @@ def login(req: LoginRequest):
     return {"ok": True, "token": token, "user": clean_user}
 
 @app.get("/api/auth/me")
-def get_me(user: dict = Depends(get_current_user)):
+def get_me(user: Optional[dict] = Depends(get_optional_user)):
+    if not user:
+        return {"ok": False, "user": None}
     return {"ok": True, "user": user}
 
 @app.post("/api/auth/logout")
@@ -325,7 +333,9 @@ def ai_chat(req: AIChatRequest, user: dict = Depends(get_current_user)):
 
 # --- BREADBOARD WORKSPACES ---
 @app.get("/api/breadboards")
-def list_breadboards(user: dict = Depends(get_current_user)):
+def list_breadboards(user: Optional[dict] = Depends(get_optional_user)):
+    if not user:
+        return {"ok": True, "breadboards": []}
     is_teacher = (user.get("role") == "teacher")
     boards = DB.list_breadboards(user["id"], is_teacher=is_teacher)
     return {"ok": True, "breadboards": boards}
@@ -393,7 +403,9 @@ def get_cohort_metrics():
     return {"ok": True, "metrics": {}}
 
 @app.get("/api/progress")
-def get_progress(userId: Optional[str] = None, user: dict = Depends(get_current_user)):
+def get_progress(userId: Optional[str] = None, user: Optional[dict] = Depends(get_optional_user)):
+    if not user:
+        return {"ok": True, "userId": None, "progress": []}
     target_id = user["id"]
     if userId and user.get("role") == "teacher":
         target_id = userId
