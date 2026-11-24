@@ -266,25 +266,16 @@ const Auth = {
     this.setupUI();
   },
 
-  async toggleRole() {
-    if (this.user && this.user.role === 'teacher') {
-      await this.login('estudiante@circuitlens.edu.pe', 'student123', 'student', 'Piero Castillo');
-      const tabEst = document.querySelector('nav button[data-t="est"]');
-      if (tabEst) tabEst.click();
-    } else {
-      await this.login('docente@circuitlens.edu.pe', 'CircuitLens2026!', 'teacher', 'Prof. Edwin Requena');
-      const tabIns = document.querySelector('nav button[data-t="ins"]');
-      if (tabIns) tabIns.click();
-    }
-  },
-
-  async login(email, password, role, name) {
+  async login(email, password) {
     let success = false;
+    let errorMessage = '';
+
+    // 1. Intentar validar con el backend FastAPI
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, role, name })
+        body: JSON.stringify({ email, password })
       });
       if (res.ok) {
         const data = await res.json();
@@ -293,22 +284,54 @@ const Auth = {
           this.token = data.token;
           success = true;
         }
+      } else {
+        const errData = await res.json().catch(() => ({}));
+        errorMessage = errData.detail || errData.message || 'Usuario o contraseña incorrectos.';
+        return { ok: false, error: errorMessage };
       }
     } catch (e) {
       // Backend offline / modo local
     }
 
-    // Fallback local robusto (garantiza que el cambio de cuenta NUNCA se bloquee)
+    // 2. Si el backend está offline o no disponible, validar con la tabla local autorizada
     if (!success) {
-      const isDoc = (role === 'teacher' || (email && (email.includes('docente') || email.includes('prof'))));
-      this.user = {
-        id: isDoc ? 'DOC-001' : 'ALU-' + Math.floor(100 + Math.random() * 900),
-        name: name || (isDoc ? 'Prof. Edwin Requena' : (email ? email.split('@')[0] : 'Piero Castillo')),
-        email: email || (isDoc ? 'docente@circuitlens.edu.pe' : 'estudiante@circuitlens.edu.pe'),
-        role: isDoc ? 'teacher' : 'student',
-        avatar: isDoc ? '👨‍🏫' : '🎓'
-      };
-      this.token = 'local_token_' + Date.now();
+      const KNOWN_ACCOUNTS = [
+        // PROFESORES / DOCENTES
+        { email: 'edwin.requena@circuitlens.edu.pe', pass: 'ProfEdwin2026*', role: 'teacher', id: 'DOC-001', name: 'Prof. Edwin Requena', avatar: '👨‍🏫' },
+        { email: 'docente@circuitlens.edu.pe', pass: 'CircuitLens2026!', role: 'teacher', id: 'DOC-001', name: 'Prof. Edwin Requena', avatar: '👨‍🏫' },
+        { email: 'carmen.valdivia@circuitlens.edu.pe', pass: 'DocValdivia2026!', role: 'teacher', id: 'DOC-002', name: 'Dra. Carmen Valdivia', avatar: '👩‍🏫' },
+        { email: 'marco.valdivia@circuitlens.edu.pe', pass: 'DocValdivia2026!', role: 'teacher', id: 'DOC-002', name: 'Dr. Marco Valdivia', avatar: '👨‍🏫' },
+        { email: 'roberto.alarcon@circuitlens.edu.pe', pass: 'AlarconLab2026#', role: 'teacher', id: 'DOC-003', name: 'Ing. Roberto Alarcón', avatar: '👨‍🏫' },
+        { email: 'ana.alarcon@circuitlens.edu.pe', pass: 'AlarconLab2026#', role: 'teacher', id: 'DOC-003', name: 'Dra. Ana Alarcón', avatar: '👩‍🏫' },
+        { email: 'victor.mendoza@circuitlens.edu.pe', pass: 'MendozaUni2026$', role: 'teacher', id: 'DOC-004', name: 'Mg. Víctor Mendoza', avatar: '👨‍🏫' },
+        // ESTUDIANTES
+        { email: 'piero.castillo@uni.edu.pe', pass: 'PieroAlumno2026!', role: 'student', id: 'ALU-101', name: 'Piero Castillo', avatar: '🎓' },
+        { email: 'piero.castillo@circuitlens.edu.pe', pass: 'CastilloPiero2026!', role: 'student', id: 'ALU-101', name: 'Piero Castillo', avatar: '🎓' },
+        { email: 'estudiante@circuitlens.edu.pe', pass: 'student123', role: 'student', id: 'ALU-101', name: 'Piero Castillo', avatar: '🎓' },
+        { email: 'ana.torres@uni.edu.pe', pass: 'AnaTorres2026!', role: 'student', id: 'ALU-102', name: 'Ana Torres', avatar: '🎓' },
+        { email: 'camila.vega@circuitlens.edu.pe', pass: 'VegaCamila2026!', role: 'student', id: 'ALU-102', name: 'Camila Vega', avatar: '🎓' },
+        { email: 'lucia.ramos@uni.edu.pe', pass: 'LuciaRamos2026!', role: 'student', id: 'ALU-103', name: 'Lucía Ramos', avatar: '🎓' },
+        { email: 'diego.paredes@circuitlens.edu.pe', pass: 'ParedesDiego2026!', role: 'student', id: 'ALU-103', name: 'Diego Paredes', avatar: '🎓' },
+        { email: 'carlos.mendoza@uni.edu.pe', pass: 'CarlosMendoza2026!', role: 'student', id: 'ALU-104', name: 'Carlos Mendoza', avatar: '🎓' },
+        { email: 'lucia.rodriguez@circuitlens.edu.pe', pass: 'RodriguezLucia2026!', role: 'student', id: 'ALU-104', name: 'Lucía Rodríguez', avatar: '🎓' }
+      ];
+
+      const cleanEmail = (email || '').trim().toLowerCase();
+      const matched = KNOWN_ACCOUNTS.find(a => (a.email.toLowerCase() === cleanEmail || a.email.split('@')[0].toLowerCase() === cleanEmail) && a.pass === password);
+
+      if (matched) {
+        this.user = {
+          id: matched.id,
+          name: matched.name,
+          email: matched.email,
+          role: matched.role,
+          avatar: matched.avatar
+        };
+        this.token = 'local_token_' + Date.now();
+        success = true;
+      } else {
+        return { ok: false, error: 'Credenciales inválidas. Verifique su usuario/correo y contraseña.' };
+      }
     }
 
     localStorage.setItem('cl.auth_token', this.token);
@@ -324,31 +347,56 @@ const Auth = {
     return { ok: true };
   },
 
+  logout() {
+    this.user = {
+      id: 'ALU-' + Math.floor(100 + Math.random() * 900),
+      name: 'Estudiante Invitado',
+      email: 'invitado@circuitlens.edu.pe',
+      role: 'student',
+      avatar: '🎓'
+    };
+    this.token = null;
+    localStorage.removeItem('cl.auth_token');
+    localStorage.removeItem('cl.auth_user');
+    if (typeof UserProfile !== 'undefined' && UserProfile.data) {
+      UserProfile.data.id = this.user.id;
+      UserProfile.data.alias = this.user.name;
+      UserProfile.save();
+    }
+    this.applyRolePermissions();
+    if (typeof WorkspaceManager !== 'undefined' && WorkspaceManager.loadUserWorkspaces) {
+      WorkspaceManager.loadUserWorkspaces();
+    }
+    say('Sesión cerrada. Ha vuelto al modo invitado.');
+  },
+
   applyRolePermissions() {
-    const isDoc = (this.user.role === 'teacher');
+    const isDoc = (this.user && this.user.role === 'teacher');
+    const isAuth = !!(this.token);
     document.documentElement.classList.toggle('role-teacher', isDoc);
     document.documentElement.classList.toggle('role-student', !isDoc);
     document.body.classList.toggle('role-teacher', isDoc);
     document.body.classList.toggle('role-student', !isDoc);
+
     const badge = $('#user-badge');
     if (badge) {
-      badge.innerHTML = `${this.user.avatar || '🎓'} ${this.user.name} <small style="opacity:0.85; font-size:11px; font-weight:700;">(${isDoc ? 'Docente' : 'Estudiante'})</small>`;
+      badge.innerHTML = `${this.user.avatar || (isDoc ? '👨‍🏫' : '🎓')} ${this.user.name} <small style="opacity:0.85; font-size:11px; font-weight:700;">(${isDoc ? 'Docente' : 'Estudiante'})</small>`;
       badge.style.borderColor = isDoc ? 'var(--ac2)' : 'var(--ac)';
     }
 
-    const btnToggle = $('#btn-quick-toggle-role');
-    if (btnToggle) {
-      if (isDoc) {
-        btnToggle.innerHTML = '↔ Modo Estudiante 🎓';
-        btnToggle.style.background = 'var(--good)';
-        btnToggle.style.color = 'var(--good-text)';
-        btnToggle.title = 'Sesión actual: DOCENTE. Clic para cambiar a Estudiante.';
-      } else {
-        btnToggle.innerHTML = '↔ Modo Docente 👨‍🏫';
-        btnToggle.style.background = 'var(--ac)';
-        btnToggle.style.color = 'var(--ac-text)';
-        btnToggle.title = 'Sesión actual: ESTUDIANTE. Clic para cambiar a Docente.';
-      }
+    const btnSwitch = $('#btn-switch-account');
+    if (btnSwitch) {
+      btnSwitch.innerHTML = isAuth ? '🔑 Cambiar Cuenta' : '🔑 Iniciar Sesión';
+    }
+
+    const btnLogoutHeader = $('#btn-logout-header');
+    if (btnLogoutHeader) {
+      btnLogoutHeader.style.display = isAuth ? 'inline-flex' : 'none';
+    }
+
+    const btnModalLogout = $('#btn-logout');
+    if (btnModalLogout) {
+      btnModalLogout.style.display = isAuth ? 'inline-flex' : 'none';
     }
 
     $$('nav button').forEach((btn) => {
@@ -398,68 +446,77 @@ const Auth = {
     const btnSwitch = $('#btn-switch-account');
     const modal = $('#modal-auth');
     const btnClose = $('#btn-close-auth-modal');
-    const btnSubmit = $('#btn-login-submit');
-    const btnQuickToggle = $('#btn-quick-toggle-role');
-    const cardStudent = $('#card-login-student');
-    const cardTeacher = $('#card-login-teacher');
-    const btnFillDemo = $('#btn-fill-teacher-demo');
+    const formLogin = $('#form-login');
+    const btnLogoutHeader = $('#btn-logout-header');
+    const btnModalLogout = $('#btn-logout');
 
-    if (btnQuickToggle) {
-      btnQuickToggle.onclick = () => {
-        this.toggleRole();
+    const openModal = () => {
+      if (!modal) return;
+      const errEl = $('#login-error-msg');
+      if (errEl) errEl.textContent = '';
+      const emailInput = $('#login-email');
+      const passInput = $('#login-password');
+      if (emailInput && !this.token) emailInput.value = '';
+      if (passInput) passInput.value = '';
+      modal.style.display = 'flex';
+      if (emailInput) setTimeout(() => emailInput.focus(), 50);
+    };
+
+    const closeModal = () => {
+      if (modal) modal.style.display = 'none';
+    };
+
+    if (btnSwitch) btnSwitch.onclick = openModal;
+    if (btnClose) btnClose.onclick = closeModal;
+
+    if (modal) {
+      modal.onclick = (e) => {
+        if (e.target === modal) closeModal();
       };
     }
 
-    if (btnSwitch && modal) btnSwitch.onclick = () => { modal.style.display = 'flex'; };
-    if (btnClose && modal) btnClose.onclick = () => { modal.style.display = 'none'; };
-
-    if (cardStudent) {
-      cardStudent.onclick = async () => {
-        await this.login('estudiante@circuitlens.edu.pe', 'student123', 'student', 'Piero Castillo');
-        if (modal) modal.style.display = 'none';
-        WorkspaceManager.loadUserWorkspaces();
-        const tabEst = document.querySelector('nav button[data-t="est"]');
-        if (tabEst) tabEst.click();
+    if (btnLogoutHeader) {
+      btnLogoutHeader.onclick = () => {
+        this.logout();
+        closeModal();
       };
     }
 
-    if (cardTeacher) {
-      cardTeacher.onclick = async () => {
-        await this.login('docente@circuitlens.edu.pe', 'CircuitLens2026!', 'teacher', 'Prof. Edwin Requena');
-        if (modal) modal.style.display = 'none';
-        WorkspaceManager.loadUserWorkspaces();
-        const tabIns = document.querySelector('nav button[data-t="ins"]');
-        if (tabIns) tabIns.click();
+    if (btnModalLogout) {
+      btnModalLogout.onclick = () => {
+        this.logout();
+        closeModal();
       };
     }
 
-    if (btnFillDemo) {
-      btnFillDemo.onclick = () => {
-        if ($('#login-email')) $('#login-email').value = 'docente@circuitlens.edu.pe';
-        if ($('#login-password')) $('#login-password').value = 'CircuitLens2026!';
-        if ($('#login-role')) $('#login-role').value = 'teacher';
-      };
-    }
-
-    if (btnSubmit) {
-      btnSubmit.onclick = async () => {
-        const email = $('#login-email').value.trim();
-        const pass = $('#login-password').value;
-        const role = $('#login-role').value;
+    if (formLogin) {
+      formLogin.onsubmit = async (e) => {
+        e.preventDefault();
+        const email = ($('#login-email')?.value || '').trim();
+        const pass = $('#login-password')?.value || '';
         const errEl = $('#login-error-msg');
-        errEl.textContent = 'Autenticando...';
+        if (!email || !pass) {
+          if (errEl) errEl.textContent = 'Por favor ingrese su usuario/correo y contraseña.';
+          return;
+        }
 
-        const res = await this.login(email, pass, role);
+        if (errEl) errEl.textContent = 'Autenticando...';
+        const res = await this.login(email, pass);
         if (res.ok) {
-          errEl.textContent = '';
-          modal.style.display = 'none';
-          WorkspaceManager.loadUserWorkspaces();
-          if (role === 'teacher') {
+          if (errEl) errEl.textContent = '';
+          closeModal();
+          if (typeof WorkspaceManager !== 'undefined' && WorkspaceManager.loadUserWorkspaces) {
+            WorkspaceManager.loadUserWorkspaces();
+          }
+          if (this.user.role === 'teacher') {
             const tabIns = document.querySelector('nav button[data-t="ins"]');
             if (tabIns) tabIns.click();
+          } else {
+            const tabEst = document.querySelector('nav button[data-t="est"]');
+            if (tabEst) tabEst.click();
           }
         } else {
-          errEl.textContent = res.error;
+          if (errEl) errEl.textContent = res.error || 'Credenciales inválidas.';
         }
       };
     }

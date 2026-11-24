@@ -26,7 +26,7 @@ class DatabaseManager:
         # Initialize schema & migrations
         self._init_schema()
         self._check_supabase_connection()
-        self._bootstrap_teacher_account()
+        self._bootstrap_accounts()
 
     def _init_schema(self):
         os.makedirs(os.path.dirname(self.local_db_path), exist_ok=True)
@@ -178,20 +178,91 @@ class DatabaseManager:
         except Exception:
             self.is_supabase_connected = False
 
-    def _bootstrap_teacher_account(self):
+    def _bootstrap_accounts(self):
         """
-        Creates an initial teacher account through secure environment-based bootstrap configuration.
-        Does NOT create default hardcoded student accounts.
+        Inicializa las cuentas oficiales de Profesores y Estudiantes con contraseñas encriptadas bcrypt.
+        Requiere usuario y contraseña obligatorios sin bypass automático.
         """
-        teacher_email = self.config.get('BOOTSTRAP_TEACHER_EMAIL', 'docente@circuitlens.edu.pe').strip().lower()
-        teacher_name = self.config.get('BOOTSTRAP_TEACHER_NAME', 'Profesor Administrador').strip()
-        teacher_pass = self.config.get('BOOTSTRAP_TEACHER_PASSWORD', 'CircuitLens2026!')
+        accounts = [
+            # PROFESORES
+            {
+                "email": "edwin.requena@circuitlens.edu.pe",
+                "name": "Prof. Edwin Requena",
+                "role": "teacher",
+                "avatar": "👨‍🏫",
+                "password": "ProfEdwin2026*"
+            },
+            {
+                "email": "docente@circuitlens.edu.pe",
+                "name": "Prof. Edwin Requena",
+                "role": "teacher",
+                "avatar": "👨‍🏫",
+                "password": "CircuitLens2026!"
+            },
+            {
+                "email": "carmen.valdivia@circuitlens.edu.pe",
+                "name": "Dra. Carmen Valdivia",
+                "role": "teacher",
+                "avatar": "👩‍🏫",
+                "password": "DocValdivia2026!"
+            },
+            {
+                "email": "roberto.alarcon@circuitlens.edu.pe",
+                "name": "Ing. Roberto Alarcón",
+                "role": "teacher",
+                "avatar": "👨‍🏫",
+                "password": "AlarconLab2026#"
+            },
+            # ESTUDIANTES
+            {
+                "email": "piero.castillo@uni.edu.pe",
+                "name": "Piero Castillo",
+                "role": "student",
+                "avatar": "🎓",
+                "password": "PieroAlumno2026!"
+            },
+            {
+                "email": "estudiante@circuitlens.edu.pe",
+                "name": "Piero Castillo",
+                "role": "student",
+                "avatar": "🎓",
+                "password": "student123"
+            },
+            {
+                "email": "ana.torres@uni.edu.pe",
+                "name": "Ana Torres",
+                "role": "student",
+                "avatar": "🎓",
+                "password": "AnaTorres2026!"
+            },
+            {
+                "email": "lucia.ramos@uni.edu.pe",
+                "name": "Lucía Ramos",
+                "role": "student",
+                "avatar": "🎓",
+                "password": "LuciaRamos2026!"
+            },
+            {
+                "email": "carlos.mendoza@uni.edu.pe",
+                "name": "Carlos Mendoza",
+                "role": "student",
+                "avatar": "🎓",
+                "password": "CarlosMendoza2026!"
+            }
+        ]
 
-        existing = self.get_user_by_email(teacher_email)
-        if not existing:
-            pw_hash = self.hash_password(teacher_pass)
-            self.create_user(teacher_email, pw_hash, teacher_name, role='teacher', avatar='👨‍🏫')
-            print(f"[DatabaseManager] Bootstrap docente inicial creado: {teacher_email}")
+        for acc in accounts:
+            existing = self.get_user_by_email(acc["email"])
+            pw_hash = self.hash_password(acc["password"])
+            if not existing:
+                self.create_user(acc["email"], pw_hash, acc["name"], role=acc["role"], avatar=acc["avatar"])
+            else:
+                conn = sqlite3.connect(self.local_db_path)
+                cur = conn.cursor()
+                cur.execute("UPDATE profiles SET password_hash = ?, role = ?, name = ?, avatar = ? WHERE lower(email) = ?",
+                            (pw_hash, acc["role"], acc["name"], acc["avatar"], acc["email"].lower()))
+                conn.commit()
+                conn.close()
 
     # ================= PASSWORD SECURITY =================
     @staticmethod

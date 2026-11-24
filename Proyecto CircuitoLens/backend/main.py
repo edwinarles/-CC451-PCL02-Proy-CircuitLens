@@ -206,27 +206,18 @@ def health_check():
 @app.post("/api/auth/login")
 def login(req: LoginRequest):
     email = req.email.strip().lower()
-    role = (req.role or "student").strip().lower()
+    password = (req.password or "").strip()
+    if not email:
+        raise HTTPException(status_code=400, detail="Por favor ingresa tu correo institucional o usuario.")
+    if not password:
+        raise HTTPException(status_code=400, detail="Por favor ingresa tu contraseña.")
+
     user = DB.get_user_by_email(email)
-
     if not user:
-        if role == "teacher":
-            pw_hash = DB.hash_password(req.password or "CircuitLens2026!")
-            user = DB.create_user(email, pw_hash, req.name or "Prof. Edwin Requena", role="teacher", avatar="👨‍🏫")
-        else:
-            pw_hash = DB.hash_password(req.password or "student123")
-            user = DB.create_user(email, pw_hash, req.name or email.split("@")[0], role="student", avatar="🎓")
-    else:
-        # Si el usuario solicita rol teacher y coincide con docente o es administrador
-        if role == "teacher" and user.get("role") != "teacher":
-            user["role"] = "teacher"
-            user["avatar"] = "👨‍🏫"
+        raise HTTPException(status_code=401, detail="Usuario o correo institucional no registrado.")
 
-        # Verificar contraseña sólo si se ingresó explícitamente y no coincide con la clave bootstrap
-        if user.get("password_hash") and req.password:
-            is_valid = DB.verify_password(req.password, user["password_hash"]) or (req.password == "CircuitLens2026!")
-            if not is_valid:
-                raise HTTPException(status_code=401, detail="Contraseña incorrecta")
+    if not DB.verify_password(password, user["password_hash"]):
+        raise HTTPException(status_code=401, detail="Contraseña incorrecta. Inténtalo de nuevo.")
 
     token = "token_" + uuid.uuid4().hex
     clean_user = {k: v for k, v in user.items() if k != "password_hash"}

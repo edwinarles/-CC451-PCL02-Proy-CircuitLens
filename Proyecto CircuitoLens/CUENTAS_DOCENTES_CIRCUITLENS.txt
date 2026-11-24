@@ -1,0 +1,71 @@
+================================================================================
+          CIRCUITLENS ENTERPRISE - CREDENCIALES DE ACCESO DOCENTE Y ALUMNOS
+================================================================================
+
+Este archivo contiene los usuarios, correos y contraseñas oficiales para acceder
+a la plataforma sin cambio automático. Para ingresar como Profesor o Estudiante,
+debes hacer clic en "🔑 Iniciar Sesión / Cuentas" e introducir las credenciales correspondientes.
+
+--------------------------------------------------------------------------------
+1. CUENTAS DE PROFESORES / DOCENTES (Acceso al Centro de Supervisión y Configuración IA)
+--------------------------------------------------------------------------------
+
+• PROFESOR PRINCIPAL / JEFE DE CÁTEDRA:
+  - Nombre:       Prof. Edwin Requena
+  - Usuario:      edwin.requena@circuitlens.edu.pe
+  - Contraseña:   ProfEdwin2026*
+  - Rol:          Docente (Supervisión en vivo, Pistas, Marcado de Pines y Aprobación)
+
+• CUENTA DOCENTE DEMO / CÁTEDRA:
+  - Nombre:       Prof. Edwin Requena
+  - Usuario:      docente@circuitlens.edu.pe
+  - Contraseña:   CircuitLens2026!
+  - Rol:          Docente
+
+• PROFESORA DE ELECTRÓNICA DIGITAL Y EMBEBIDOS:
+  - Nombre:       Dra. Carmen Valdivia
+  - Usuario:      carmen.valdivia@circuitlens.edu.pe
+  - Contraseña:   DocValdivia2026!
+  - Rol:          Docente
+
+• PROFESOR DE CIRCUITOS DE POTENCIA Y ANALÓGICA:
+  - Nombre:       Ing. Roberto Alarcón
+  - Usuario:      roberto.alarcon@circuitlens.edu.pe
+  - Contraseña:   AlarconLab2026#
+  - Rol:          Docente
+
+--------------------------------------------------------------------------------
+2. CUENTAS DE ESTUDIANTES PARA PRUEBAS (Acceso al Laboratorio y Protoboard CAD)
+--------------------------------------------------------------------------------
+
+• ESTUDIANTE 1 (Piero Castillo):
+  - Usuario:      piero.castillo@uni.edu.pe
+  - Alias alterno: estudiante@circuitlens.edu.pe
+  - Contraseña:   PieroAlumno2026! (o student123 para el alias alterno)
+  - Rol:          Estudiante
+
+• ESTUDIANTE 2 (Ana Torres):
+  - Usuario:      ana.torres@uni.edu.pe
+  - Contraseña:   AnaTorres2026!
+  - Rol:          Estudiante
+
+• ESTUDIANTE 3 (Lucía Ramos):
+  - Usuario:      lucia.ramos@uni.edu.pe
+  - Contraseña:   LuciaRamos2026!
+  - Rol:          Estudiante
+
+• ESTUDIANTE 4 (Carlos Mendoza):
+  - Usuario:      carlos.mendoza@uni.edu.pe
+  - Contraseña:   CarlosMendoza2026!
+  - Rol:          Estudiante
+
+--------------------------------------------------------------------------------
+INSTRUCCIONES DE USO:
+1. En la barra superior haz clic en "🔑 Iniciar Sesión / Cuentas".
+2. Escribe el Correo Institucional y la Contraseña correspondiente.
+3. Haz clic en "🔓 Iniciar Sesión".
+4. Si ingresas con credenciales de Profesor, el sistema activará automáticamente
+   el Centro de Supervisión Docente (#ins) y ocultará las herramientas de alumno.
+5. Si ingresas con credenciales de Estudiante, se abrirá el Laboratorio y CAD Virtual (#est).
+6. Para salir o cambiar de cuenta, usa el botón "🚪 Salir / Cerrar Sesión".
+================================================================================
